@@ -48,7 +48,7 @@
             </div>
 
             <div class="text-center mt-8 text-sm text-gray-600">
-                Didn’t find what you were looking for? <a href="#" class="text-blue-500 underline">Click here</a> for further assistance.
+                Didn’t find what you were looking for? <a href="{{ route('complaint') }}" class="text-blue-500 underline">Click here</a> for further assistance.
             </div>
         </div>
     </div>
