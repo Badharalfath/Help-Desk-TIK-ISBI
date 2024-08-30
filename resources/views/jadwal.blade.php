@@ -13,7 +13,8 @@
 </head>
 <body class="bg-gray-200 text-black font-sans">
 <main class="container mx-auto py-10">
-        <div class="flex flex-col md:flex-row justify-center mt-28">
+    <h1 class="title-font text-black sm:text-4xl text-3xl mt-24 pl-6 font-medium">Daftar Kelola Jadwal</h1>
+        <div class="flex flex-col md:flex-row justify-center mt-[40px]">
             <div class="w-full md:w-1/2 mr-4">
                 <div class="bg-white p-6 rounded shadow-md">
                     <h2 class="text-xl font-bold mb-4">Jadwal Maintenance</h2>
