@@ -11,9 +11,9 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100 text-gray-800 font-sans">
-    <div class="flex justify-center items-center min-h-screen bg-cover bg-center" style="background-image: url('/path-to-background-image');">
-        <div class="bg-white bg-opacity-90 p-8 rounded-lg shadow-lg w-11/12 max-w-2xl">
+<body class="bg-[url('https://dummyimage.com/1920x1080/000/fff')] text-gray-800 font-sans">
+    <div class="flex flex-col md:flex-row justify-center mt-32 mb-[50px]" style="background-image: url('/path-to-background-image');">
+        <div class="bg-white  p-8 rounded-lg shadow-lg w-11/12 max-w-2xl">
             <h1 class="text-3xl font-bold mb-6 text-center">Frequently Asked Questions</h1>
             <ul class="space-y-4">
                 <li class="bg-gray-200 hover:bg-gray-300 p-4 rounded-lg cursor-pointer" onclick="showAnswer('answer1')">

@@ -11,21 +11,11 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <header class="bg-gray-100 py-4">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-xl font-bold">HELP DESK</h1>
-            <div class="flex space-x-4">
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">MAINTENANCE</button>
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">MONITORING</button>
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">PELAPORAN</button>
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">LOGIN</button>
-            </div>
-        </div>
-    </header>
+<body class="bg-[url('https://dummyimage.com/1920x1080/000/fff')]">
+    
 
     <main class="container mx-auto py-10">
-    <div class="flex flex-col md:flex-row justify-center">
+    <div class="flex flex-col md:flex-row justify-center mt-32 mb-[50px]">
         <div class="w-full md:w-1/2">
             <div class="bg-white p-6 rounded shadow-md">
                 <h2 class="text-xl font-bold mb-4">Form Keluhan</h2>
