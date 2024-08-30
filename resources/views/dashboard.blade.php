@@ -10,7 +10,7 @@
     @vite('resources/css/app.css')
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body class="bg-[url('https://dummyimage.com/1920x1080/000/fff')] text-white font-sans">
+<body class="bg-gray-200 text-black font-sans">
     <div class="flex flex-col md:flex-row justify-center " style="background-image: url('/path-to-background-image');">
         <div class="max-w-7xl mx-auto p-6 mt-28 mb-[50px]">
             <h1 class="text-3xl font-bold mb-6">SELAMAT DATANG</h1>
