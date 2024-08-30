@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body class="bg-[url('https://dummyimage.com/1920x1080/000/fff')] text-black font-sans">
+<body class="bg-white text-black font-sans">
 <main class="container mx-auto py-10">
         <div class="flex flex-col md:flex-row justify-center mt-28">
             <div class="w-full md:w-1/2 mr-4">

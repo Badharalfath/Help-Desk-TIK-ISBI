@@ -10,7 +10,7 @@
     @vite('resources/css/app.css')
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body class="bg-[url('https://dummyimage.com/1920x1080/000/fff')] text-white font-sans">
+<body class="bg-white text-white font-sans">
 <div class="flex justify-center items-center min-h-screen bg-cover bg-center" style="background-image: url('/path-to-background-image');">
         <br><br>
         <table class="min-w-full divide-y divide-gray-200 mt-[100px]">
