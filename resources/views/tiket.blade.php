@@ -17,6 +17,9 @@
                 <thead>
                     <tr>
                         <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            ID
+                        </th>
+                        <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Date
                         </th>
                         <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -26,16 +29,16 @@
                             Nama
                         </th>
                         <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Keluhan
+                            Judul Keluhan
                         </th>
                         <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Izin
+                            Permission Status
                         </th>
                         <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Alasan Ditolak
                         </th>
                         <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Status
+                            Status Progress
                         </th>
                         <th class="px-6 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Action
@@ -44,6 +47,9 @@
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
                     <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">1</div>
+                        </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-900">13/05/2022</div>
                         </td>
@@ -72,6 +78,9 @@
                     </tr>
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">2</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-900">22/06/2022</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
@@ -98,6 +107,9 @@
                         </td>
                     </tr>
                     <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">3</div>
+                        </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-900">15/06/2022</div>
                         </td>
@@ -126,6 +138,9 @@
                     </tr>
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">4</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-900">06/09/2022</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
@@ -152,6 +167,9 @@
                         </td>
                     </tr>
                     <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">5</div>
+                        </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-900">25/09/2022</div>
                         </td>
@@ -180,6 +198,9 @@
                     </tr>
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">6</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-900">04/10/2022</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
@@ -206,6 +227,9 @@
                         </td>
                     </tr>
                     <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">6</div>
+                        </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-900">17/10/2022</div>
                         </td>
@@ -234,6 +258,9 @@
                     </tr>
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">7</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-900">24/10/2022</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
@@ -261,6 +288,9 @@
                     </tr>
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">8</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-900">01/11/2022</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
@@ -287,6 +317,9 @@
                         </td>
                     </tr>
                     <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">9</div>
+                        </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-900">22/11/2022</div>
                         </td>

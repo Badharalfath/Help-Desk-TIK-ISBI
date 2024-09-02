@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Ticket;
+use Illuminate\Support\Facades\Http;
 
 class ComplaintController extends Controller
 {
@@ -14,7 +15,21 @@ class ComplaintController extends Controller
 
     public function submitForm(Request $request)
     {
-        // Handle form submission logic
+        $request->validate([
+            'email' => 'required|email',
+            'name' => 'required|string|max:255',
+            'judul' => 'required|string|max:255',
+            'keluhan' => 'required|string',
+            'g-recaptcha-response' => 'required|captcha',
+        ]);
+
+        // Simpan data keluhan ke database
+        Ticket::create([
+            'email' => $request->email,
+            'name' => $request->name,
+            'judul' => $request->judul,
+            'keluhan' => $request->keluhan,
+        ]);
 
         return redirect()->route('complaint')->with('success', 'Your complaint has been submitted successfully!');
     }

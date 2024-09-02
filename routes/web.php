@@ -19,14 +19,17 @@ use Illuminate\Support\Facades\Route;
 route::get('/',[HomeController::class,'index'])->name('home');
 route::get('/login',[LoginController::class,'index'])->name('login');
 Route::get('/faq', [FAQController::class, 'index'])->name('faq');
+Route::get('/maintenance', [MaintenanceController::class, 'index'])->name('maintenance');
 Route::get('/monitoring', [MonitoringController::class, 'index'])->name('monitoring');
 Route::get('/complaint', [ComplaintController::class, 'showForm'])->name('complaint');
-Route::get('/maintenance', [MaintenanceController::class, 'index'])->name('maintenance');
 
 // Route Dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('/tiket', [TiketController::class, 'index'])->name('tiket');
 Route::get('/jadwal', [JadwalController::class, 'index'])->name('jadwal');
 
+// Route User login
+Route::get('/admin', [DashboardController::class, 'index']);
 
-Route::post('/complaint/submit', [ComplaintController::class, 'submitForm'])->name('complaint.submit');
+Route::post('/complaint', [ComplaintController::class, 'submitForm'])->name('submit.complaint');
+Route::post('/login', [LoginController::class, 'login']);

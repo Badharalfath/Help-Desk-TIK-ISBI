@@ -123,4 +123,9 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'recaptcha' => [
+        'site_key' => env('6Lf_ZDQqAAAAAFJxsOt9L2HCO0Z8H9s9nUcZ7IR3'),
+        'secret_key' => env('6Lf_ZDQqAAAAAHszHkXOzZgrvanUjQS5NygEZJR4'),
+    ],
+
 ];
