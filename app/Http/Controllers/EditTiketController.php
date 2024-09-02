@@ -1,0 +1,48 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Ticket;
+use Illuminate\Http\Request;
+
+class EditTiketController extends Controller
+{
+    public function edit($id)
+    {
+        $ticket = Ticket::findOrFail($id);
+        return view('edittiket', compact('ticket'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        // Validasi data
+        $request->validate([
+            'email' => 'required|email',
+            'name' => 'required|string|max:255',
+            'judul' => 'required|string|max:255',
+            'keluhan' => 'required|string',
+            'permission_status' => 'required|string|in:approved,reject',
+            'progress_status' => 'required|string|in:unresolved,ongoing,solved',
+            'reject_reason' => 'nullable|string|max:255',
+        ]);
+    
+        // Temukan tiket berdasarkan ID
+        $ticket = Ticket::findOrFail($id);
+    
+        // Update tiket
+        $ticket->email = $request->input('email');
+        $ticket->name = $request->input('name');
+        $ticket->judul = $request->input('judul');
+        $ticket->keluhan = $request->input('keluhan');
+        $ticket->permission_status = $request->input('permission_status');
+        $ticket->progress_status = $request->input('progress_status');
+        $ticket->reject_reason = $request->input('reject_reason');
+    
+        $ticket->save();
+    
+        // Redirect dengan pesan sukses
+        return redirect()->route('tiket.index')->with('success', 'Ticket updated successfully!');
+    }
+    
+}
+
