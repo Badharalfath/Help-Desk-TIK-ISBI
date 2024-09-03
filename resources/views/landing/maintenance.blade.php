@@ -132,7 +132,7 @@
                         <p class="text-sm text-gray-600"><strong>Tanggal:</strong> ${jadwal.tanggal}</p>
                         <p class="text-sm text-gray-600"><strong>Waktu:</strong> ${jadwal.jam_mulai} - ${jadwal.jam_berakhir}</p>
                         <p class="text-sm text-gray-600"><strong>Deskripsi Maintenance:</strong> ${jadwal.deskripsi}</p>
-                        ${jadwal.foto ? `<div class="mt-2"><img src="{{ asset('storage/${jadwal.foto}') }}" alt="Foto Maintenance" class="w-full h-auto rounded-lg shadow-md"></div>` : ''}
+                        ${jadwal.foto ? `<div class="mt-2"><img src="{{ asset('storage/fotos/${jadwal.foto}') }}" alt="Foto Maintenance" class="w-full h-auto rounded-lg shadow-md"></div>` : ''}
                     </li>
                 `;
             });

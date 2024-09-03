@@ -30,13 +30,23 @@ class JadwalController extends Controller
             'jam_berakhir' => 'required|date_format:H:i|after:jam_mulai',
             'kegiatan' => 'required|string|max:255',
             'deskripsi' => 'required|string',
-            'foto' => 'nullable|image|max:2048',
+            'foto' => 'nullable|image|max:5012',
         ]);
 
         // Proses upload foto jika ada
-        $fotoPath = null;
+        $fotoName = null;
         if ($request->hasFile('foto')) {
-            $fotoPath = $request->file('foto')->store('public/fotos');
+            // Dapatkan nama file asli
+            $originalFilename = $request->file('foto')->getClientOriginalName();
+
+            // Buat nama file baru dengan 10 angka acak di depan dan underscore
+            $newFilename = rand(1000000000, 9999999999) . '_' . $originalFilename;
+
+            // Simpan file dengan nama baru
+            $request->file('foto')->storeAs('public/fotos', $newFilename);
+
+            // Hanya simpan nama file
+            $fotoName = $newFilename;
         }
 
         // Simpan data jadwal
@@ -46,9 +56,10 @@ class JadwalController extends Controller
             'jam_berakhir' => $request->input('jam_berakhir'),
             'kegiatan' => $request->input('kegiatan'),
             'deskripsi' => $request->input('deskripsi'),
-            'foto' => $fotoPath,
+            'foto' => $fotoName, // Simpan hanya nama file, bukan path lengkap
         ]);
 
         return redirect()->route('jadwal')->with('success', 'Jadwal berhasil ditambahkan.');
     }
+
 }
