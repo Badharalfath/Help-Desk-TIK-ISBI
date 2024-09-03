@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('judul');
             $table->text('keluhan');
-            $table->string('permision_status')->nullable();
+            $table->string('permission_status')->nullable();
             $table->string('progress_status')->nullable();
             $table->string('reject_reason')->nullable();
             $table->timestamps();

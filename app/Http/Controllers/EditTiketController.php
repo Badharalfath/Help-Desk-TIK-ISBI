@@ -22,7 +22,7 @@ class EditTiketController extends Controller
             'name' => 'required|string|max:255',
             'judul' => 'required|string|max:255',
             'keluhan' => 'required|string',
-            'permision_status' => 'required|string|in:approved,rejected',
+            'permission_status' => 'required|string|in:approved,rejected',
             'progress_status' => 'required|string|in:unresolved,ongoing,solved',
             'reject_reason' => 'nullable|string|max:255',
         ]);
@@ -35,7 +35,7 @@ class EditTiketController extends Controller
         $ticket->name = $request->input('name');
         $ticket->judul = $request->input('judul');
         $ticket->keluhan = $request->input('keluhan');
-        $ticket->permision_status = $request->input('permision_status'); 
+        $ticket->permission_status = $request->input('permission_status'); 
         $ticket->progress_status = $request->input('progress_status');
         $ticket->reject_reason = $request->input('reject_reason');
 

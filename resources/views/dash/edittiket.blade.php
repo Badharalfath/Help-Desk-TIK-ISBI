@@ -42,10 +42,10 @@
                 </div>
                 <div class="mb-4 flex justify-around">
                     <label>
-                        <input type="radio" name="permision_status" value="rejected" {{ $ticket->permision_status == 'approved' ? 'checked' : '' }} class="mr-2"> Rejected
+                        <input type="radio" name="permission_status" value="rejected" {{ $ticket->permission_status == 'approved' ? 'checked' : '' }} class="mr-2"> Rejected
                     </label>
                     <label>
-                        <input type="radio" name="permision_status" value="approved" {{ $ticket->permision_status == 'rejected' ? 'checked' : '' }} class="mr-2"> Approved
+                        <input type="radio" name="permission_status" value="approved" {{ $ticket->permission_status == 'rejected' ? 'checked' : '' }} class="mr-2"> Approved
                     </label>
                 </div>
                 <div class="mb-4">
