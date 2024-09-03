@@ -31,7 +31,12 @@ Route::get('/jadwal', [JadwalController::class, 'index'])->name('jadwal');
 Route::get('/edittiket', [EditTiketController::class, 'index'])->name('edittiket');
 Route::get('/tickets/{id}/edit', [EditTiketController::class, 'edit'])->name('ticket.edit');
 Route::post('/tickets/{id}', [EditTiketController::class, 'update'])->name('ticket.update');
+Route::post('/jadwal', [JadwalController::class, 'store'])->name('jadwal.store');
+Route::get('/jadwal', [JadwalController::class, 'index'])->name('jadwal');
+
+
 Route::resource('tickets', EditTiketController::class);
+Route::resource('dash.jadwal', JadwalController::class);
 
 // Route User login
 Route::get('/admin', [DashboardController::class, 'index']);
