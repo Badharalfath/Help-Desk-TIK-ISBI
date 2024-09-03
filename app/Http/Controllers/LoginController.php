@@ -10,7 +10,7 @@ class LoginController extends Controller
 {
     function index()
     {
-        return view('login');
+        return view('landing.login');
     }
     function login(Request $request){
         $request->validate([

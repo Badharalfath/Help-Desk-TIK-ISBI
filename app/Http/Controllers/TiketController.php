@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Ticket; 
+use App\Models\Ticket;
 use Illuminate\Http\Request;
 
 class TiketController extends Controller
@@ -14,13 +14,13 @@ class TiketController extends Controller
          $tickets = Ticket::all();
 
          // Kirim data tiket ke view
-         return view('tiket', ['tickets' => $tickets]);
+         return view('dash.tiket', ['tickets' => $tickets]);
     }
 
     public function edit($id)
     {
         $ticket = Ticket::findOrFail($id);
-        return view('edit_tiket', compact('ticket')); // Buat view edit_tiket.blade.php
+        return view('dash.edit_tiket', compact('ticket')); // Buat view edit_tiket.blade.php
     }
 
     public function destroy($id)

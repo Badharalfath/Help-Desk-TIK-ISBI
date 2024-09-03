@@ -10,7 +10,7 @@ class EditTiketController extends Controller
     public function edit($id)
     {
         $ticket = Ticket::findOrFail($id);
-        return view('edittiket', compact('ticket'));
+        return view('dash.edittiket', compact('ticket'));
     }
 
     public function update(Request $request, $id)
@@ -25,10 +25,10 @@ class EditTiketController extends Controller
             'progress_status' => 'required|string|in:unresolved,ongoing,solved',
             'reject_reason' => 'nullable|string|max:255',
         ]);
-    
+
         // Temukan tiket berdasarkan ID
         $ticket = Ticket::findOrFail($id);
-    
+
         // Update tiket
         $ticket->email = $request->input('email');
         $ticket->name = $request->input('name');
@@ -37,12 +37,12 @@ class EditTiketController extends Controller
         $ticket->permission_status = $request->input('permission_status');
         $ticket->progress_status = $request->input('progress_status');
         $ticket->reject_reason = $request->input('reject_reason');
-    
+
         $ticket->save();
-    
+
         // Redirect dengan pesan sukses
-        return redirect()->route('tiket.index')->with('success', 'Ticket updated successfully!');
+        return redirect()->route('dash.tiket.index')->with('success', 'Ticket updated successfully!');
     }
-    
+
 }
 

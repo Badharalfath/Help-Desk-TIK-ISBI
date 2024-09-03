@@ -10,7 +10,7 @@ class ComplaintController extends Controller
 {
     public function showForm()
     {
-        return view('complaint');
+        return view('landing.complaint');
     }
 
     public function submitForm(Request $request)
@@ -32,6 +32,6 @@ class ComplaintController extends Controller
             'tanggal' => now(), // Menambahkan tanggal otomatis
         ]);
 
-        return redirect()->route('complaint')->with('success', 'Your complaint has been submitted successfully!');
+        return redirect()->route('landing.complaint')->with('success', 'Your complaint has been submitted successfully!');
     }
 }

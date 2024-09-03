@@ -9,6 +9,6 @@ class MonitoringController extends Controller
 {
     public function index()
     {
-        return view('monitoring');
+        return view('landing.monitoring');
     }
 }
