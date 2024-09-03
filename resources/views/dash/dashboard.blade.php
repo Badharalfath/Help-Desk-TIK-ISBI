@@ -28,31 +28,39 @@
         </div>
 
         <script>
+            // Data for charts from Blade variables
+            const ticketStatuses = @json($ticketStatuses);
+
+            // Pie Chart Data
             const ctxPie = document.getElementById('pieChart').getContext('2d');
             const pieChart = new Chart(ctxPie, {
                 type: 'pie',
                 data: {
-                    labels: ['Desktop', 'Mobile', 'Tablets'],
+                    labels: ['Unsolved', 'Ongoing', 'Solved'],
                     datasets: [{
-                        data: [8085, 8085, 8085],
-                        backgroundColor: ['#4F46E5', '#FB923C', '#22C55E'],
+                        data: [ticketStatuses.unsolved, ticketStatuses.ongoing, ticketStatuses.solved],
+                        backgroundColor: ['#6B7280', '#FBBF24', '#10B981'], // Gray, Yellow, Green
                     }]
                 },
             });
 
+            // Bar Chart Data
             const ctxBar = document.getElementById('barChart').getContext('2d');
             const barChart = new Chart(ctxBar, {
                 type: 'bar',
                 data: {
-                    labels: ['Direct', 'Direct', 'Direct'],
+                    labels: ['Unsolved', 'Ongoing', 'Solved'],
                     datasets: [{
-                        label: 'Traffic (%)',
-                        data: [23.28, 23.28, 23.28],
-                        backgroundColor: ['#4F46E5', '#FB923C', '#22C55E'],
+                        label: 'Ticket Status Count',
+                        data: [ticketStatuses.unsolved, ticketStatuses.ongoing, ticketStatuses.solved],
+                        backgroundColor: ['#6B7280', '#FBBF24', '#10B981'], // Gray, Yellow, Green
                     }]
                 },
+                options: {
+                    indexAxis: 'y', // Horizontal bar chart
+                }
             });
         </script>
-    </div>    
+    </div>
 </body>
 </html>
