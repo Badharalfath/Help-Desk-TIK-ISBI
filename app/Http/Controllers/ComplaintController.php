@@ -32,6 +32,6 @@ class ComplaintController extends Controller
             'tanggal' => now(), // Menambahkan tanggal otomatis
         ]);
 
-        return redirect()->route('landing.complaint')->with('success', 'Your complaint has been submitted successfully!');
+        return redirect()->route('complaint')->with('success', 'Your complaint has been submitted successfully!');
     }
 }

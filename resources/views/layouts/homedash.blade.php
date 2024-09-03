@@ -13,9 +13,15 @@
         <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
 
     </head>
-    <body>
+    <body class="flex flex-col min-h-screen">
+
         @include('layouts.partial.navdash')
-        @yield('content')
+
+        <!-- Main Content -->
+        <main class="flex-grow">
+            @yield('content')
+        </main>
+
         @include('layouts.partial.footer')
 
     </body>

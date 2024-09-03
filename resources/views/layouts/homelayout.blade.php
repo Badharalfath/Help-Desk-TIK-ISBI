@@ -15,7 +15,9 @@
     </head>
     <body>
         @include('layouts.partial.nav')
-        @yield('content')
+        <main class="flex-grow">
+            @yield('content')
+        </main>
         @include('layouts.partial.footer')
 
     </body>
