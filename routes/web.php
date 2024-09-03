@@ -30,7 +30,8 @@ Route::get('/tiket', [TiketController::class, 'index'])->name('tiket');
 Route::get('/jadwal', [JadwalController::class, 'index'])->name('jadwal');
 Route::get('/edittiket', [EditTiketController::class, 'index'])->name('edittiket');
 Route::get('/tickets/{id}/edit', [EditTiketController::class, 'edit'])->name('ticket.edit');
-Route::put('/tickets/{id}', [EditTiketController::class, 'update'])->name('ticket.update');
+Route::post('/tickets/{id}', [EditTiketController::class, 'update'])->name('ticket.update');
+Route::resource('tickets', EditTiketController::class);
 
 // Route User login
 Route::get('/admin', [DashboardController::class, 'index']);
@@ -38,4 +39,4 @@ Route::get('/admin', [DashboardController::class, 'index']);
 Route::post('/complaint', [ComplaintController::class, 'submitForm'])->name('submit.complaint');
 Route::post('/login', [LoginController::class, 'login']);
 
-Route::resource('tickets', TiketController::class);
+

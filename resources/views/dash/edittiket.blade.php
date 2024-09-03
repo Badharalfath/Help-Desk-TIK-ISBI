@@ -15,25 +15,38 @@
     <div class="flex justify-center items-center min-h-screen">
         <div class="bg-white text-black rounded-lg shadow-lg p-8 w-full max-w-md">
             <h2 class="text-2xl font-semibold text-center mb-4">Ticket Details</h2>
+
+            @if ($errors->any())
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <div class="text-black">
+                        <p>{{ $error }}</p>
+                    </div>
+                    @endforeach
+                </ul>
+            @endif
+
             <form action="{{ route('ticket.update', $ticket->id) }}" method="POST">
                 @csrf
-                @method('PUT')
-
                 <div class="mb-4">
-                    <input type="email" name="email" placeholder="Email" value="{{ $ticket->email }}" class="w-full p-2 border border-gray-300 rounded">
+                    <input type="email" name="email" placeholder="Email" value="{{ $ticket->email }}" class="w-full p-2 border border-gray-300 rounded" readonly>
                 </div>
                 <div class="mb-4">
-                    <input type="text" name="name" placeholder="Name" value="{{ $ticket->name }}" class="w-full p-2 border border-gray-300 rounded">
+                    <input type="text" name="name" placeholder="Name" value="{{ $ticket->name }}" class="w-full p-2 border border-gray-300 rounded" readonly>
                 </div>
                 <div class="mb-4">
-                    <input type="text" name="judul" placeholder="Complaint Title" value="{{ $ticket->judul }}" class="w-full p-2 border border-gray-300 rounded">
+                    <input type="text" name="judul" placeholder="Complaint Title" value="{{ $ticket->judul }}" class="w-full p-2 border border-gray-300 rounded" readonly>
                 </div>
                 <div class="mb-4">
-                    <textarea name="keluhan" placeholder="Complaint" class="w-full p-2 border border-gray-300 rounded">{{ $ticket->keluhan }}</textarea>
+                    <textarea name="keluhan" placeholder="Complaint" class="w-full p-2 border border-gray-300 rounded" readonly>{{ $ticket->keluhan }}</textarea>
                 </div>
                 <div class="mb-4 flex justify-around">
-                    <button type="button" name="permission_status" value="reject" class="bg-red-500 text-white px-4 py-2 rounded">Reject</button>
-                    <button type="button" name="permission_status" value="approved" class="bg-green-500 text-white px-4 py-2 rounded">Approve</button>
+                    <label>
+                        <input type="radio" name="permision_status" value="rejected" {{ $ticket->permision_status == 'approved' ? 'checked' : '' }} class="mr-2"> Rejected
+                    </label>
+                    <label>
+                        <input type="radio" name="permision_status" value="approved" {{ $ticket->permision_status == 'rejected' ? 'checked' : '' }} class="mr-2"> Approved
+                    </label>
                 </div>
                 <div class="mb-4">
                     <div class="flex items-center space-x-4">

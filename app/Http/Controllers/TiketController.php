@@ -20,7 +20,8 @@ class TiketController extends Controller
     public function edit($id)
     {
         $ticket = Ticket::findOrFail($id);
-        return view('dash.edit_tiket', compact('ticket')); // Buat view edit_tiket.blade.php
+        $ticket->update();
+        return view('dash.edittiket', compact('ticket')); // Buat view edittiket.blade.php
     }
 
     public function destroy($id)

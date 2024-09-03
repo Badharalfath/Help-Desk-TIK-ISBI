@@ -61,7 +61,7 @@
                         </div>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">{{ $ticket->email }}</div>
+                        <div class="text-sm text-gray-900" >{{ $ticket->email }}</div>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="text-sm text-gray-900">{{ $ticket->name }}</div>
@@ -71,7 +71,7 @@
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="text-sm text-gray-900">
-                            @if($ticket->permission_status == 'approved')
+                            @if($ticket->permision_status == 'approved')
                                 <span class="inline-block w-2 h-2 rounded-full bg-green-500"></span>
                             @else
                                 <span class="inline-block w-2 h-2 rounded-full bg-red-500"></span>
