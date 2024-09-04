@@ -19,19 +19,6 @@ class TiketController extends Controller
          return view('dash.tiket', ['tickets' => $tickets]);
     }
 
-    public function edit($id)
-    {
-        $ticket = Ticket::findOrFail($id);
-        $ticket->update();
-        return view('dash.edittiket', compact('ticket')); // Buat view edittiket.blade.php
-    }
-
-    public function destroy($id)
-    {
-        $ticket = Ticket::findOrFail($id);
-        $ticket->delete();
-        return redirect()->route('tickets.index')->with('success', 'Ticket deleted successfully');
-    }
     public function generatePdf()
     {
         // Ambil semua data tiket

@@ -45,5 +45,12 @@ class EditTiketController extends Controller
         return redirect()->route('tiket')->with('success', 'Ticket updated successfully!');
     }
 
+    public function destroy($id)
+    {
+        $ticket = Ticket::findOrFail($id);
+        $ticket->delete();
+        return redirect()->route('tiket')->with('success', 'Ticket deleted successfully');
+    }
+
 }
 
