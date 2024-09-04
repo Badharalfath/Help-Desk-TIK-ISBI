@@ -15,18 +15,12 @@ class DummyUsersSeeder extends Seeder
     {
         $userData = [
             [
-                'name' => 'Admin ISBI',
-                'email' => 'admin@example.org',
+                'name' => 'Admin 2',
+                'email' => 'ashncromwell@gmail.com',
                 'role' => 'admin',
                 'password' => Hash::make('123456')
-            ],
+            ]
 
-            [
-                'name' => 'Kepala ISBI',
-                'email' => 'kepala@example.org',
-                'role' => 'kepala',
-                'password' => Hash::make('123456')
-            ],
         ];
 
         foreach ($userData as $key => $val) {

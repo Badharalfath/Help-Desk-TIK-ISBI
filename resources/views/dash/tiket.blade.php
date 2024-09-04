@@ -14,9 +14,11 @@
     <div class="flex justify-between items-center mt-28 pl-6 pr-6">
         <h1 class="title-font text-black sm:text-4xl text-3xl font-medium">Daftar Antrian Tiket</h1>
         <div class="mb-4 flex justify-end">
+            @if ($isInput)
             <a href="{{ route('tickets.generatePdf') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 Generate PDF
             </a>
+            @endif
         </div>
     </div>
     <div class="flex justify-center items-center bg-cover bg-center px-6 rounded-xl mb-[50px]" style="background-image: url('/path-to-background-image');">
@@ -31,7 +33,10 @@
                     <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Permission Status</th>
                     <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Alasan Ditolak</th>
                     <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status Progress</th>
-                    <th class="px-6 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+                    @if ($isInput)
+                        <th class="px-6 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+                    @endif
+
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
@@ -81,6 +86,7 @@
                             @endif
                         </div>
                     </td>
+                    @if ($isInput)
                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <a href="{{ route('tickets.edit', $ticket->id) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
                         <form action="{{ route('tickets.destroy', $ticket->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Anda sudah yakin ingin menghapus tiket?');">
@@ -89,6 +95,8 @@
                             <button type="submit" class="text-red-600 hover:text-red-900 ml-4">Delete</button>
                         </form>
                     </td>
+                    @endif
+
                 </tr>
                 @endforeach
             </tbody>

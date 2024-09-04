@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Jadwal;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class JadwalController extends Controller
 {
@@ -18,7 +19,10 @@ class JadwalController extends Controller
             ->whereMonth('tanggal', '=', Carbon::parse($currentMonthYear)->month)
             ->get();
 
-        return view('dash.jadwal', compact('jadwals', 'currentMonthYear'));
+
+        $isInput = Auth::user()->role == 'admin';
+
+        return view('dash.jadwal', compact('jadwals', 'currentMonthYear', 'isInput'));
     }
 
     public function store(Request $request)

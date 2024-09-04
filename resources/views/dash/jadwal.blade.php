@@ -13,24 +13,24 @@
     <style>
         /* Modal styles */
         .modal {
-            display: none; 
-            position: fixed; 
-            z-index: 1000; 
-            left: 0; 
-            top: 0; 
-            width: 100%; 
-            height: 100%; 
-            overflow: auto; 
-            background-color: rgba(0,0,0,0.4); 
-            justify-content: center; 
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+            justify-content: center;
             align-items: center;
         }
         .modal-content {
             background-color: #fefefe;
-            margin: 5% auto; 
+            margin: 5% auto;
             padding: 20px;
             border: 1px solid #888;
-            width: 80%; 
+            width: 80%;
             max-width: 500px;
         }
     </style>
@@ -95,9 +95,9 @@
                             @while ($currentDay <= $endOfMonth)
                                 <tr>
                                     @for ($i = 0; $i < 7; $i++)
-                                        <td class="py-2 px-4 border text-center 
+                                        <td class="py-2 px-4 border text-center
                                             {{ $currentDay->month != $date->month ? 'bg-gray-300' : '' }}
-                                            {{ $jadwals->contains('tanggal', $currentDay->toDateString()) ? 'bg-blue-100' : '' }}" 
+                                            {{ $jadwals->contains('tanggal', $currentDay->toDateString()) ? 'bg-blue-100' : '' }}"
                                             data-date="{{ $currentDay->toDateString() }}">
                                             @if ($currentDay->month == $date->month)
                                                 {{ $currentDay->day }}
@@ -127,33 +127,37 @@
                         @csrf
                         <div class="mb-4">
                             <label for="tanggal" class="block text-gray-700 font-bold mb-2">Tanggal</label>
-                            <input type="date" id="tanggal" name="tanggal" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                            <input  type="date" id="tanggal" name="tanggal" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" {{ $isInput ? 'required': "disabled" }} >
                         </div>
+
                         <div class="mb-4">
                             <label for="jam_mulai" class="block text-gray-700 font-bold mb-2">Jam Mulai</label>
-                            <input type="time" id="jam_mulai" name="jam_mulai" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                            <input type="time" id="jam_mulai" name="jam_mulai" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" {{ $isInput ? 'required': "disabled" }} >
                         </div>
                         <div class="mb-4">
                             <label for="jam_berakhir" class="block text-gray-700 font-bold mb-2">Jam Berakhir</label>
-                            <input type="time" id="jam_berakhir" name="jam_berakhir" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                            <input type="time" id="jam_berakhir" name="jam_berakhir" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" {{ $isInput ? 'required': "disabled" }} >
                         </div>
                         <div class="mb-4">
                             <label for="kegiatan" class="block text-gray-700 font-bold mb-2">Kegiatan Maintenance</label>
-                            <input type="text" id="kegiatan" name="kegiatan" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                            <input type="text" id="kegiatan" name="kegiatan" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" {{ $isInput ? 'required': "disabled" }} >
                         </div>
                         <div class="mb-4">
                             <label for="deskripsi" class="block text-gray-700 font-bold mb-2">Deskripsi Maintenance</label>
-                            <textarea id="deskripsi" name="deskripsi" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required></textarea>
+                            <textarea id="deskripsi" name="deskripsi" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" {{ $isInput ? 'required': "disabled" }} ></textarea>
                         </div>
                         <div class="mb-4">
                             <label for="foto" class="block text-gray-700 font-bold mb-2">Foto Dokumentasi</label>
-                            <input type="file" id="foto" name="foto" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <input type="file" id="foto" name="foto" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" {{ $isInput ? 'required': "disabled" }} >
                         </div>
                         <div class="flex items-center justify-between">
                             <!-- Trigger modal -->
-                            <button type="button" onclick="showModal()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                                Tambahkan Jadwal
-                            </button>
+                            @if ($isInput)
+                                <button type="button" onclick="showModal()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                                    Tambahkan Jadwal
+                                </button>
+                            @endif
+
                         </div>
                     </form>
                 </div>

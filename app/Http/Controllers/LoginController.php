@@ -12,24 +12,31 @@ class LoginController extends Controller
     {
         return view('landing.login');
     }
-    function login(Request $request){
+    function login(Request $request)
+    {
         $request->validate([
             'email' => 'required',
             'password' => 'required',
-        ],[
+        ], [
             'email.required' => 'Email Tidak Boleh Kosong',
             'password.required' => 'Password Tidak Boleh Kosong',
         ]);
 
         $infologin = [
-            'email'=>$request->email,
-            'password'=>$request->password,
+            'email' => $request->email,
+            'password' => $request->password,
         ];
 
-        if(Auth::attempt($infologin)){
+        if (Auth::attempt($infologin, $request->remember)) {
             return redirect('admin');
-        }else{
-                return redirect('')-> withErrors('Username dan Password salah')->withInput();
+        } else {
+            return redirect('login')->withErrors('Username dan Password salah')->withInput();
         }
+    }
+
+    function logout()
+    {
+        Auth::logout();
+        return redirect('')->withErrors('Berhasil Logout!')->withInput();
     }
 }
