@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Ticket;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ComplaintSubmitted;
+
 
 class ComplaintController extends Controller
 {
@@ -31,6 +34,18 @@ class ComplaintController extends Controller
             'keluhan' => $request->keluhan,
             'tanggal' => now(), // Menambahkan tanggal otomatis
         ]);
+
+         // Simpan data keluhan ke database
+        $complaint = Ticket::create([
+            'email' => $request->email,
+            'name' => $request->name,
+            'judul' => $request->judul,
+            'keluhan' => $request->keluhan,
+            'tanggal' => now(),
+        ]);
+
+    // Kirim email notifikasi
+    Mail::to('dghaz.xrpl5@gmail.com')->send(new ComplaintSubmitted($complaint));
 
         return redirect()->route('complaint')->with('success', 'Your complaint has been submitted successfully!');
     }
