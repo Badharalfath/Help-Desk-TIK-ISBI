@@ -15,7 +15,7 @@ class EditTiketController extends Controller
 
     public function update(Request $request, $id)
     {
-       
+
         // Validasi data
         $request->validate([
             'email' => 'required|email',
@@ -35,7 +35,7 @@ class EditTiketController extends Controller
         $ticket->name = $request->input('name');
         $ticket->judul = $request->input('judul');
         $ticket->keluhan = $request->input('keluhan');
-        $ticket->permission_status = $request->input('permission_status'); 
+        $ticket->permission_status = $request->input('permission_status');
         $ticket->progress_status = $request->input('progress_status');
         $ticket->reject_reason = $request->input('reject_reason');
 
