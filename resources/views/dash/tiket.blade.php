@@ -23,33 +23,15 @@
         <table class="min-w-full divide-y divide-gray-200 mt-[30px]">
             <thead>
                 <tr>
-                    <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        ID
-                    </th>
-                    <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Date
-                    </th>
-                    <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Email
-                    </th>
-                    <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Nama
-                    </th>
-                    <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Judul Keluhan
-                    </th>
-                    <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Permission Status
-                    </th>
-                    <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Alasan Ditolak
-                    </th>
-                    <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Status Progress
-                    </th>
-                    <th class="px-6 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Action
-                    </th>
+                    <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                    <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                    <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                    <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama</th>
+                    <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Judul Keluhan</th>
+                    <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Permission Status</th>
+                    <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Alasan Ditolak</th>
+                    <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status Progress</th>
+                    <th class="px-6 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
@@ -76,7 +58,7 @@
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="text-sm text-gray-900">{{ $ticket->judul }}</div>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap ">
+                    <td class="px-6 py-4 whitespace-nowrap">
                         <div class="text-sm text-gray-900">
                             @if($ticket->permission_status == 'approved')
                                 <span class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-green-500">Approved</span>
@@ -88,20 +70,20 @@
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="text-sm text-gray-900">{{ $ticket->reject_reason ?? '-' }}</div>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap ">
+                    <td class="px-6 py-4 whitespace-nowrap">
                         <div class="text-sm text-gray-900">
                             @if($ticket->progress_status == 'solved')
-                            <span class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-green-500">Solved</span>
+                                <span class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-green-500">Solved</span>
                             @elseif($ticket->progress_status == 'ongoing')
-                            <span class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-yellow-500">On Going</span>
+                                <span class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-yellow-500">On Going</span>
                             @else
-                            <span class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-gray-500">Unsolved</span>
+                                <span class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-gray-500">Unsolved</span>
                             @endif
                         </div>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <a href="{{ route('tickets.edit', $ticket->id) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
-                        <form action="{{ route('tickets.destroy', $ticket->id) }}" method="POST" style="display:inline;">
+                        <form action="{{ route('tickets.destroy', $ticket->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Anda sudah yakin ingin menghapus tiket?');">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="text-red-600 hover:text-red-900 ml-4">Delete</button>
