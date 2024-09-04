@@ -104,7 +104,7 @@
                                                     {{ $currentDay->day }}
                                                     @foreach ($jadwals as $jadwal)
                                                         @if ($jadwal->tanggal == $currentDay->toDateString())
-                                                            <p class="text-sm text-blue-500">{{ $jadwal->kegiatan }}</p>
+                                                            <p class="text-sm text-blue-500">{{ $jadwal->kegiatan }}</p><br>
                                                         @endif
                                                     @endforeach
                                                 @endif
