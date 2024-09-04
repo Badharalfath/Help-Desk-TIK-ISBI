@@ -21,6 +21,8 @@ route::get('/',[HomeController::class,'index'])->name('home');
 route::get('/login',[LoginController::class,'index'])->name('login');
 Route::get('/faq', [FAQController::class, 'index'])->name('faq');
 Route::get('/maintenance', [MaintenanceController::class, 'index'])->name('maintenance');
+Route::get('/maintenance/generate-report', [MaintenanceController::class, 'generateReport'])->name('maintenance.generateReport');
+Route::post('/maintenance/generateReport', [MaintenanceController::class, 'generateReport'])->name('maintenance.generateReport');
 Route::get('/monitoring', [MonitoringController::class, 'index'])->name('monitoring');
 Route::get('/complaint', [ComplaintController::class, 'showForm'])->name('complaint');
 
