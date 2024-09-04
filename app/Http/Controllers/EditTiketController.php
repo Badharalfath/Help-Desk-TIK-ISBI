@@ -15,7 +15,7 @@ class EditTiketController extends Controller
 
     public function update(Request $request, $id)
     {
-       
+
         // Validasi data
         $request->validate([
             'email' => 'required|email',
@@ -23,7 +23,7 @@ class EditTiketController extends Controller
             'judul' => 'required|string|max:255',
             'keluhan' => 'required|string',
             'permission_status' => 'required|string|in:approved,rejected',
-            'progress_status' => 'required|string|in:unresolved,ongoing,solved',
+            'progress_status' => 'nullable|string|in:unresolved,ongoing,solved',
             'reject_reason' => 'nullable|string|max:255',
         ]);
 
@@ -35,7 +35,7 @@ class EditTiketController extends Controller
         $ticket->name = $request->input('name');
         $ticket->judul = $request->input('judul');
         $ticket->keluhan = $request->input('keluhan');
-        $ticket->permission_status = $request->input('permission_status'); 
+        $ticket->permission_status = $request->input('permission_status');
         $ticket->progress_status = $request->input('progress_status');
         $ticket->reject_reason = $request->input('reject_reason');
 
