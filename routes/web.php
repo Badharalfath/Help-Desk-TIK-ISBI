@@ -33,6 +33,7 @@ Route::get('/tickets/{id}/edit', [EditTiketController::class, 'edit'])->name('ti
 Route::post('/tickets/{id}', [EditTiketController::class, 'update'])->name('ticket.update');
 Route::post('/jadwal', [JadwalController::class, 'store'])->name('jadwal.store');
 Route::get('/jadwal', [JadwalController::class, 'index'])->name('jadwal');
+Route::get('/tickets/pdf', [TiketController::class, 'generatePdf'])->name('tickets.generatePdf');
 
 
 Route::resource('tickets', EditTiketController::class);
