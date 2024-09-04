@@ -11,7 +11,10 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="bg-gray-200 text-white font-sans">
-    <h1 class="title-font text-black sm:text-4xl text-3xl mt-28 pl-6 font-medium">Daftar Antrian Tiket</h1>
+    <div class="flex justify-between items-center mt-28 pl-6 pr-6">
+        <h1 class="title-font text-black sm:text-4xl text-3xl font-medium">Daftar Antrian Tiket</h1>
+        
+    </div>
     <div class="flex justify-center items-center bg-cover bg-center px-6 rounded-xl mb-[50px]" style="background-image: url('/path-to-background-image');">
         <table class="min-w-full divide-y divide-gray-200 mt-[30px]">
             <thead>
@@ -61,7 +64,7 @@
                         </div>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900" >{{ $ticket->email }}</div>
+                        <div class="text-sm text-gray-900">{{ $ticket->email }}</div>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="text-sm text-gray-900">{{ $ticket->name }}</div>
@@ -69,26 +72,26 @@
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="text-sm text-gray-900">{{ $ticket->judul }}</div>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
+                    <td class="px-6 py-4 whitespace-nowrap ">
                         <div class="text-sm text-gray-900">
                             @if($ticket->permission_status == 'approved')
-                                <span class="inline-block w-2 h-2 rounded-full bg-green-500"></span>
+                                <span class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-green-500">Approved</span>
                             @else
-                                <span class="inline-block w-2 h-2 rounded-full bg-red-500"></span>
+                                <span class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-red-500">Rejected</span>
                             @endif
                         </div>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="text-sm text-gray-900">{{ $ticket->reject_reason ?? '-' }}</div>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
+                    <td class="px-6 py-4 whitespace-nowrap ">
                         <div class="text-sm text-gray-900">
                             @if($ticket->progress_status == 'solved')
-                                <span class="inline-block w-2 h-2 rounded-full bg-green-500"></span>
+                            <span class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-green-500">Solved</span>
                             @elseif($ticket->progress_status == 'ongoing')
-                                <span class="inline-block w-2 h-2 rounded-full bg-yellow-500"></span>
+                            <span class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-yellow-500">On Going</span>
                             @else
-                                <span class="inline-block w-2 h-2 rounded-full bg-gray-500"></span>
+                            <span class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-gray-500">Unsolved</span>
                             @endif
                         </div>
                     </td>
