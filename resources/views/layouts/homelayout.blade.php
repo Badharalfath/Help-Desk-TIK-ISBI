@@ -13,7 +13,7 @@
         <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
 
     </head>
-    <body>
+    <body class="flex flex-col min-h-screen">
         @include('layouts.partial.nav')
         <main class="flex-grow">
             @yield('content')
