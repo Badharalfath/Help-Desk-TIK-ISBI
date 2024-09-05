@@ -67,53 +67,56 @@
                             </button>
                         </div>
                     @endif
+
                     <h2 class="text-xl font-bold mb-4">Tambahkan Jadwal Maintenance</h2>
+                    <hr class="w-47 h-1 my-4 bg-gray-100 border-0 rounded dark:bg-gray-700">
                     <form id="jadwalForm" action="{{ route('jadwal.store') }}" method="POST"
                         enctype="multipart/form-data">
                         @csrf
                         <div class="mb-4">
                             <label for="tanggal" class="block text-gray-700 font-bold mb-2">Tanggal</label>
                             <input type="date" id="tanggal" name="tanggal"
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"{{ $isInput ? 'required': "disabled" }}>
                         </div>
 
                         <div class="mb-4">
                             <label for="jam_mulai" class="block text-gray-700 font-bold mb-2">Jam Mulai</label>
                             <input type="time" id="jam_mulai" name="jam_mulai"
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"{{ $isInput ? 'required': "disabled" }}>
                         </div>
 
                         <div class="mb-4">
                             <label for="jam_berakhir" class="block text-gray-700 font-bold mb-2">Jam Berakhir</label>
                             <input type="time" id="jam_berakhir" name="jam_berakhir"
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"{{ $isInput ? 'required': "disabled" }}>
                         </div>
 
                         <div class="mb-4">
                             <label for="kegiatan" class="block text-gray-700 font-bold mb-2">Kegiatan Maintenance</label>
                             <input type="text" id="kegiatan" name="kegiatan"
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"{{ $isInput ? 'required': "disabled" }}>
                         </div>
 
                         <div class="mb-4">
                             <label for="deskripsi" class="block text-gray-700 font-bold mb-2">Deskripsi
                                 Maintenance</label>
                             <textarea id="deskripsi" name="deskripsi"
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"{{ $isInput ? 'required': "disabled" }}></textarea>
                         </div>
 
                         <div class="mb-4">
                             <label for="foto" class="block text-gray-700 font-bold mb-2">Input Foto Sebelum
                                 Maintenance</label>
                             <input type="file" id="foto" name="foto"
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"{{ $isInput ? 'required': "disabled" }}>
                         </div>
-
+                        @if ($isInput)
                         <div class="flex items-center justify-between">
                             <button type="submit"
-                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Tambahkan
+                                class="w-full py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Tambahkan
                                 Jadwal</button>
                         </div>
+                        @endif
                     </form>
                 </div>
             </div>
@@ -141,12 +144,14 @@
                             foto_sesudah: jadwal.foto_sesudah
                         }
                     })),
+                    @if ($isInput)
                     dateClick: function (info) {
                         showMaintenanceDetails(info.dateStr);
                     },
                     eventClick: function (info) {
                         showMaintenanceDetails(info.event.startStr);
-                    }
+                    },
+                    @endif
                 });
 
                 calendar.render();
@@ -163,6 +168,10 @@
                         detailsHTML += `
                         <li class="mb-4 border-b pb-2">
                             <!-- Form untuk mengunggah Foto Kedua -->
+                            <a href="{{ route('jadwal') }}" class="text-gray-900 hover:text-white border border-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-900 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
+                            Kembali Ke Input Form
+                            </a>
+
                             <form action="/jadwal/${jadwal.id}/update-foto-kedua" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <!-- Kegiatan Maintenance -->
