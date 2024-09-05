@@ -167,10 +167,19 @@
 
                         <!-- Dokumentasi -->
                         <div class="my-4">
-                            <label for="dokumentasi" class="text-lg font-bold text-gray-800">Dokumentasi</label>
+                            <label for="dokumentasi" class="text-lg font-bold text-gray-800">Maintenance Sebelum</label>
                             ${jadwal.foto ? `
                             <div class="mt-2 p-2 border rounded-lg shadow-md bg-white">
                                 <img src="{{ asset('storage/fotos/${jadwal.foto}') }}" alt="Foto Maintenance" class="w-full h-auto max-w-md mx-auto">
+                            </div>` : ''}
+                        </div>
+
+                         <!-- Dokumentasi -->
+                        <div class="my-4">
+                            <label for="dokumentasi" class="text-lg font-bold text-gray-800">Maintenance Sesudah</label>
+                            ${jadwal.foto_kedua ? `
+                            <div class="mt-2 p-2 border rounded-lg shadow-md bg-white">
+                                <img src="{{ asset('storage/fotos/${jadwal.foto_kedua}') }}" alt="Foto Maintenance" class="w-full h-auto max-w-md mx-auto">
                             </div>` : ''}
                         </div>
 

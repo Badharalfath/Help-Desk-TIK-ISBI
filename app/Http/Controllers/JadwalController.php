@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Jadwal;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class JadwalController extends Controller
 {
@@ -35,6 +36,7 @@ class JadwalController extends Controller
             'kegiatan' => 'required|string|max:255',
             'deskripsi' => 'required|string',
             'foto' => 'nullable|image|max:5012',
+            'foto_kedua' => 'nullable|image|max:5012',
         ]);
 
         // Proses upload foto jika ada
@@ -61,9 +63,51 @@ class JadwalController extends Controller
             'kegiatan' => $request->input('kegiatan'),
             'deskripsi' => $request->input('deskripsi'),
             'foto' => $fotoName, // Simpan hanya nama file, bukan path lengkap
+            'foto_kedua' => $fotoName, // Simpan hanya nama file, bukan path lengkap
         ]);
 
         return redirect()->route('jadwal')->with('success', 'Jadwal berhasil ditambahkan.');
     }
+    public function updateFotoKedua(Request $request, $id)
+    {
+        $request->validate([
+            'foto_kedua' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
 
+        $jadwal = Jadwal::find($id);
+
+        if (!$jadwal) {
+            return redirect()->back()->with('error', 'Jadwal tidak ditemukan!');
+        }
+
+        if ($request->hasFile('foto_kedua')) {
+            // Dapatkan nama file asli
+            $originalFilename = $request->file('foto_kedua')->getClientOriginalName();
+
+            // Buat nama file baru dengan 10 angka acak di depan dan underscore
+            $newFilename = rand(1000000000, 9999999999) . '_' . $originalFilename;
+
+            // Simpan file dengan nama baru
+            $request->file('foto_kedua')->storeAs('public/fotos', $newFilename);
+
+            // Simpan hanya nama file di database
+            $jadwal->update(['foto_kedua' => $newFilename]);
+        }
+
+        return redirect()->route('jadwal')->with('success', 'Foto kedua berhasil diunggah!');
+    }
+
+    public function editFotoKedua($id)
+    {
+        $jadwal = Jadwal::find($id);
+
+        if (!$jadwal) {
+            return redirect()->route('maintenance')->with('error', 'Jadwal tidak ditemukan!');
+        }
+
+        // Periksa apakah foto kedua sudah ada
+        $hasFotoKedua = !is_null($jadwal->foto_kedua);
+
+        return view('dash.edit-foto-kedua', compact('jadwal', 'hasFotoKedua'));
+    }
 }

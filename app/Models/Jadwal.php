@@ -18,5 +18,6 @@ class Jadwal extends Model
         'kegiatan',
         'deskripsi',
         'foto',
+        'foto_kedua',
     ];
 }

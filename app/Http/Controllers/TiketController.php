@@ -20,6 +20,7 @@ class TiketController extends Controller
         return view('dash.tiket', ['tickets' => $tickets, 'isInput' => $isInput]);
     }
 
+    
     public function generatePdf()
     {
         // Ambil semua data tiket

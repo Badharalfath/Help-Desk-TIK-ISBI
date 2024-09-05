@@ -24,10 +24,15 @@
     <p><strong>Waktu:</strong> {{ $jadwal->jam_mulai }} - {{ $jadwal->jam_berakhir }}</p>
     <p><strong>Deskripsi:</strong></p>
     <p>{{ $jadwal->deskripsi }}</p>
-    
+
     @if ($jadwal->foto)
-        <p><strong>Dokumentasi:</strong></p>
+        <p><strong>Dokumentasi Sebelum Maintenance:</strong></p>
         <img src="{{ public_path('storage/fotos/' . $jadwal->foto) }}" style="width: 100%; max-width: 600px;">
+    @endif
+
+    @if ($jadwal->foto_kedua)
+        <p><strong>Dokumentasi Setelah Maintenance:</strong></p>
+        <img src="{{ public_path('storage/fotos/' . $jadwal->foto_kedua) }}" style="width: 100%; max-width: 600px;">
     @endif
 </body>
 </html>
