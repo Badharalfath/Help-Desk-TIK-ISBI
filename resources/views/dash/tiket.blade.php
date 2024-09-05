@@ -67,8 +67,10 @@
                         <div class="text-sm text-gray-900">
                             @if($ticket->permission_status == 'approved')
                                 <span class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-green-500">Approved</span>
-                            @else
+                            @elseif($ticket->permission_status == 'rejected')
                                 <span class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-red-500">Rejected</span>
+                            @elseif($ticket->permission_status == 'pending')
+                                <span class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-gray-500">Pending</span>
                             @endif
                         </div>
                     </td>

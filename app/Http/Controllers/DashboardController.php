@@ -12,7 +12,7 @@ class DashboardController extends Controller
         // Query to get ticket status counts
         $ticketStatuses = DB::table('tickets')
             ->selectRaw('
-                SUM(CASE WHEN progress_status = "unresolved" THEN 1 ELSE 0 END) as unsolved,
+                SUM(CASE WHEN progress_status = "unsolved" THEN 1 ELSE 0 END) as unsolved,
                 SUM(CASE WHEN progress_status = "ongoing" THEN 1 ELSE 0 END) as ongoing,
                 SUM(CASE WHEN progress_status = "solved" THEN 1 ELSE 0 END) as solved
             ')

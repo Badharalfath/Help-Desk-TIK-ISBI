@@ -23,7 +23,7 @@ class EditTiketController extends Controller
             'judul' => 'required|string|max:255',
             'keluhan' => 'required|string',
             'permission_status' => 'required|string|in:approved,rejected',
-            'progress_status' => 'nullable|string|in:unresolved,ongoing,solved',
+            'progress_status' => 'nullable|string|in:unsolved,ongoing,solved',
             'reject_reason' => 'nullable|string|max:255',
         ]);
 

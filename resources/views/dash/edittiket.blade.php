@@ -73,8 +73,8 @@
 
                     <div class="mb-4 flex justify-around">
                         <div class="relative">
-                            <input type="radio" name="progress_status" id="progress_unresolved" value="unresolved" class="hidden peer" {{ $ticket->progress_status == 'unresolved' ? 'checked' : '' }}>
-                            <label for="progress_unresolved" class="flex items-center gap-4 p-4 rounded-xl bg-white bg-opacity-90 backdrop-blur-2xl shadow-xl hover:bg-opacity-75 peer-checked:bg-gray-600 peer-checked:text-white cursor-pointer transition">
+                            <input type="radio" name="progress_status" id="progress_unsolved" value="unsolved" class="hidden peer" {{ $ticket->progress_status == 'unsolved' ? 'checked' : '' }}>
+                            <label for="progress_unsolved" class="flex items-center gap-4 p-4 rounded-xl bg-white bg-opacity-90 backdrop-blur-2xl shadow-xl hover:bg-opacity-75 peer-checked:bg-gray-600 peer-checked:text-white cursor-pointer transition">
                                 <div>
                                     <h1 class="text-base text-center">Unsolved</h1>
                                 </div>

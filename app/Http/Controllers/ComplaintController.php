@@ -26,15 +26,6 @@ class ComplaintController extends Controller
             'g-recaptcha-response' => 'required|captcha',
         ]);
 
-        // Simpan data keluhan ke database
-        // Ticket::create([
-        //     'email' => $request->email,
-        //     'name' => $request->name,
-        //     'judul' => $request->judul,
-        //     'keluhan' => $request->keluhan,
-        //     'tanggal' => now(), // Menambahkan tanggal otomatis
-        // ]);
-
 
          // Simpan data keluhan ke database
         $complaint = Ticket::create([
@@ -43,6 +34,7 @@ class ComplaintController extends Controller
             'judul' => $request->judul,
             'keluhan' => $request->keluhan,
             'tanggal' => now(),
+            'permission_status' => 'pending',
         ]);
 
     // Kirim email notifikasi
