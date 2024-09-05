@@ -58,10 +58,10 @@ class ComplaintController extends Controller
 
 
         // Kirim email notifikasi
-        // $emailAdmin = User::where('role', 'admin')->first();
-        // $emailAdmins = User::where('role', 'admin')->whereNot('email', $emailAdmin->email)->get()->pluck('email')->toArray();
+        $emailAdmin = User::where('role', 'admin')->first();
+        $emailAdmins = User::where('role', 'admin')->whereNot('email', $emailAdmin->email)->get()->pluck('email')->toArray();
 
-        // Mail::to($emailAdmin)->cc($emailAdmins)->send(new ComplaintSubmitted($complaint));
+        Mail::to($emailAdmin)->cc($emailAdmins)->send(new ComplaintSubmitted($complaint));
 
         return redirect()->route('complaint')->with('success', 'Your complaint has been submitted successfully!');
     }
