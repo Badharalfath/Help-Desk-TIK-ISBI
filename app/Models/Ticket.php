@@ -17,6 +17,7 @@ class Ticket extends Model
         'judul',
         'keluhan',
         'tanggal',
+        'foto_keluhan',
         'permission_status',
         'progress_status',
         'reject_reason',

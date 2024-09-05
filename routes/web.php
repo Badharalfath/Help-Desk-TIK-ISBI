@@ -51,5 +51,3 @@ Route::get('/admin', [DashboardController::class, 'index']);
 
 Route::post('/complaint', [ComplaintController::class, 'submitForm'])->name('submit.complaint');
 Route::post('/login', [LoginController::class, 'login']);
-
-

@@ -40,6 +40,11 @@
                 <div class="mb-4">
                     <textarea name="keluhan" placeholder="Complaint" class="w-full p-2 border border-gray-300 rounded" readonly>{{ $ticket->keluhan }}</textarea>
                 </div>
+                <div class="mt-2 p-2 border rounded-lg shadow-md bg-white">
+                    <!-- Menggunakan Storage::url untuk mendapatkan URL gambar -->
+                    <img src="{{ $ticket->foto_keluhan ? Storage::url('fotos/' . $ticket->foto_keluhan) : asset('images/default-placeholder.png') }}" alt="Foto Keluhan" class="w-full h-auto max-w-md mx-auto">
+                </div>
+
                 <h2 class="text-base font-semibold text-center mb-4">Permission</h2>
                 <hr class="w-48 h-1 mx-auto my-2 bg-gray-100 border-0 rounded dark:bg-gray-700">
 
@@ -62,6 +67,8 @@
                         </label>
                     </div>
                 </div>
+
+
 
                 <div class="mb-4" id="reject_reason_container" style="display: {{ $ticket->permission_status == 'rejected' ? 'block' : 'none' }};">
                     <input type="text" name="reject_reason" placeholder="Reject Reason" value="{{ $ticket->reject_reason }}" class="w-full p-2 border border-gray-300 rounded">

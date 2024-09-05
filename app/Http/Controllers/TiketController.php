@@ -12,12 +12,12 @@ class TiketController extends Controller
 {
     public function index()
     {
-         // Ambil semua tiket dari database
-         $tickets = Ticket::all();
+        // Ambil semua tiket dari database
+        $tickets = Ticket::all();
 
-         $isInput = Auth::user()->role == 'admin';
-         // Kirim data tiket ke view
-         return view('dash.tiket', ['tickets' => $tickets, 'isInput'=> $isInput]);
+        $isInput = Auth::user()->role == 'admin';
+        // Kirim data tiket ke view
+        return view('dash.tiket', ['tickets' => $tickets, 'isInput' => $isInput]);
     }
 
     public function generatePdf()
@@ -27,10 +27,9 @@ class TiketController extends Controller
 
         // Load view untuk PDF dengan pengaturan landscape
         $pdf = Pdf::loadView('dash.pdfreport', ['tickets' => $tickets])
-                  ->setPaper('a4', 'landscape'); // Atur orientasi kertas menjadi landscape
+            ->setPaper('a4', 'landscape'); // Atur orientasi kertas menjadi landscape
 
-        // Download file PDF
-        return $pdf->download('laporan_tiket.pdf');
+        // Tampilkan PDF di browser
+        return $pdf->stream('laporan_tiket.pdf'); // 'laporan_tiket.pdf' adalah nama default file yang akan didownload jika user mengklik download di browser
     }
-
 }

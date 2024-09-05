@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 
+
 class EditTiketController extends Controller
 {
     public function edit($id)
@@ -34,6 +35,7 @@ class EditTiketController extends Controller
         $ticket->email = $request->input('email');
         $ticket->name = $request->input('name');
         $ticket->judul = $request->input('judul');
+        $ticket->keluhan = $request->input('keluhan');
         $ticket->keluhan = $request->input('keluhan');
         $ticket->permission_status = $request->input('permission_status');
         $ticket->progress_status = $request->input('progress_status');
