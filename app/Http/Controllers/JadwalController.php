@@ -63,7 +63,6 @@ class JadwalController extends Controller
             'kegiatan' => $request->input('kegiatan'),
             'deskripsi' => $request->input('deskripsi'),
             'foto' => $fotoName, // Simpan hanya nama file, bukan path lengkap
-            'foto_kedua' => $fotoName, // Simpan hanya nama file, bukan path lengkap
         ]);
 
         return redirect()->route('jadwal')->with('success', 'Jadwal berhasil ditambahkan.');

@@ -11,6 +11,9 @@
         @vite('resources/css/app.css')
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <!-- FullCalendar CSS -->
+        <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css' rel='stylesheet' />
         <style>
             /* Modal styles */
             .modal {
@@ -44,80 +47,8 @@
             <div class="flex flex-col md:flex-row justify-center mt-10">
                 <!-- Calendar Section -->
                 <div class="w-full md:w-1/2 mr-4">
-                    <div class="bg-white p-6 rounded-lg shadow-md">
-                        <h2 class="text-xl font-bold mb-4">Jadwal Maintenance</h2>
-                        <div class="flex justify-between items-center mb-4">
-                            <form method="GET" action="{{ route('maintenance') }}">
-                                <input type="hidden" name="month"
-                                    value="{{ \Carbon\Carbon::parse($currentMonthYear)->subMonth()->format('Y-m') }}">
-                                <button type="submit"
-                                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M15 19l-7-7 7-7"></path>
-                                    </svg>
-                                </button>
-                            </form>
-                            <span id="currentMonth"
-                                class="text-gray-700 font-bold">{{ \Carbon\Carbon::parse($currentMonthYear)->format('F Y') }}</span>
-                            <form method="GET" action="{{ route('maintenance') }}">
-                                <input type="hidden" name="month"
-                                    value="{{ \Carbon\Carbon::parse($currentMonthYear)->addMonth()->format('Y-m') }}">
-                                <button type="submit"
-                                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 5l7 7-7 7"></path>
-                                    </svg>
-                                </button>
-                            </form>
-                        </div>
-                        <table class="w-full border-collapse">
-                            <thead>
-                                <tr>
-                                    <th class="py-2 px-4 border text-center">Senin</th>
-                                    <th class="py-2 px-4 border text-center">Selasa</th>
-                                    <th class="py-2 px-4 border text-center">Rabu</th>
-                                    <th class="py-2 px-4 border text-center">Kamis</th>
-                                    <th class="py-2 px-4 border text-center">Jumat</th>
-                                    <th class="py-2 px-4 border text-center">Sabtu</th>
-                                    <th class="py-2 px-4 border text-center">Minggu</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @php
-                                    $date = \Carbon\Carbon::parse($currentMonthYear . '-01');
-                                    $startOfWeek = $date->copy()->startOfWeek(\Carbon\Carbon::MONDAY);
-                                    $endOfMonth = $date->copy()->endOfMonth();
-                                    $currentDay = $startOfWeek->copy();
-                                @endphp
-                                @while ($currentDay <= $endOfMonth)
-                                    <tr>
-                                        @for ($i = 0; $i < 7; $i++)
-                                            <td class="py-2 px-4 border text-center
-                                            {{ $currentDay->month != $date->month ? 'bg-gray-300' : '' }}
-                                            {{ $jadwals->contains('tanggal', $currentDay->toDateString()) ? 'bg-blue-100 cursor-pointer' : '' }}"
-                                                data-date="{{ $currentDay->toDateString() }}"
-                                                onclick="showMaintenanceDetails('{{ $currentDay->toDateString() }}')">
-                                                @if ($currentDay->month == $date->month)
-                                                    {{ $currentDay->day }}
-                                                    @foreach ($jadwals as $jadwal)
-                                                        @if ($jadwal->tanggal == $currentDay->toDateString())
-                                                            <p class="text-sm text-blue-500">{{ $jadwal->kegiatan }}</p>
-                                                        @endif
-                                                    @endforeach
-                                                @endif
-                                                @php $currentDay->addDay(); @endphp
-                                            </td>
-                                        @endfor
-                                    </tr>
-                                @endwhile
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                <div id='calendar' class="bg-white p-6 rounded-lg shadow-md"></div>
+            </div>
 
                 <!-- Form Input Section (Default View) -->
                 <div id="maintenanceDetails" class="w-full md:w-1/2 bg-white p-6 rounded-lg shadow-md">
@@ -188,7 +119,38 @@
             </div>
         </main>
 
+        <!-- FullCalendar JavaScript -->
+        <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js'></script>
         <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const jadwals = @json($jadwals);
+                const calendarEl = document.getElementById('calendar');
+
+                const calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'dayGridMonth',
+                    events: jadwals.map(jadwal => ({
+                        title: jadwal.kegiatan,
+                        start: jadwal.tanggal,
+                        extendedProps: {
+                            id: jadwal.id,
+                            kegiatan: jadwal.kegiatan,
+                            jam_mulai: jadwal.jam_mulai,
+                            jam_berakhir: jadwal.jam_berakhir,
+                            deskripsi: jadwal.deskripsi,
+                            foto: jadwal.foto,
+                            foto_sesudah: jadwal.foto_sesudah
+                        }
+                    })),
+                    dateClick: function (info) {
+                        showMaintenanceDetails(info.dateStr);
+                    },
+                    eventClick: function (info) {
+                        showMaintenanceDetails(info.event.startStr);
+                    }
+                });
+
+                calendar.render();
+            });
             function showMaintenanceDetails(date) {
                 const jadwals = @json($jadwals);
 
