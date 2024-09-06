@@ -90,7 +90,9 @@
                     </td>
                     @if ($isInput)
                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <a href="{{ route('tickets.edit', $ticket->id) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                        @if($ticket->permission_status != 'rejected')
+                            <a href="{{ route('tickets.edit', $ticket->id) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                        @endif
                         <form action="{{ route('tickets.destroy', $ticket->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Anda sudah yakin ingin menghapus tiket?');">
                             @csrf
                             @method('DELETE')

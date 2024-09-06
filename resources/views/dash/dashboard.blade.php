@@ -17,6 +17,11 @@
         <div class="flex flex-col md:flex-row justify-center " style="background-image: url('/path-to-background-image');">
             <div class="max-w-7xl mx-auto p-6 mt-28 mb-[50px]">
                 <h1 class="text-3xl font-bold mb-6">SELAMAT DATANG</h1>
+                <!-- Menampilkan role pengguna yang sedang login -->
+                <h2 class="text-2xl text-gray-800 font-bold">
+                    User: {{ Auth::user()->role }}
+                </h2>
+                <br>
                 @if ($errors->any())
                     <div class="flex items-center p-4 text-sm text-gray-800 border border-gray-300 rounded-lg bg-gray-50 mb-[20px]"
                         role="alert">

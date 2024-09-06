@@ -23,8 +23,8 @@
         img {
             display: block;
             margin: 20px auto; /* Centers the image */
-            max-width: 500px; /* Ensures image is not too wide */
-            max-height: 400px; /* Ensures image is not too tall */
+            max-width: 400px; /* Ensures image is not too wide */
+            max-height: 300px; /* Ensures image is not too tall */
             border: 1px solid #ddd; /* Adds a border around the image */
             border-radius: 5px; /* Slightly rounded corners */
         }

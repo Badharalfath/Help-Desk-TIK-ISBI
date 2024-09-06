@@ -42,28 +42,28 @@
 
     <body class="bg-[url('https://dummyimage.com/1920x1080/000/fff')] text-black font-sans">
 
-    <main class="container mx-auto py-10">
-        <h1 class="text-black text-3xl sm:text-4xl mt-24 pl-6 font-medium">Jadwal Maintenance</h1>
-        <div class="flex flex-col md:flex-row justify-center mt-10">
-            <!-- Calendar Section -->
-            <div class="w-full md:w-1/2 mr-4">
-                <div id='calendar' class="bg-white p-6 rounded-lg shadow-md"></div>
-            </div>
+        <main class="container mx-auto py-10">
+            <h1 class="text-black text-3xl sm:text-4xl mt-24 pl-6 font-medium">Jadwal Maintenance</h1>
+            <div class="flex flex-col md:flex-row justify-center mt-10">
+                <!-- Calendar Section -->
+                <div class="w-full md:w-1/2 mr-4">
+                    <div id='calendar' class="bg-white p-6 rounded-lg shadow-md"></div>
+                </div>
 
-            <!-- Maintenance Details Section -->
-            <div id="maintenanceDetails" class="w-full md:w-1/2 bg-white p-6 rounded-lg shadow-md">
-                <h2 class="text-xl font-bold mb-4">Detail Maintenance</h2>
-                <div id="detailsContent">
-                    <p class="text-gray-700">Klik pada tanggal yang memiliki jadwal untuk melihat detail.</p>
+                <!-- Maintenance Details Section -->
+                <div id="maintenanceDetails" class="w-full md:w-1/2 bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-xl font-bold mb-4">Detail Maintenance</h2>
+                    <div id="detailsContent">
+                        <p class="text-gray-700">Klik pada tanggal yang memiliki jadwal untuk melihat detail.</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </main>
+        </main>
 
-      <!-- FullCalendar JavaScript -->
+        <!-- FullCalendar JavaScript -->
         <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js'></script>
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
+            document.addEventListener('DOMContentLoaded', function() {
                 const jadwals = @json($jadwals);
                 const calendarEl = document.getElementById('calendar');
 
@@ -82,10 +82,10 @@
                             foto_sesudah: jadwal.foto_sesudah
                         }
                     })),
-                    dateClick: function (info) {
+                    dateClick: function(info) {
                         showMaintenanceDetails(info.dateStr);
                     },
-                    eventClick: function (info) {
+                    eventClick: function(info) {
                         showMaintenanceDetails(info.event.startStr);
                     }
                 });
@@ -93,7 +93,7 @@
                 calendar.render();
             });
 
-            
+
             function showMaintenanceDetails(date) {
                 const jadwals = @json($jadwals);
 
@@ -104,68 +104,63 @@
                     let detailsHTML = '<ul>';
                     maintenanceForDate.forEach(jadwal => {
                         detailsHTML += `
-                    <li class="mb-4 border-b pb-2">
-                        <hr class="w-47 h-1 my-4 bg-gray-100 border-0 rounded dark:bg-gray-700">
+                <li class="mb-4 border-b pb-2">
+                    <hr class="w-47 h-1 my-4 bg-gray-100 border-0 rounded dark:bg-gray-700">
 
-                        <!-- Kegiatan Maintenance -->
-                        <div class="my-4">
-                            <label for="kegiatan" class="text-lg font-bold text-gray-800">Kegiatan Maintenance</label>
-                            <input type="text" id="kegiatan" name="kegiatan" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="${jadwal.kegiatan}" readonly>
-                        </div>
+                    <!-- Kegiatan Maintenance -->
+                    <div class="my-4">
+                        <label for="kegiatan" class="text-lg font-bold text-gray-800">Kegiatan Maintenance</label>
+                        <input type="text" id="kegiatan" name="kegiatan" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="${jadwal.kegiatan}" readonly>
+                    </div>
 
-                        <!-- Waktu Maintenance -->
-                        <div class="my-4">
-                            <label for="waktu_maintenance" class="text-lg font-bold text-gray-800">Waktu Maintenance</label>
-                            <div class="flex items-center gap-2">
-                                <input type="text" id="tanggal" name="tanggal" class="text-center shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="${jadwal.tanggal}" readonly>
-                                <input type="text" id="jam_mulai" name="jam_mulai" class="text-center shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value=" Jam ${jadwal.jam_mulai}" readonly>
-                                <span class="text-center mx-1">-</span>
-                                <input type="text" id="jam_berakhir" name="jam_berakhir" class="text-center shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="${jadwal.jam_berakhir}" readonly>
-                            </div>
-                        </div>
-
-                        <!-- Deskripsi Maintenance -->
-                        <div class="my-4">
-                            <label for="deskripsi" class="text-lg font-bold text-gray-800">Deskripsi Maintenance</label>
-                            <textarea id="deskripsi" name="deskripsi" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="4" readonly>${jadwal.deskripsi}</textarea>
-                        </div>
-
-                        <!-- Dokumentasi -->
-                        <div class="my-4">
-                            <label for="dokumentasi" class="text-lg font-bold text-gray-800">Maintenance Sebelum</label>
-                            ${jadwal.foto ? `
-                            <div class="mt-2 p-2 border rounded-lg shadow-md bg-white">
-                                <img src="{{ asset('storage/fotos/${jadwal.foto}') }}" alt="Foto Maintenance" class="w-full h-auto max-w-md mx-auto">
-                            </div>` : ''}
-                        </div>
-
-                         <!-- Dokumentasi -->
-                        <div class="my-4">
-                            <label for="dokumentasi" class="text-lg font-bold text-gray-800">Maintenance Sesudah</label>
-                            ${jadwal.foto_kedua ? `
-                            <div class="mt-2 p-2 border rounded-lg shadow-md bg-white">
-                                <img src="{{ asset('storage/fotos/${jadwal.foto_kedua}') }}" alt="Foto Maintenance" class="w-full h-auto max-w-md mx-auto">
-                            </div>` : ''}
-                        </div>
-
-                        <!-- Update: Generate Report Button with form -->
-                        <div class="my-4">
-                            <form method="POST" action="{{ route('maintenance.generateReport') }}">
-                                @csrf
-                                <input type="hidden" name="jadwal_id" value="${jadwal.id}">
-                                <button type="submit" class="w-full py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                                    Generate Report
-                                </button>
-                            </form>
+                    <!-- Waktu Maintenance -->
+                    <div class="my-4">
+                        <label for="waktu_maintenance" class="text-lg font-bold text-gray-800">Waktu Maintenance</label>
+                        <div class="flex items-center gap-2">
+                            <input type="text" id="tanggal" name="tanggal" class="text-center shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="${jadwal.tanggal}" readonly>
+                            <input type="text" id="jam_mulai" name="jam_mulai" class="text-center shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value=" Jam ${jadwal.jam_mulai}" readonly>
+                            <span class="text-center mx-1">-</span>
+                            <input type="text" id="jam_berakhir" name="jam_berakhir" class="text-center shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="${jadwal.jam_berakhir}" readonly>
                         </div>
                     </div>
 
-                        </div>
-                    </li>
+                    <!-- Deskripsi Maintenance -->
+                    <div class="my-4">
+                        <label for="deskripsi" class="text-lg font-bold text-gray-800">Deskripsi Maintenance</label>
+                        <textarea id="deskripsi" name="deskripsi" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="4" readonly>${jadwal.deskripsi}</textarea>
+                    </div>
 
+                    <!-- Dokumentasi Sebelum -->
+                    <div class="my-4">
+                        <label for="dokumentasi" class="text-lg font-bold text-gray-800">Maintenance Sebelum</label>
+                        ${jadwal.foto ? `
+                                <div class="mt-2 p-2 border rounded-lg shadow-md bg-white">
+                                    <img src="{{ asset('storage/fotos/${jadwal.foto}') }}" alt="Foto Maintenance Sebelum" class="w-full h-auto max-w-md mx-auto">
+                                </div>` : '<p class="text-gray-700">Tidak ada dokumentasi sebelum maintenance.</p>'}
+                    </div>
 
+                    <!-- Dokumentasi Sesudah -->
+                    ${jadwal.foto_kedua ? `
+                            <div class="my-4">
+                                <label for="dokumentasi" class="text-lg font-bold text-gray-800">Maintenance Sesudah</label>
+                                <div class="mt-2 p-2 border rounded-lg shadow-md bg-white">
+                                    <img src="{{ asset('storage/fotos/${jadwal.foto_kedua}') }}" alt="Foto Maintenance Sesudah" class="w-full h-auto max-w-md mx-auto">
+                                </div>
+                            </div>
+                            ` : ''}
 
-                `;
+                    <!-- Generate Report Button -->
+                    <div class="my-4">
+                        <form method="POST" action="{{ route('maintenance.generateReport') }}">
+                            @csrf
+                            <input type="hidden" name="jadwal_id" value="${jadwal.id}">
+                            <button type="submit" class="w-full py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                                Generate Report
+                            </button>
+                        </form>
+                    </div>
+                </li>
+            `;
                     });
                     detailsHTML += '</ul>';
                     detailsDiv.innerHTML = detailsHTML;

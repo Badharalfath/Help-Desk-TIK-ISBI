@@ -49,7 +49,7 @@
                 <hr class="w-48 h-1 mx-auto my-2 bg-gray-100 border-0 rounded dark:bg-gray-700">
 
                 <div class="mb-4 flex justify-around">
-                    <div class="relative">
+                    <div class="relative" style="{{ $ticket->permission_status == 'approved' ? 'display: none;' : '' }}">
                         <input type="radio" name="permission_status" id="permission_rejected" value="rejected" class="hidden peer" {{ $ticket->permission_status == 'rejected' ? 'checked' : '' }} onclick="toggleFields()">
                         <label for="permission_rejected" class="flex items-center gap-4 p-4 rounded-xl bg-white bg-opacity-90 backdrop-blur-2xl shadow-xl hover:bg-opacity-75 peer-checked:bg-red-400 peer-checked:text-white cursor-pointer transition">
                             <div>
