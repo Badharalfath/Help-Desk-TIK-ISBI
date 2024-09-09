@@ -20,31 +20,24 @@
         </a>
         <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center space-x-4">
             <!-- Tentang TIK Dropdown -->
-            <div class="relative group">
-                <a href="#" class="py-2.5 px-5 font-medium uppercase text-gray-800 hover:text-blue-500 border-b-2 border-transparent hover:border-blue-500 flex items-center">
-                    Tentang TIK
-                    <!-- Ikon Panah ke Bawah -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06 0L10 10.88l3.71-3.67a.75.75 0 111.06 1.06l-4.24 4.19a.75.75 0 01-1.06 0L5.23 8.27a.75.75 0 010-1.06z" clip-rule="evenodd" />
-                    </svg>
-                </a>
-                <!-- Perbaikan padding pada dropdown -->
-                <div class="absolute left-0 mt-1 hidden group-hover:block bg-white shadow-lg py-2 w-48 transition-all duration-300 ease-in-out opacity-0 group-hover:opacity-100 pointer-events-auto delay-200">
+            <div class="relative group flex items-center">
+                <a href="#" class="py-2.5 px-5 font-medium uppercase text-gray-800 hover:text-blue-500 border-b-2 border-transparent hover:border-blue-500">Tentang TIK</a>
+                <svg class="ml-1 w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+                <div class="absolute hidden group-hover:block bg-white shadow-lg py-2 mt-1 w-48 left-0 top-10">
                     <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 text-sm">Sejarah UPT</a>
                     <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 text-sm">Tugas & Fungsi</a>
                 </div>
             </div>
 
             <!-- Layanan Dropdown -->
-            <div class="relative group">
-                <a href="#" class="py-2.5 px-5 font-medium uppercase text-gray-800 hover:text-blue-500 border-b-2 border-transparent hover:border-blue-500 flex items-center">
-                    Layanan
-                    <!-- Ikon Panah ke Bawah -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06 0L10 10.88l3.71-3.67a.75.75 0 111.06 1.06l-4.24 4.19a.75.75 0 01-1.06 0L5.23 8.27a.75.75 0 010-1.06z" clip-rule="evenodd" />
-                    </svg>
-                </a>
-                <div class="absolute left-0 mt-1 hidden group-hover:block bg-white shadow-lg py-2 w-48 transition-all duration-300 ease-in-out opacity-0 group-hover:opacity-100 pointer-events-auto delay-200">
+            <div class="relative group flex items-center">
+                <a href="#" class="py-2.5 px-5 font-medium uppercase text-gray-800 hover:text-blue-500 border-b-2 border-transparent hover:border-blue-500">Layanan</a>
+                <svg class="ml-1 w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+                <div class="absolute hidden group-hover:block bg-white shadow-lg py-2 mt-1 w-48 left-0 top-10">
                     <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 text-sm">Akses Internet</a>
                     <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 text-sm">Aplikasi & Website</a>
                     <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 text-sm">Email</a>
@@ -55,30 +48,24 @@
             <a href="{{ route('monitoring') }}" class="py-2.5 px-5 font-medium uppercase text-gray-800 hover:text-blue-500 border-b-2 border-transparent hover:border-blue-500">Monitoring</a>
 
             <!-- FAQ Dropdown -->
-            <div class="relative group">
-                <a href="#" class="py-2.5 px-5 font-medium uppercase text-gray-800 hover:text-blue-500 border-b-2 border-transparent hover:border-blue-500 flex items-center">
-                    FAQ
-                    <!-- Ikon Panah ke Bawah -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06 0L10 10.88l3.71-3.67a.75.75 0 111.06 1.06l-4.24 4.19a.75.75 0 01-1.06 0L5.23 8.27a.75.75 0 010-1.06z" clip-rule="evenodd" />
-                    </svg>
-                </a>
-                <div class="absolute left-0 mt-1 hidden group-hover:block bg-white shadow-lg py-2 w-48 transition-all duration-300 ease-in-out opacity-0 group-hover:opacity-100 pointer-events-auto delay-200">
+            <div class="relative group flex items-center">
+                <a href="#" class="py-2.5 px-5 font-medium uppercase text-gray-800 hover:text-blue-500 border-b-2 border-transparent hover:border-blue-500">FAQ</a>
+                <svg class="ml-1 w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+                <div class="absolute hidden group-hover:block bg-white shadow-lg py-2 mt-1 w-48 left-0 top-10">
                     <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 text-sm">Internet/Network</a>
                     <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 text-sm">Aplikasi/Email</a>
                 </div>
             </div>
 
             <!-- Registrasi Akun Dropdown -->
-            <div class="relative group">
-                <a href="#" class="py-2.5 px-5 font-medium uppercase text-gray-800 hover:text-blue-500 border-b-2 border-transparent hover:border-blue-500 flex items-center">
-                    Registrasi Akun
-                    <!-- Ikon Panah ke Bawah -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06 0L10 10.88l3.71-3.67a.75.75 0 111.06 1.06l-4.24 4.19a.75.75 0 01-1.06 0L5.23 8.27a.75.75 0 010-1.06z" clip-rule="evenodd" />
-                    </svg>
-                </a>
-                <div class="absolute left-0 mt-1 hidden group-hover:block bg-white shadow-lg py-2 w-48 transition-all duration-300 ease-in-out opacity-0 group-hover:opacity-100 pointer-events-auto delay-200">
+            <div class="relative group flex items-center">
+                <a href="#" class="py-2.5 px-5 font-medium uppercase text-gray-800 hover:text-blue-500 border-b-2 border-transparent hover:border-blue-500">Registrasi Akun</a>
+                <svg class="ml-1 w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+                <div class="absolute hidden group-hover:block bg-white shadow-lg py-2 mt-1 w-48 left-0 top-10">
                     <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 text-sm">Akses Internet</a>
                     <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 text-sm">Email</a>
                 </div>
@@ -92,3 +79,5 @@
         </nav>
     </div>
 </header>
+
+
