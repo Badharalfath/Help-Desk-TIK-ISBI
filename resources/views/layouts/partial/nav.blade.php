@@ -92,7 +92,7 @@
             </div>
 
             <!-- Laporan -->
-            <a href="{{ route('faq') }}"
+            <a href="{{ route('complaint') }}"
                 class="py-2.5 px-5 font-medium uppercase text-gray-800 hover:text-blue-500 border-b-2 border-transparent hover:border-blue-500">Laporan</a>
 
             <!-- Maintenance -->
