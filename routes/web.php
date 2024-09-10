@@ -8,6 +8,7 @@ use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\RegInternetController;
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\TambahTiketController;
 use App\Http\Controllers\TiketController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\MaintenanceController;
@@ -18,9 +19,9 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 // Route Public
-route::get('/',[HomeController::class,'index'])->name('home');
-route::get('/login',[LoginController::class,'index'])->name('login');
-route::get('/logout',[LoginController::class,'logout'])->name('logout');
+route::get('/', [HomeController::class, 'index'])->name('home');
+route::get('/login', [LoginController::class, 'index'])->name('login');
+route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/faq', [FAQController::class, 'index'])->name('faq');
 Route::get('/maintenance', [MaintenanceController::class, 'index'])->name('maintenance');
 Route::get('/maintenance/generate-report', [MaintenanceController::class, 'generateReport'])->name('maintenance.generateReport');
@@ -46,6 +47,8 @@ Route::middleware(['auth.admin'])->group(function () {
     Route::get('/jadwal/{id}/edit-foto-kedua', [JadwalController::class, 'editFotoKedua'])->name('jadwal.editFotoKedua');
     Route::post('/jadwal/{id}/update-foto-kedua', [JadwalController::class, 'updateFotoKedua'])->name('jadwal.updateFotoKedua');
     Route::post('/jadwal/{id}/update-foto-kedua', [JadwalController::class, 'updateFotoKedua'])->name('jadwal.updateFotoKedua');
+    Route::get('/tambahtiket', [TambahTiketController::class, 'showForm'])->name('tambahtiket');
+
 });
 
 Route::resource('tickets', EditTiketController::class);
@@ -55,4 +58,5 @@ Route::resource('dash.jadwal', JadwalController::class);
 Route::get('/admin', [DashboardController::class, 'index']);
 
 Route::post('/complaint', [ComplaintController::class, 'submitForm'])->name('submit.complaint');
+Route::post('/tambahtiket', [TambahTiketController::class, 'submitForm'])->name('submit.tambahtiket');
 Route::post('/login', [LoginController::class, 'login']);
