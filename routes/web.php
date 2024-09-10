@@ -5,6 +5,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\FAQController;
 use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\MonitoringController;
+use App\Http\Controllers\RegInternetController;
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TiketController;
@@ -25,6 +26,7 @@ Route::get('/maintenance', [MaintenanceController::class, 'index'])->name('maint
 Route::get('/maintenance/generate-report', [MaintenanceController::class, 'generateReport'])->name('maintenance.generateReport');
 Route::post('/maintenance/generateReport', [MaintenanceController::class, 'generateReport'])->name('maintenance.generateReport');
 Route::get('/monitoring', [MonitoringController::class, 'index'])->name('monitoring');
+Route::get('/reginternet', [RegInternetController::class, 'index'])->name('reginternet');
 Route::get('/complaint', [ComplaintController::class, 'showForm'])->name('complaint');
 
 // Route Dashboard
