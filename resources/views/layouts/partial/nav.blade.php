@@ -55,7 +55,7 @@
 
             <!-- FAQ Dropdown -->
             <div class="relative group flex items-center">
-                <a href="#"
+                <a href="{{ route('faq') }}"
                     class="py-2.5 px-5 font-medium uppercase text-gray-800 hover:text-blue-500 border-b-2 border-transparent hover:border-blue-500">FAQ</a>
                 <svg class="ml-1 w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg">
