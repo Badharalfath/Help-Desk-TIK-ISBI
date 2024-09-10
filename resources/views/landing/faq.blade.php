@@ -26,7 +26,7 @@
             <div class="divide-y divide-gray-200">
                 <!-- FAQ Item -->
                 <div class="py-4">
-                <h1 id="internet_jaringan" class="text-center font-bold text-3xl mb-[30px]">Internet & Jaringan</h1>
+                    <h1 id="internet_jaringan" class="text-center font-bold text-3xl mb-[30px]">Internet & Jaringan</h1>
                     <button class="flex justify-between w-full text-left text-gray-800 font-medium text-lg py-4"
                         onclick="toggleFaq('faq1')">
                         <span>What is a Payment Gateway?</span>
@@ -211,46 +211,67 @@
 
         <!-- JavaScript for toggling FAQs -->
         <script>
-    // Scroll untuk Internet & Network
-    document.getElementById('scroll-internet').addEventListener('click', function(event) {
-        event.preventDefault(); // Mencegah default behavior
+            // Scroll untuk Internet & Network
+            document.getElementById('scroll-internet').addEventListener('click', function (event) {
+                event.preventDefault(); // Mencegah default behavior
 
-        if (window.location.pathname.includes('/faq')) {
-            var targetElement = document.getElementById('internet_jaringan');
-            var offset = 150; // Sesuaikan dengan kebutuhan offset
+                if (window.location.pathname.includes('/faq')) {
+                    var targetElement = document.getElementById('internet_jaringan');
+                    var offset = 150; // Sesuaikan dengan kebutuhan offset
 
-            var elementPosition = targetElement.getBoundingClientRect().top;
-            var offsetPosition = elementPosition + window.pageYOffset - offset;
+                    var elementPosition = targetElement.getBoundingClientRect().top;
+                    var offsetPosition = elementPosition + window.pageYOffset - offset;
 
-            window.scrollTo({
-                top: offsetPosition,
-                behavior: 'smooth'
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                } else {
+                    window.location.href = "{{ route('faq') }}#internet_jaringan";
+                }
             });
-        } else {
-            window.location.href = "{{ route('faq') }}#internet_jaringan";
-        }
-    });
 
-    // Scroll untuk Aplikasi & Email
-    document.getElementById('scroll-aplikasi-email').addEventListener('click', function(event) {
-        event.preventDefault(); // Mencegah default behavior
+            // Scroll untuk Aplikasi & Email
+            document.getElementById('scroll-aplikasi-email').addEventListener('click', function (event) {
+                event.preventDefault(); // Mencegah default behavior
 
-        if (window.location.pathname.includes('/faq')) {
-            var targetElement = document.getElementById('aplikasi_email');
-            var offset = 150; // Sesuaikan dengan kebutuhan offset
+                if (window.location.pathname.includes('/faq')) {
+                    var targetElement = document.getElementById('aplikasi_email');
+                    var offset = 150; // Sesuaikan dengan kebutuhan offset
 
-            var elementPosition = targetElement.getBoundingClientRect().top;
-            var offsetPosition = elementPosition + window.pageYOffset - offset;
+                    var elementPosition = targetElement.getBoundingClientRect().top;
+                    var offsetPosition = elementPosition + window.pageYOffset - offset;
 
-            window.scrollTo({
-                top: offsetPosition,
-                behavior: 'smooth'
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                } else {
+                    window.location.href = "{{ route('faq') }}#aplikasi_email";
+                }
             });
-        } else {
-            window.location.href = "{{ route('faq') }}#aplikasi_email";
+
+            // JavaScript for toggling FAQs 
+            function toggleFaq(faqId) {
+            var answer = document.getElementById(faqId);
+            var icon = document.getElementById(faqId + '-icon');
+
+            if (answer.classList.contains('hidden')) {
+                answer.classList.remove('hidden');
+                answer.style.opacity = 0;
+                setTimeout(() => {
+                    answer.style.opacity = 1;
+                }, 10);
+                icon.classList.add('rotate-180');
+            } else {
+                answer.style.opacity = 0;
+                setTimeout(() => {
+                    answer.classList.add('hidden');
+                }, 300);
+                icon.classList.remove('rotate-180');
+            }
         }
-    });
-</script>
+        </script>
 
 
 
