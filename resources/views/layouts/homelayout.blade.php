@@ -15,9 +15,12 @@
     </head>
     <body class="flex flex-col min-h-screen">
         @include('layouts.partial.nav')
-        <main class="flex-grow">
+
+        <!-- Main Content -->
+        <main class="flex-grow ">
             @yield('content')
         </main>
+        
         @include('layouts.partial.footer')
 
     </body>
