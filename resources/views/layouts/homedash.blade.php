@@ -6,28 +6,23 @@
         @vite('resources/css/app.css')
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
         <title>Dashboard</title>
+        
 
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
     </head>
-    <body class="flex">
+    <body class="min-h-screen flex flex-col bg-gray-200">
 
-        @include('layouts.partial.navdash')
+        @include('layouts.partial.sidebar')
 
-        <div class="flex-grow ml-64">
-            <!-- Header -->
-            <header class="bg-white fixed top-0 left-64 w-full z-50 shadow-lg backdrop-blur-md p-4">
-                <div class="flex justify-between items-center">
-                    <h1 class="text-xl font-bold">Dashboard</h1>
-                    <div>
-                        <!-- Add any header icons or links here -->
-                    </div>
-                </div>
-            </header>
+        <!-- Main content container -->
+        <div class="flex-grow flex flex-col ml-64">
+            @include('layouts.partial.navdash')
 
             <!-- Main Content -->
-            <main class="p-4 mt-16">
+            <main class="flex-grow p-4 mt-16">
                 @yield('content')
             </main>
 

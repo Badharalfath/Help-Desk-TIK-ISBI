@@ -39,7 +39,29 @@
                         </div>
                     </div>
                 @endif
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Mini Table Section -->
+                    <div class="bg-white shadow rounded-lg p-6">
+                        <h2 class="text-xl font-bold mb-4">Daftar Tiket Terbaru</h2>
+                        <table class="table-auto w-full">
+                            <thead>
+                                <tr>
+                                    <th class="px-4 py-2 text-left">Judul</th>
+                                    <th class="px-4 py-2 text-left">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($miniTable as $ticket)
+                                    <tr>
+                                        <td class="border px-4 py-2">{{ $ticket->judul }}</td>
+                                        <td class="border px-4 py-2">{{ ucfirst($ticket->progress_status) }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+
                     <!-- Pie Chart Section -->
                     <div class="bg-white shadow rounded-lg p-6">
                         <canvas id="pieChart"></canvas>
@@ -90,3 +112,4 @@
     </body>
 
     </html>
+@endsection
