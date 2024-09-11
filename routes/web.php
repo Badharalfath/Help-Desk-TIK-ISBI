@@ -14,6 +14,7 @@ use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\FormFAQController;
 use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\EditTiketController;
+use App\Http\Controllers\InputUserController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -51,7 +52,9 @@ Route::middleware(['auth.admin'])->group(function () {
     Route::post('/jadwal/{id}/update-foto-kedua', [JadwalController::class, 'updateFotoKedua'])->name('jadwal.updateFotoKedua');
     Route::post('/jadwal/{id}/update-foto-kedua', [JadwalController::class, 'updateFotoKedua'])->name('jadwal.updateFotoKedua');
     Route::get('/tambahtiket', [TambahTiketController::class, 'showForm'])->name('tambahtiket');
-
+    Route::get('/inuser', [InputUserController::class, 'index'])->name('inuser');
+    Route::get('/users/create', [InputUserController::class, 'create'])->name('users.create');
+    Route::post('/users/store', [InputUserController::class, 'store'])->name('users.store');
 });
 
 Route::resource('tickets', EditTiketController::class);
