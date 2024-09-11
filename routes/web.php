@@ -11,6 +11,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TambahTiketController;
 use App\Http\Controllers\TiketController;
 use App\Http\Controllers\JadwalController;
+use App\Http\Controllers\FormFAQController;
 use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\EditTiketController;
 use Illuminate\Support\Facades\Route;
@@ -43,6 +44,8 @@ Route::middleware(['auth.admin'])->group(function () {
     Route::get('/edittiket', [EditTiketController::class, 'index'])->name('edittiket');
     Route::get('/tickets/{id}/edit', [EditTiketController::class, 'edit'])->name('ticket.edit');
     Route::post('/tickets/{id}', [EditTiketController::class, 'update'])->name('ticket.update');
+    Route::get('/formfaq', [FormFAQController::class, 'index'])->name('formfaq.index');
+    Route::post('/formfaq', [FormFAQController::class, 'store'])->name('formfaq.store');
     Route::post('/jadwal', [JadwalController::class, 'store'])->name('jadwal.store');
     Route::get('/jadwal/{id}/edit-foto-kedua', [JadwalController::class, 'editFotoKedua'])->name('jadwal.editFotoKedua');
     Route::post('/jadwal/{id}/update-foto-kedua', [JadwalController::class, 'updateFotoKedua'])->name('jadwal.updateFotoKedua');

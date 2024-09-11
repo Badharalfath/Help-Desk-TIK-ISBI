@@ -23,10 +23,18 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('faq') }}" class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white">
+                <a href="{{ route('formfaq.index') }}" class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white">
                     <i class="fas fa-question-circle mr-3"></i>
                     <span>Form FAQ</span>
                 </a>
+                
+            </li>
+            <li>
+                <a href="{{ route('formfaq.index') }}" class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white">
+                    <i class="fas fa-question-circle mr-3"></i>
+                    <span>Form FAQ</span>
+                </a>
+                
             </li>
             <li>
                 <a href="{{ route('logout') }}" class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white">
