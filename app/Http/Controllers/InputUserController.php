@@ -8,38 +8,85 @@ use App\Models\User;
 
 class InputUserController extends Controller
 {
-    // Menampilkan form input user
+    // Menampilkan daftar user
     public function index()
     {
-        return view('dash.inuser');
+        // Mengambil semua data user dari database
+        $users = User::all();
+        return view('dash.user', compact('users')); // Mengirim data user ke view user.blade.php
     }
 
-    // Menyimpan data user ke database
+    // Menampilkan form untuk menambah user
+    public function create()
+    {
+        return view('dash.inuser'); // Mengarahkan ke halaman form untuk menambah user baru
+    }
+
+    // Menyimpan user baru ke database
     public function store(Request $request)
     {
-        // Validasi input form
+        // Validasi input dari form
         $request->validate([
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email|unique:users',
             'name' => 'required|string|max:255',
-            'role' => 'required|in:-,admin,kepala',
-            'password' => 'required|string|confirmed|min:8',
+            'role' => 'required|string',
+            'password' => 'required|string|min:8|confirmed',
         ]);
 
-        // Simpan data user ke database
+        // Menyimpan user baru ke dalam database
         User::create([
             'email' => $request->email,
             'name' => $request->name,
             'role' => $request->role,
-            'password' => Hash::make($request->password),
+            'password' => Hash::make($request->password), // Hash password sebelum disimpan
         ]);
 
-        // Redirect ke halaman create dengan notifikasi sukses
-        return redirect()->route('users.create')->with('success', 'User berhasil ditambahkan!');
+        // Mengarahkan kembali ke halaman daftar user dengan pesan sukses
+        return redirect()->route('users.index')->with('success', 'User berhasil ditambahkan');
     }
 
-    // Halaman konfirmasi setelah user berhasil dibuat
-    public function create()
+    // Menampilkan form edit user berdasarkan ID
+    public function edit($id)
     {
-        return view('dash.create');
+        // Mengambil data user berdasarkan ID
+        $user = User::findOrFail($id);
+        return view('dash.edituser', compact('user')); // Mengirim data user ke view edituser.blade.php
+    }
+
+    // Memperbarui data user berdasarkan ID
+    public function update(Request $request, $id)
+    {
+        // Mengambil user berdasarkan ID
+        $user = User::findOrFail($id);
+
+        // Validasi input dari form
+        $request->validate([
+            'email' => 'required|email|unique:users,email,' . $id, // Email harus unik kecuali untuk user saat ini
+            'name' => 'required|string|max:255',
+            'role' => 'required|string',
+        ]);
+
+        // Memperbarui data user
+        $user->update([
+            'email' => $request->email,
+            'name' => $request->name,
+            'role' => $request->role,
+        ]);
+
+        // Mengarahkan kembali ke halaman daftar user dengan pesan sukses
+        return redirect()->route('users.index')->with('success', 'User berhasil diupdate');
+    }
+
+    // Menghapus user berdasarkan ID
+    public function destroy($id)
+    {
+        // Mengambil user berdasarkan ID
+        $user = User::findOrFail($id);
+
+        // Menghapus user dari database
+        $user->delete();
+
+        // Mengarahkan kembali ke halaman daftar user dengan pesan sukses
+        return redirect()->route('users.index')->with('success', 'User berhasil dihapus');
     }
 }

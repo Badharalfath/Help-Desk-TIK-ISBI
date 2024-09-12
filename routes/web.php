@@ -52,7 +52,9 @@ Route::middleware(['auth.admin'])->group(function () {
     Route::post('/jadwal/{id}/update-foto-kedua', [JadwalController::class, 'updateFotoKedua'])->name('jadwal.updateFotoKedua');
     Route::post('/jadwal/{id}/update-foto-kedua', [JadwalController::class, 'updateFotoKedua'])->name('jadwal.updateFotoKedua');
     Route::get('/tambahtiket', [TambahTiketController::class, 'showForm'])->name('tambahtiket');
-    Route::get('/inuser', [InputUserController::class, 'index'])->name('inuser');
+    Route::resource('users', InputUserController::class);
+    Route::get('/user', [InputUserController::class, 'index'])->name('user');
+    Route::get('/inuser', [InputUserController::class, 'create'])->name('inuser');
     Route::get('/users/create', [InputUserController::class, 'create'])->name('users.create');
     Route::post('/users/store', [InputUserController::class, 'store'])->name('users.store');
 });

@@ -26,10 +26,10 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('inuser') }}"
+                <a href="{{ route('user') }}"
                     class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white">
                     <i class="fas fa-user mr-3"></i>
-                    <span>Input User</span>
+                    <span>Daftar Pengguna</span>
                 </a>
             </li>
             <li>
