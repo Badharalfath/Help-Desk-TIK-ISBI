@@ -24,7 +24,7 @@ class DashboardController extends Controller
             ->selectRaw('
                 SUM(CASE WHEN kategori = "Aplikasi" THEN 1 ELSE 0 END) as aplikasi,
                 SUM(CASE WHEN kategori = "Email/Website" THEN 1 ELSE 0 END) as email_website,
-                SUM(CASE WHEN kategori = "Jaringan/Internet" THEN 1 ELSE 0 END) as jaringan
+                SUM(CASE WHEN kategori = "Jaringan" THEN 1 ELSE 0 END) as jaringan
             ')
             ->first();
 
