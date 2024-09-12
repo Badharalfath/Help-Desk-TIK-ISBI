@@ -6,8 +6,6 @@
         @vite('resources/css/app.css')
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
         <title>Dashboard</title>
-        
-
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">

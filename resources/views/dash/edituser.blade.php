@@ -1,28 +1,6 @@
 @extends('layouts.homedash')
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit User</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-</head>
-<body class="bg-gray-100">
-
-    <!-- Navbar -->
-    <nav class="bg-gray-800 text-white p-4">
-        <div class="container mx-auto flex justify-between">
-            <div class="text-xl font-bold">Dashboard Admin</div>
-            <div>
-                <a href="#" class="text-gray-300 hover:text-white px-3">Home</a>
-                <a href="#" class="text-gray-300 hover:text-white px-3">Profile</a>
-                <a href="#" class="text-gray-300 hover:text-white px-3">Settings</a>
-                <a href="#" class="text-gray-300 hover:text-white px-3">Logout</a>
-            </div>
-        </div>
-    </nav>
-
+@section('content')
     <!-- Main Content -->
     <div class="container mx-auto p-10">
         <h2 class="text-2xl font-bold mb-5">Edit User</h2>
@@ -53,3 +31,4 @@
     </div>
 </body>
 </html>
+@endsection

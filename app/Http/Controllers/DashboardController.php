@@ -19,9 +19,19 @@ class DashboardController extends Controller
             ')
             ->first();
 
+        // Query to get ticket counts by category
+        $ticketCategories = DB::table('tickets')
+            ->selectRaw('
+                SUM(CASE WHEN kategori = "Aplikasi" THEN 1 ELSE 0 END) as aplikasi,
+                SUM(CASE WHEN kategori = "Email/Website" THEN 1 ELSE 0 END) as email_website,
+                SUM(CASE WHEN kategori = "Jaringan/Internet" THEN 1 ELSE 0 END) as jaringan
+            ')
+            ->first();
+
         // Pass data to the view
         return view('dash.dashboard', [
-            'ticketStatuses' => $ticketStatuses
+            'ticketStatuses' => $ticketStatuses,
+            'ticketCategories' => $ticketCategories
         ]);
     }
 }
