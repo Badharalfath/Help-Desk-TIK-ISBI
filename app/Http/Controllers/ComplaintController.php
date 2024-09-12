@@ -19,15 +19,15 @@ class ComplaintController extends Controller
     public function submitForm(Request $request)
     {
         // Validasi input
-
-        // Validasi input
         $request->validate([
             'email' => 'required|email',
             'name' => 'required|string|max:255',
             'judul' => 'required|string|max:255',
             'keluhan' => 'required|string',
-            'foto_keluhan' => 'nullable|image|max:5012', // Validasi untuk upload file
+            'kategori' => 'required|string',
+            'foto_keluhan' => 'nullable|image|max:5012',
             'g-recaptcha-response' => 'required|captcha',
+            'lokasi' => $request->kategori === 'Jaringan' ? 'required|string|max:255' : 'nullable|string', // Validasi lokasi jika kategori adalah Jaringan
         ]);
 
         // Handle upload foto keluhan
@@ -43,21 +43,20 @@ class ComplaintController extends Controller
             $fotoName = $newFilename;
         }
 
-
-
         // Simpan data keluhan ke database
         $complaint = Ticket::create([
             'email' => $request->email,
             'name' => $request->name,
             'judul' => $request->judul,
             'keluhan' => $request->keluhan,
-            'foto_keluhan' => $fotoName, // Simpan path foto ke database
+            'kategori' => $request->kategori,
+            'lokasi' => $request->kategori === 'Jaringan' ? $request->lokasi : null, // Simpan lokasi jika kategori Jaringan
+            'foto_keluhan' => $fotoName,
             'tanggal' => now(),
             'permission_status' => 'pending',
         ]);
 
-
-        // Kirim email notifikasi
+        // Kirim email notifikasi ke admin
         $emailAdmin = User::where('role', 'admin')->first();
         $emailAdmins = User::where('role', 'admin')->whereNot('email', $emailAdmin->email)->get()->pluck('email')->toArray();
 
@@ -65,4 +64,7 @@ class ComplaintController extends Controller
 
         return redirect()->route('complaint')->with('success', 'Your complaint has been submitted successfully!');
     }
+
+
+
 }
