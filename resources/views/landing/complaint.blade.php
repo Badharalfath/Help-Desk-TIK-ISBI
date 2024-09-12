@@ -21,7 +21,7 @@
             <div class="w-full md:w-1/2">
                 <div class="bg-white p-6 rounded shadow-md">
 
-                    <h2 class="text-xl font-bold mb-4">Form Keluhan</h2>
+                    <h2 class="text-xl font-bold mb-4">Form Laporan</h2>
 
                     @if ($errors->any())
                         <div class="bg-red-500 text-white p-3 rounded mb-4">
@@ -52,14 +52,14 @@
                                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                         </div>
                         <div class="mb-4">
-                            <label for="judul" class="block text-gray-700 font-bold mb-2">Judul Keluhan</label>
+                            <label for="judul" class="block text-gray-700 font-bold mb-2">Judul Laporan</label>
                             <input type="text" name="judul" id="judul"
                                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                         </div>
 
-                        <!-- Dropdown Kategori Keluhan -->
+                        <!-- Dropdown Kategori Laporan -->
                         <div class="mb-4">
-                            <label for="kategori" class="block text-gray-700 font-bold mb-2">Kategori Keluhan</label>
+                            <label for="kategori" class="block text-gray-700 font-bold mb-2">Kategori Laporan</label>
                             <select name="kategori" id="kategori"
                                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                                 <option value="Aplikasi">Aplikasi</option>
@@ -69,14 +69,14 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="keluhan" class="block text-gray-700 font-bold mb-2">Keluhan</label>
+                            <label for="keluhan" class="block text-gray-700 font-bold mb-2">Laporan Keluhan</label>
                             <textarea name="keluhan" id="keluhan"
                                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
                         </div>
 
-                        <!-- Input for Foto Keluhan -->
+                        <!-- Input for Foto Laporan -->
                         <div class="mb-4">
-                            <label for="foto" class="block text-gray-700 font-bold mb-2">Foto Keluhan</label>
+                            <label for="foto" class="block text-gray-700 font-bold mb-2">Foto Laporan</label>
                             <input type="file" name="foto" id="foto_keluhan"
                                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                         </div>
@@ -86,7 +86,7 @@
                             <label for="lokasi" class="block text-gray-700 font-bold mb-2">Lokasi</label>
                             <input type="text" name="lokasi" id="lokasi"
                                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                placeholder="Masukkan lokasi keluhan">
+                                placeholder="Masukkan lokasi laporan">
                         </div>
 
                         <div class="flex mb-4 justify-center">
