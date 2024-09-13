@@ -19,7 +19,7 @@
         <div class="w-1/2 mr-4 bg-white shadow-md rounded">
             <!-- Judul di luar tabel -->
             <div class="px-4 py-2 bg-gray-100 rounded-t">
-                <h2 class="text-lg font-bold">Binus dan Comtronics</h2>
+                <h2 class="text-lg font-bold">Internet dan Jaringan</h2>
             </div>
             <!-- Tabel FAQ IT -->
             <table class="min-w-full bg-white border border-gray-200">
