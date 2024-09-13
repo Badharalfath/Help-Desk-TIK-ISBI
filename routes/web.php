@@ -45,7 +45,9 @@ Route::middleware(['auth.admin'])->group(function () {
     Route::get('/edittiket', [EditTiketController::class, 'index'])->name('edittiket');
     Route::get('/tickets/{id}/edit', [EditTiketController::class, 'edit'])->name('ticket.edit');
     Route::post('/tickets/{id}', [EditTiketController::class, 'update'])->name('ticket.update');
+    Route::get('/daftarfaq', [FormFAQController::class, 'menu'])->name('daftarfaq');
     Route::get('/formfaq', [FormFAQController::class, 'index'])->name('formfaq.index');
+    Route::get('/faq/{id}', [FormFAQController::class, 'show'])->name('faq.show');
     Route::post('/formfaq', [FormFAQController::class, 'store'])->name('formfaq.store');
     Route::post('/jadwal', [JadwalController::class, 'store'])->name('jadwal.store');
     Route::get('/jadwal/{id}/edit-foto-kedua', [JadwalController::class, 'editFotoKedua'])->name('jadwal.editFotoKedua');
