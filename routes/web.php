@@ -6,7 +6,6 @@ use App\Http\Controllers\FAQController;
 use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\RegInternetController;
-
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TambahTiketController;
 use App\Http\Controllers\TiketController;
@@ -30,7 +29,6 @@ Route::get('/reginternet', [RegInternetController::class, 'index'])->name('regin
 Route::get('/complaint', [ComplaintController::class, 'showForm'])->name('complaint');
 
 // Route Dashboard
-
 Route::middleware(['auth.all'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/tiket', [TiketController::class, 'index'])->name('tiket');
@@ -43,18 +41,28 @@ Route::middleware(['auth.admin'])->group(function () {
     Route::get('/edittiket', [EditTiketController::class, 'index'])->name('edittiket');
     Route::get('/tickets/{id}/edit', [EditTiketController::class, 'edit'])->name('ticket.edit');
     Route::post('/tickets/{id}', [EditTiketController::class, 'update'])->name('ticket.update');
-    Route::get('/daftarfaq', [FormFAQController::class, 'menu'])->name('daftarfaq');
+    
+    // Route FAQ
+    Route::get('/daftarfaq', [FormFAQController::class, 'menu'])->name('faq.index');
     Route::get('/formfaq', [FormFAQController::class, 'index'])->name('formfaq.index');
     Route::get('/faq/{id}', [FormFAQController::class, 'show'])->name('faq.show');
     Route::post('/formfaq', [FormFAQController::class, 'store'])->name('formfaq.store');
-    Route::resource('faq', FormFAQController::class);
+    Route::get('/faq/{id}/edit', [FormFAQController::class, 'edit'])->name('faq.edit');
+    Route::put('/faq/{id}', [FormFAQController::class, 'update'])->name('faq.update');
+    Route::delete('/faq/{id}', [FormFAQController::class, 'destroy'])->name('faq.destroy');
+
+    // Route Jadwal
     Route::post('/jadwal', [JadwalController::class, 'store'])->name('jadwal.store');
     Route::get('/jadwal/{id}/edit-foto-kedua', [JadwalController::class, 'editFotoKedua'])->name('jadwal.editFotoKedua');
     Route::post('/jadwal/{id}/update-foto-kedua', [JadwalController::class, 'updateFotoKedua'])->name('jadwal.updateFotoKedua');
-    Route::post('/jadwal/{id}/update-foto-kedua', [JadwalController::class, 'updateFotoKedua'])->name('jadwal.updateFotoKedua');
     Route::get('/jadwal/create', [JadwalController::class, 'create'])->name('jadwal.create');
     Route::post('/jadwal/store', [JadwalController::class, 'store'])->name('jadwal.store');
+    
+    // Route Tiket
     Route::get('/tambahtiket', [TambahTiketController::class, 'showForm'])->name('tambahtiket');
+    Route::resource('tickets', EditTiketController::class);
+    
+    // Route Users
     Route::resource('users', InputUserController::class);
     Route::get('/user', [InputUserController::class, 'index'])->name('user');
     Route::get('/inuser', [InputUserController::class, 'create'])->name('inuser');
@@ -62,12 +70,8 @@ Route::middleware(['auth.admin'])->group(function () {
     Route::post('/users/store', [InputUserController::class, 'store'])->name('users.store');
 });
 
-Route::resource('tickets', EditTiketController::class);
-Route::resource('dash.jadwal', JadwalController::class);
-
 // Route User login
 Route::get('/admin', [DashboardController::class, 'index']);
-
 Route::post('/complaint', [ComplaintController::class, 'submitForm'])->name('submit.complaint');
 Route::post('/tambahtiket', [TambahTiketController::class, 'submitForm'])->name('submit.tambahtiket');
 Route::post('/login', [LoginController::class, 'login']);

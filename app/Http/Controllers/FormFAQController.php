@@ -75,7 +75,7 @@ class FormFAQController extends Controller
             'deskripsi_penyelesaian_masalah' => $request->deskripsi_penyelesaian_masalah,
         ]);
 
-        return redirect()->route('daftarfaq')->with('success', 'FAQ berhasil diperbarui.');
+        return redirect()->route('faq.index')->with('success', 'FAQ berhasil diperbarui.');
     }
 
     // Hapus FAQ
@@ -84,7 +84,7 @@ class FormFAQController extends Controller
         $faq = Faq::findOrFail($id);
         $faq->delete();
 
-        return redirect()->route('daftarfaq')->with('success', 'FAQ berhasil dihapus.');
+        return redirect()->route('faq.index')->with('success', 'FAQ berhasil dihapus.');
     }
 }
 

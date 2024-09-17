@@ -99,11 +99,13 @@
                             <select id="kategori" name="kategori"
                                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 required>
+                                <option value="" disabled selected>-</option>
                                 <option value="Website">Website</option>
                                 <option value="Aplikasi & Website">Aplikasi & Website</option>
                                 <option value="Internet & Jaringan">Internet & Jaringan</option>
                             </select>
                         </div>
+                        
 
                         <div class="mb-4">
                             <label for="kegiatan" class="block text-gray-700 font-bold mb-2">Kegiatan Maintenance</label>
