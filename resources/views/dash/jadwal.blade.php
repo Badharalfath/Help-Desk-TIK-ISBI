@@ -42,16 +42,17 @@
     </head>
 
     <body class="bg-[url('https://dummyimage.com/1920x1080/000/fff')] text-black font-sans">
-
-        
-
         <main class="container mx-auto py-10">
-            <h1 class="text-black text-3xl sm:text-4xl mt-24 pl-6 font-medium"></h1>
+            <a href="{{ route('listjadwal') }}"
+                class="text-gray-900 hover:text-white border border-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-900 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
+                Kembali
+            </a>
             <div class="flex flex-col md:flex-row justify-center mt-10">
+
                 <!-- Calendar Section -->
                 <div class="w-full md:w-1/2 mr-4">
-                <div id='calendar' class="bg-white p-6 rounded-lg shadow-md"></div>
-            </div>
+                    <div id='calendar' class="bg-white p-6 rounded-lg shadow-md"></div>
+                </div>
 
                 <!-- Form Input Section (Default View) -->
                 <div id="maintenanceDetails" class="w-full md:w-1/2 bg-white p-6 rounded-lg shadow-md">
@@ -73,52 +74,71 @@
 
                     <h2 class="text-xl font-bold mb-4">Tambahkan Jadwal Maintenance</h2>
                     <hr class="w-47 h-1 my-4 bg-gray-100 border-0 rounded dark:bg-gray-700">
-                    <form id="jadwalForm" action="{{ route('jadwal.store') }}" method="POST"
-                        enctype="multipart/form-data">
+                    <form id="jadwalForm" action="{{ route('jadwal.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-4">
                             <label for="tanggal" class="block text-gray-700 font-bold mb-2">Tanggal</label>
                             <input type="date" id="tanggal" name="tanggal"
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"{{ $isInput ? 'required': "disabled" }}>
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"{{ $isInput ? 'required' : 'disabled' }}>
                         </div>
 
                         <div class="mb-4">
                             <label for="jam_mulai" class="block text-gray-700 font-bold mb-2">Jam Mulai</label>
                             <input type="time" id="jam_mulai" name="jam_mulai"
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"{{ $isInput ? 'required': "disabled" }}>
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"{{ $isInput ? 'required' : 'disabled' }}>
                         </div>
 
                         <div class="mb-4">
                             <label for="jam_berakhir" class="block text-gray-700 font-bold mb-2">Jam Berakhir</label>
                             <input type="time" id="jam_berakhir" name="jam_berakhir"
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"{{ $isInput ? 'required': "disabled" }}>
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"{{ $isInput ? 'required' : 'disabled' }}>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="kategori" class="block text-gray-700 font-bold mb-2">Kategori</label>
+                            <select id="kategori" name="kategori"
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                required>
+                                <option value="Website">Website</option>
+                                <option value="Aplikasi & Website">Aplikasi & Website</option>
+                                <option value="Internet & Jaringan">Internet & Jaringan</option>
+                            </select>
                         </div>
 
                         <div class="mb-4">
                             <label for="kegiatan" class="block text-gray-700 font-bold mb-2">Kegiatan Maintenance</label>
                             <input type="text" id="kegiatan" name="kegiatan"
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"{{ $isInput ? 'required': "disabled" }}>
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"{{ $isInput ? 'required' : 'disabled' }}>
                         </div>
+
+                        <div class="mb-4">
+                            <label for="pic" class="block text-gray-700 font-bold mb-2">Person In
+                                Charge</label>
+                            <input type="text" id="pic" name="pic"
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                {{ $isInput ? 'required' : 'disabled' }}>
+                        </div>
+
 
                         <div class="mb-4">
                             <label for="deskripsi" class="block text-gray-700 font-bold mb-2">Deskripsi
                                 Maintenance</label>
                             <textarea id="deskripsi" name="deskripsi"
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"{{ $isInput ? 'required': "disabled" }}></textarea>
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"{{ $isInput ? 'required' : 'disabled' }}></textarea>
                         </div>
 
                         <div class="mb-4">
                             <label for="foto" class="block text-gray-700 font-bold mb-2">Input Foto Sebelum
                                 Maintenance</label>
                             <input type="file" id="foto" name="foto"
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"{{ $isInput ? 'required': "disabled" }}>
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"{{ $isInput ? 'required' : 'disabled' }}>
                         </div>
                         @if ($isInput)
-                        <div class="flex items-center justify-between">
-                            <button type="submit"
-                                class="w-full py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Tambahkan
-                                Jadwal</button>
-                        </div>
+                            <div class="flex items-center justify-between">
+                                <button type="submit"
+                                    class="w-full py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Tambahkan
+                                    Jadwal</button>
+                            </div>
                         @endif
                     </form>
                 </div>
@@ -128,7 +148,7 @@
         <!-- FullCalendar JavaScript -->
         <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js'></script>
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
+            document.addEventListener('DOMContentLoaded', function() {
                 const jadwals = @json($jadwals);
                 const calendarEl = document.getElementById('calendar');
 
@@ -148,17 +168,18 @@
                         }
                     })),
                     @if ($isInput)
-                    dateClick: function (info) {
-                        showMaintenanceDetails(info.dateStr);
-                    },
-                    eventClick: function (info) {
-                        showMaintenanceDetails(info.event.startStr);
-                    },
+                        dateClick: function(info) {
+                            showMaintenanceDetails(info.dateStr);
+                        },
+                        eventClick: function(info) {
+                            showMaintenanceDetails(info.event.startStr);
+                        },
                     @endif
                 });
 
                 calendar.render();
             });
+
             function showMaintenanceDetails(date) {
                 const jadwals = @json($jadwals);
 
@@ -204,24 +225,24 @@
                                 <div class="my-4">
                                     <label for="dokumentasi" class="text-lg font-bold text-gray-800">Sebelum Maintenance</label>
                                     ${jadwal.foto ? `
-                                                                <div class="mt-2 p-2 border rounded-lg shadow-md bg-white">
-                                                                    <img src="{{ asset('storage/fotos/${jadwal.foto}') }}" alt="Foto Sebelum Maintenance" class="w-full h-auto max-w-md mx-auto">
-                                                                </div>` : ''}
+                                                                                                <div class="mt-2 p-2 border rounded-lg shadow-md bg-white">
+                                                                                                    <img src="{{ asset('storage/fotos/${jadwal.foto}') }}" alt="Foto Sebelum Maintenance" class="w-full h-auto max-w-md mx-auto">
+                                                                                                </div>` : ''}
                                 </div>
                                 <input type="hidden" name="jadwal_id" value="${jadwal.id}">
                                 <!-- Input gambar kedua hanya jika belum ada -->
                                 ${jadwal.foto_kedua ? `
-                                <div class="my-4 bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative">
-                                    Foto kedua sudah ada dan tidak dapat diunggah lagi.
-                                </div>` : `
-                                <div class="mb-4">
-                                    <label for="foto_kedua" class="block text-gray-700 font-bold mb-2">Input Foto Setelah Maintenance</label>
-                                    <input type="file" name="foto_kedua" id="foto_kedua" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                </div>
+                                                                <div class="my-4 bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative">
+                                                                    Foto kedua sudah ada dan tidak dapat diunggah lagi.
+                                                                </div>` : `
+                                                                <div class="mb-4">
+                                                                    <label for="foto_kedua" class="block text-gray-700 font-bold mb-2">Input Foto Setelah Maintenance</label>
+                                                                    <input type="file" name="foto_kedua" id="foto_kedua" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                                                </div>
 
-                                <button type="submit" class="w-full py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                                    Submit
-                                </button>`}
+                                                                <button type="submit" class="w-full py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                                                                    Submit
+                                                                </button>`}
                             </form>
                         </li>`;
                     });

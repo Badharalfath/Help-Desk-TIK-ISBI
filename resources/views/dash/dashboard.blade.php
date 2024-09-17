@@ -120,7 +120,9 @@
 
                     <!-- Bar Chart Section kedua -->
                     <div class="bg-white shadow rounded-lg p-6 max-h-[250px]">
-                        <canvas id="barChart2"></canvas>
+                        <div class="p-[20px]">
+                            <canvas id="barChart2"></canvas>
+                        </div>
                     </div>
                 </div>
 

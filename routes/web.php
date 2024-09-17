@@ -1,3 +1,5 @@
+web.php
+
 <?php
 
 use App\Http\Controllers\HomeController;
@@ -15,12 +17,9 @@ use App\Http\Controllers\FormFAQController;
 use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\EditTiketController;
 use App\Http\Controllers\InputUserController;
+use App\Http\Controllers\ListJadwalController;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-// Route Public
 route::get('/', [HomeController::class, 'index'])->name('home');
 route::get('/login', [LoginController::class, 'index'])->name('login');
 route::get('/logout', [LoginController::class, 'logout'])->name('logout');
@@ -38,6 +37,7 @@ Route::middleware(['auth.all'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/tiket', [TiketController::class, 'index'])->name('tiket');
     Route::get('/jadwal', [JadwalController::class, 'index'])->name('jadwal');
+    Route::get('/listjadwal', [ListJadwalController::class, 'index'])->name('listjadwal');
     Route::get('/tickets/pdf', [TiketController::class, 'generatePdf'])->name('tickets.generatePdf');
 });
 
@@ -49,13 +49,10 @@ Route::middleware(['auth.admin'])->group(function () {
     Route::get('/formfaq', [FormFAQController::class, 'index'])->name('formfaq.index');
     Route::get('/faq/{id}', [FormFAQController::class, 'show'])->name('faq.show');
     Route::post('/formfaq', [FormFAQController::class, 'store'])->name('formfaq.store');
-    Route::resource('faq', FormFAQController::class);
     Route::post('/jadwal', [JadwalController::class, 'store'])->name('jadwal.store');
     Route::get('/jadwal/{id}/edit-foto-kedua', [JadwalController::class, 'editFotoKedua'])->name('jadwal.editFotoKedua');
     Route::post('/jadwal/{id}/update-foto-kedua', [JadwalController::class, 'updateFotoKedua'])->name('jadwal.updateFotoKedua');
     Route::post('/jadwal/{id}/update-foto-kedua', [JadwalController::class, 'updateFotoKedua'])->name('jadwal.updateFotoKedua');
-    Route::get('/jadwal/create', [JadwalController::class, 'create'])->name('jadwal.create');
-    Route::post('/jadwal/store', [JadwalController::class, 'store'])->name('jadwal.store');
     Route::get('/tambahtiket', [TambahTiketController::class, 'showForm'])->name('tambahtiket');
     Route::resource('users', InputUserController::class);
     Route::get('/user', [InputUserController::class, 'index'])->name('user');

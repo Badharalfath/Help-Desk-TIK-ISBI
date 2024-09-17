@@ -15,8 +15,10 @@ class Jadwal extends Model
         'tanggal',
         'jam_mulai',
         'jam_berakhir',
+        'kategori',
         'kegiatan',
         'deskripsi',
+        'pic',
         'foto',
         'foto_kedua',
     ];

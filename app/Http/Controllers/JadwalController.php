@@ -10,16 +10,6 @@ use Illuminate\Support\Facades\Storage;
 
 class JadwalController extends Controller
 {
-
-    public function create()
-{
-    $isInput = Auth::user()->role == 'admin';
-    $jadwals = Jadwal::all(); // Atau sesuaikan data yang perlu diambil
-    return view('dash.injadwal', compact('jadwals', 'isInput'));
-}
-
-
-
     public function index(Request $request)
     {
         // Ambil parameter bulan atau gunakan bulan sekarang jika tidak ada
@@ -43,8 +33,10 @@ class JadwalController extends Controller
             'tanggal' => 'required|date',
             'jam_mulai' => 'required|date_format:H:i',
             'jam_berakhir' => 'required|date_format:H:i|after:jam_mulai',
+            'kategori' => 'required|string',
             'kegiatan' => 'required|string|max:255',
             'deskripsi' => 'required|string',
+            'pic' => 'required|string|max:255',
             'foto' => 'nullable|image|max:5012',
             'foto_kedua' => 'nullable|image|max:5012',
         ]);
@@ -70,8 +62,10 @@ class JadwalController extends Controller
             'tanggal' => $request->input('tanggal'),
             'jam_mulai' => $request->input('jam_mulai'),
             'jam_berakhir' => $request->input('jam_berakhir'),
+            'kategori' => $request->input('kategori'),
             'kegiatan' => $request->input('kegiatan'),
             'deskripsi' => $request->input('deskripsi'),
+            'pic' => $request->input('pic'),
             'foto' => $fotoName, // Simpan hanya nama file, bukan path lengkap
         ]);
 
