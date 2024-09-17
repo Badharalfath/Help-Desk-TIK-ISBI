@@ -12,7 +12,7 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 
-<body class="bg-white text-gray-800 font-sans ">
+<body class="bg-white text-gray-800 font-sans">
 
     <div class="mt-24 mb-[50px]">
         <!-- Header Section -->
@@ -37,16 +37,19 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                                 </svg>
                             </button>
+                            <!-- Konten FAQ tanpa simbol -->
                             <div class="text-gray-600 hidden transition-opacity duration-300" id="faq{{ $faq->id }}">
-                                <p>{{ $faq->deskripsi_penyelesaian_masalah }}</p>
+                                @foreach(explode("\n", $faq->deskripsi_penyelesaian_masalah) as $point)
+                                    <div>{{ $point }}</div>
+                                @endforeach
                             </div>
                         </div>
                     @endforeach
                 </div>
 
+                <!-- FAQ Item Aplikasi & Email -->
                 <div class="divide-y divide-gray-200 mt-[80px]">
-                    <!-- FAQ Item Aplikasi & Email-->
-                        <h1 id="aplikasi_email" class="text-center font-bold text-3xl mb-[30px]">Aplikasi & Email</h1>
+                    <h1 id="aplikasi_email" class="text-center font-bold text-3xl mb-[30px]">Aplikasi & Email</h1>
                     @foreach($faqsApps as $faq)
                         <div class="py-4">
                             <button class="flex justify-between w-full text-left text-gray-800 font-medium text-lg py-4"
@@ -57,8 +60,11 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                                 </svg>
                             </button>
+                            <!-- Konten FAQ tanpa simbol -->
                             <div class="text-gray-600 hidden transition-opacity duration-300" id="faq{{ $faq->id }}">
-                                <p>{{ $faq->deskripsi_penyelesaian_masalah }}</p>
+                                @foreach(explode("\n", $faq->deskripsi_penyelesaian_masalah) as $point)
+                                    <div>{{ $point }}</div>
+                                @endforeach
                             </div>
                         </div>
                     @endforeach
@@ -95,13 +101,13 @@
                 }
             }
 
-            // Scroll untuk Internet & Network
+            // Scroll functions for Internet & Jaringan and Aplikasi & Email
             document.getElementById('scroll-internet').addEventListener('click', function (event) {
-                event.preventDefault(); // Mencegah default behavior
+                event.preventDefault(); 
 
                 if (window.location.pathname.includes('/faq')) {
                     var targetElement = document.getElementById('internet_jaringan');
-                    var offset = 150; // Sesuaikan dengan kebutuhan offset
+                    var offset = 150;
 
                     var elementPosition = targetElement.getBoundingClientRect().top;
                     var offsetPosition = elementPosition + window.pageYOffset - offset;
@@ -115,13 +121,12 @@
                 }
             });
 
-            // Scroll untuk Aplikasi & Email
             document.getElementById('scroll-aplikasi-email').addEventListener('click', function (event) {
-                event.preventDefault(); // Mencegah default behavior
+                event.preventDefault(); 
 
                 if (window.location.pathname.includes('/faq')) {
                     var targetElement = document.getElementById('aplikasi_email');
-                    var offset = 150; // Sesuaikan dengan kebutuhan offset
+                    var offset = 150; 
 
                     var elementPosition = targetElement.getBoundingClientRect().top;
                     var offsetPosition = elementPosition + window.pageYOffset - offset;
