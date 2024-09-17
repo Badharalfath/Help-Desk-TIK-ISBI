@@ -3,7 +3,7 @@
 @section('content')
 <div class="container mx-auto py-10">
     <!-- Tabel Default (Semua Tiket) -->
-    <div class="flex justify-between items-center mt-28 pl-6 pr-6">
+    <div class="flex justify-between items-center  pl-6 pr-6">
         <h1 class="title-font text-black sm:text-4xl text-3xl font-medium">Daftar Antrian Tiket</h1>
         <div class="mb-4 flex justify-end">
             @if ($isInput)
@@ -137,9 +137,12 @@
     </div>
 
     <!-- Tabel Jaringan -->
-    <h2 class="text-2xl font-bold mt-8">Tiket Kategori Jaringan</h2>
+    <div class="flex justify-between items-center  pl-6 pr-6">
+        <h2 class="text-2xl font-bold">Tiket Kategori Jaringan</h2>
+    </div>
     <div class="flex justify-center items-center bg-cover bg-center px-6 rounded-xl mb-[50px]"
         style="background-image: url('/path-to-background-image');">
+
         <table class="min-w-full divide-y divide-gray-200 mt-[30px]">
             <thead>
                 <tr>
@@ -231,7 +234,9 @@
     </div>
 
     <!-- Tabel Aplikasi -->
-    <h2 class="text-2xl font-bold mt-8">Tiket Kategori Aplikasi</h2>
+    <div class="flex justify-between items-center  pl-6 pr-6">
+        <h2 class="text-2xl font-bold">Tiket Kategori Jaringan</h2>
+    </div>
     <div class="flex justify-center items-center bg-cover bg-center px-6 rounded-xl mb-[50px]"
         style="background-image: url('/path-to-background-image');">
         <table class="min-w-full divide-y divide-gray-200 mt-[30px]">
@@ -325,7 +330,9 @@
     </div>
 
     <!-- Tabel Email/Website -->
-    <h2 class="text-2xl font-bold mt-8">Tiket Kategori Email/Website</h2>
+    <div class="flex justify-between items-center  pl-6 pr-6">
+        <h2 class="text-2xl font-bold">Tiket Kategori Jaringan</h2>
+    </div>
     <div class="flex justify-center items-center bg-cover bg-center px-6 rounded-xl mb-[50px]"
         style="background-image: url('/path-to-background-image');">
         <table class="min-w-full divide-y divide-gray-200 mt-[30px]">

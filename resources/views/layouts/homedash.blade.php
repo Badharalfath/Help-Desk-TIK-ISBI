@@ -20,7 +20,7 @@
             @include('layouts.partial.navdash')
 
             <!-- Main Content -->
-            <main class="flex-grow p-4 ">
+            <main class="flex-grow p-4 mt-6">
                 @yield('content')
             </main>
 
