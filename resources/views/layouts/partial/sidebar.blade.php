@@ -36,7 +36,7 @@
                 <a href="{{ route('daftarfaq') }}"
                     class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white">
                     <i class="fas fa-question-circle mr-3"></i>
-                    <span>Form FAQ</span>
+                    <span>Daftar FAQ</span>
                 </a>
 
             </li>

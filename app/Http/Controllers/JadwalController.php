@@ -10,6 +10,16 @@ use Illuminate\Support\Facades\Storage;
 
 class JadwalController extends Controller
 {
+
+    public function create()
+{
+    $isInput = Auth::user()->role == 'admin';
+    $jadwals = Jadwal::all(); // Atau sesuaikan data yang perlu diambil
+    return view('dash.injadwal', compact('jadwals', 'isInput'));
+}
+
+
+
     public function index(Request $request)
     {
         // Ambil parameter bulan atau gunakan bulan sekarang jika tidak ada

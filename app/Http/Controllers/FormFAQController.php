@@ -51,5 +51,40 @@ class FormFAQController extends Controller
         // Redirect kembali dengan pesan sukses
         return redirect()->back()->with('success', 'FAQ berhasil ditambahkan.');
     }
+
+    // Tampilkan form edit FAQ
+    public function edit($id)
+    {
+        $faq = Faq::findOrFail($id);
+        return view('dash.editfaq', compact('faq'));
+    }
+
+    // Proses update FAQ
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'bidang_permasalahan' => 'required',
+            'nama_masalah' => 'required',
+            'deskripsi_penyelesaian_masalah' => 'required',
+        ]);
+
+        $faq = Faq::findOrFail($id);
+        $faq->update([
+            'bidang_permasalahan' => $request->bidang_permasalahan,
+            'nama_masalah' => $request->nama_masalah,
+            'deskripsi_penyelesaian_masalah' => $request->deskripsi_penyelesaian_masalah,
+        ]);
+
+        return redirect()->route('daftarfaq')->with('success', 'FAQ berhasil diperbarui.');
+    }
+
+    // Hapus FAQ
+    public function destroy($id)
+    {
+        $faq = Faq::findOrFail($id);
+        $faq->delete();
+
+        return redirect()->route('daftarfaq')->with('success', 'FAQ berhasil dihapus.');
+    }
 }
 

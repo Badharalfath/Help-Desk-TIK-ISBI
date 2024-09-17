@@ -42,6 +42,9 @@
     </head>
 
     <body class="bg-[url('https://dummyimage.com/1920x1080/000/fff')] text-black font-sans">
+
+        
+
         <main class="container mx-auto py-10">
             <h1 class="text-black text-3xl sm:text-4xl mt-24 pl-6 font-medium"></h1>
             <div class="flex flex-col md:flex-row justify-center mt-10">
