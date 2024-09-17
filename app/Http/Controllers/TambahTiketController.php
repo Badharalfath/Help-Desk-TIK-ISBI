@@ -54,6 +54,7 @@ class TambahTiketController extends Controller
             'foto_keluhan' => $fotoName,
             'tanggal' => now(),
             'permission_status' => 'pending',
+            'progress_status' => 'pending',
         ]);
 
         // Kirim email notifikasi ke admin

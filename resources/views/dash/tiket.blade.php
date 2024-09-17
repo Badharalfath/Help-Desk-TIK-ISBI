@@ -106,9 +106,12 @@
                                     <span
                                         class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-yellow-500">On
                                         Going</span>
-                                @else
+                                @elseif($ticket->progress_status == 'unsolved')
                                     <span
                                         class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-gray-500">Unsolved</span>
+                                @else
+                                    <span
+                                        class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-gray-500">Pending</span>
                                 @endif
                             </div>
                         </td>
@@ -116,7 +119,7 @@
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 @if($ticket->permission_status != 'rejected')
                                     <a href="{{ route('tickets.edit', $ticket->id) }}"
-                                        class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                        class="text-indigo-600 hover:text-indigo-900">Open</a>
                                 @endif
                                 <form action="{{ route('tickets.destroy', $ticket->id) }}" method="POST" style="display:inline;"
                                     onsubmit="return confirm('Anda sudah yakin ingin menghapus tiket?');">
@@ -210,7 +213,7 @@
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 @if($ticket->permission_status != 'rejected')
                                     <a href="{{ route('tickets.edit', $ticket->id) }}"
-                                        class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                        class="text-indigo-600 hover:text-indigo-900">Open</a>
                                 @endif
                                 <form action="{{ route('tickets.destroy', $ticket->id) }}" method="POST" style="display:inline;"
                                     onsubmit="return confirm('Anda sudah yakin ingin menghapus tiket?');">
@@ -304,7 +307,7 @@
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 @if($ticket->permission_status != 'rejected')
                                     <a href="{{ route('tickets.edit', $ticket->id) }}"
-                                        class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                        class="text-indigo-600 hover:text-indigo-900">Open</a>
                                 @endif
                                 <form action="{{ route('tickets.destroy', $ticket->id) }}" method="POST" style="display:inline;"
                                     onsubmit="return confirm('Anda sudah yakin ingin menghapus tiket?');">
@@ -398,7 +401,7 @@
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 @if($ticket->permission_status != 'rejected')
                                     <a href="{{ route('tickets.edit', $ticket->id) }}"
-                                        class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                        class="text-indigo-600 hover:text-indigo-900">Open</a>
                                 @endif
                                 <form action="{{ route('tickets.destroy', $ticket->id) }}" method="POST" style="display:inline;"
                                     onsubmit="return confirm('Anda sudah yakin ingin menghapus tiket?');">
