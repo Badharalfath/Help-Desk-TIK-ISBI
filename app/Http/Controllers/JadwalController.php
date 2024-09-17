@@ -37,24 +37,24 @@ class JadwalController extends Controller
             'kegiatan' => 'required|string|max:255',
             'deskripsi' => 'required|string',
             'pic' => 'required|string|max:255',
-            'foto' => 'nullable|image|max:5012',
-            'foto_kedua' => 'nullable|image|max:5012',
+            'foto.*' => 'nullable|image|max:5012', // Mengubah validasi menjadi array
         ]);
 
-        // Proses upload foto jika ada
-        $fotoName = null;
+        $fotoNames = [];
         if ($request->hasFile('foto')) {
-            // Dapatkan nama file asli
-            $originalFilename = $request->file('foto')->getClientOriginalName();
+            foreach ($request->file('foto') as $foto) {
+                // Dapatkan nama file asli
+                $originalFilename = $foto->getClientOriginalName();
 
-            // Buat nama file baru dengan 10 angka acak di depan dan underscore
-            $newFilename = rand(1000000000, 9999999999) . '_' . $originalFilename;
+                // Buat nama file baru dengan angka acak
+                $newFilename = rand(1000000000, 9999999999) . '_' . $originalFilename;
 
-            // Simpan file dengan nama baru
-            $request->file('foto')->storeAs('public/fotos', $newFilename);
+                // Simpan file dengan nama baru
+                $foto->storeAs('public/fotos', $newFilename);
 
-            // Hanya simpan nama file
-            $fotoName = $newFilename;
+                // Tambahkan nama file ke array
+                $fotoNames[] = $newFilename;
+            }
         }
 
         // Simpan data jadwal
@@ -66,39 +66,46 @@ class JadwalController extends Controller
             'kegiatan' => $request->input('kegiatan'),
             'deskripsi' => $request->input('deskripsi'),
             'pic' => $request->input('pic'),
-            'foto' => $fotoName, // Simpan hanya nama file, bukan path lengkap
+            'foto' => implode(',', $fotoNames), // Simpan nama file sebagai string yang dipisahkan koma
         ]);
 
         return redirect()->route('jadwal')->with('success', 'Jadwal berhasil ditambahkan.');
     }
+
     public function updateFotoKedua(Request $request, $id)
     {
         $request->validate([
-            'foto_kedua' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'foto_kedua.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Mengubah validasi menjadi array
         ]);
 
         $jadwal = Jadwal::find($id);
-
         if (!$jadwal) {
             return redirect()->back()->with('error', 'Jadwal tidak ditemukan!');
         }
 
+        $fotoKeduaNames = [];
         if ($request->hasFile('foto_kedua')) {
-            // Dapatkan nama file asli
-            $originalFilename = $request->file('foto_kedua')->getClientOriginalName();
+            foreach ($request->file('foto_kedua') as $fotoKedua) {
+                // Dapatkan nama file asli
+                $originalFilename = $fotoKedua->getClientOriginalName();
 
-            // Buat nama file baru dengan 10 angka acak di depan dan underscore
-            $newFilename = rand(1000000000, 9999999999) . '_' . $originalFilename;
+                // Buat nama file baru
+                $newFilename = rand(1000000000, 9999999999) . '_' . $originalFilename;
 
-            // Simpan file dengan nama baru
-            $request->file('foto_kedua')->storeAs('public/fotos', $newFilename);
+                // Simpan file dengan nama baru
+                $fotoKedua->storeAs('public/fotos', $newFilename);
 
-            // Simpan hanya nama file di database
-            $jadwal->update(['foto_kedua' => $newFilename]);
+                // Tambahkan nama file ke array
+                $fotoKeduaNames[] = $newFilename;
+            }
+
+            // Simpan nama file sebagai string yang dipisahkan koma
+            $jadwal->update(['foto_kedua' => implode(',', $fotoKeduaNames)]);
         }
 
         return redirect()->route('jadwal')->with('success', 'Foto kedua berhasil diunggah!');
     }
+
 
     public function editFotoKedua($id)
     {
