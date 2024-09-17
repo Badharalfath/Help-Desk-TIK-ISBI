@@ -19,7 +19,7 @@
         <div class="w-1/2 mr-4 bg-white shadow-md rounded">
             <!-- Judul di luar tabel -->
             <div class="px-4 py-2 bg-gray-100 rounded-t">
-                <h2 class="text-lg font-bold">FAQ - IT</h2>
+                <h2 class="text-lg font-bold">Internet dan Jaringan</h2>
             </div>
             <!-- Tabel FAQ IT -->
             <table class="min-w-full bg-white border border-gray-200">
@@ -50,7 +50,7 @@
         <div class="w-1/2 bg-white shadow-md rounded">
             <!-- Judul di luar tabel -->
             <div class="px-4 py-2 bg-gray-100 rounded-t">
-                <h2 class="text-lg font-bold">FAQ - Apps</h2>
+                <h2 class="text-lg font-bold">Aplikasi dan Email</h2>
             </div>
             <!-- Tabel FAQ Apps -->
             <table class="min-w-full bg-white border border-gray-200">

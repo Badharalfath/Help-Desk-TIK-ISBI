@@ -15,12 +15,23 @@ class TiketController extends Controller
         // Ambil semua tiket dari database
         $tickets = Ticket::all();
 
+        // Ambil tiket berdasarkan kategori
+        $ticketsJaringan = Ticket::where('kategori', 'Jaringan')->get();
+        $ticketsAplikasi = Ticket::where('kategori', 'Aplikasi')->get();
+        $ticketsEmailWebsite = Ticket::where('kategori', 'Email/Website')->get();
+
         $isInput = Auth::user()->role == 'admin';
+
         // Kirim data tiket ke view
-        return view('dash.tiket', ['tickets' => $tickets, 'isInput' => $isInput]);
+        return view('dash.tiket', [
+            'tickets' => $tickets, 
+            'ticketsJaringan' => $ticketsJaringan,
+            'ticketsAplikasi' => $ticketsAplikasi,
+            'ticketsEmailWebsite' => $ticketsEmailWebsite,
+            'isInput' => $isInput
+        ]);
     }
 
-    
     public function generatePdf()
     {
         // Ambil semua data tiket

@@ -26,5 +26,8 @@ class Ticket extends Model
     ];
 
     // Jika Anda ingin menetapkan atribut tanggal secara otomatis
-    protected $dates = ['tanggal'];
+    protected $casts = [
+        'tanggal' => 'date',
+    ];
+    
 }
