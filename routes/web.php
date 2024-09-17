@@ -18,8 +18,11 @@ use App\Http\Controllers\ListJadwalController;
 use Illuminate\Support\Facades\Route;
 
 route::get('/', [HomeController::class, 'index'])->name('home');
-route::get('/login', [LoginController::class, 'index'])->name('login');
+
+// Mengarahkan user yang sudah login ke dashboard
+route::get('/login', [LoginController::class, 'index'])->middleware('guest')->name('login');
 route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+
 Route::get('/faq', [FAQController::class, 'index'])->name('faq');
 Route::get('/maintenance', [MaintenanceController::class, 'index'])->name('maintenance');
 Route::get('/maintenance/generate-report', [MaintenanceController::class, 'generateReport'])->name('maintenance.generateReport');
@@ -41,7 +44,7 @@ Route::middleware(['auth.admin'])->group(function () {
     Route::get('/edittiket', [EditTiketController::class, 'index'])->name('edittiket');
     Route::get('/tickets/{id}/edit', [EditTiketController::class, 'edit'])->name('ticket.edit');
     Route::post('/tickets/{id}', [EditTiketController::class, 'update'])->name('ticket.update');
-    
+
     // Route FAQ
     Route::get('/daftarfaq', [FormFAQController::class, 'menu'])->name('faq.index');
     Route::get('/formfaq', [FormFAQController::class, 'index'])->name('formfaq.index');
@@ -57,11 +60,12 @@ Route::middleware(['auth.admin'])->group(function () {
     Route::post('/jadwal/{id}/update-foto-kedua', [JadwalController::class, 'updateFotoKedua'])->name('jadwal.updateFotoKedua');
     Route::get('/jadwal/create', [JadwalController::class, 'create'])->name('jadwal.create');
     Route::post('/jadwal/store', [JadwalController::class, 'store'])->name('jadwal.store');
-    
+    Route::post('/update-status/{id}', [ListJadwalController::class, 'updateStatus'])->name('updateStatus');
+
     // Route Tiket
     Route::get('/tambahtiket', [TambahTiketController::class, 'showForm'])->name('tambahtiket');
     Route::resource('tickets', EditTiketController::class);
-    
+
     // Route Users
     Route::resource('users', InputUserController::class);
     Route::get('/user', [InputUserController::class, 'index'])->name('user');

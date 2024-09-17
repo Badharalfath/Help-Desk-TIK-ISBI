@@ -1,4 +1,4 @@
-<!-- 
+<!--
 <header class="bg-white fixed top-0 left-0 w-full z-50 shadow-lg backdrop-blur-md">
     <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
         <a href="{{ route('home') }}" class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
@@ -114,9 +114,12 @@
                     <a href="{{ route('maintenance') }}" id="scroll-jadwal"
                         class="block px-4 py-2 text-gray-800 hover:bg-gray-100 text-sm cursor-pointer">Jadwal
                         Maintenance</a>
+
+
                 </div>
             </div>
-
+            <a href="{{ route('login') }}"
+                class="py-2.5 px-5 font-medium uppercase text-gray-800 hover:text-blue-500 border-b-2 border-transparent hover:border-blue-500">Login</a>
         </nav>
     </div>
 </header>

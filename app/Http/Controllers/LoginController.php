@@ -10,8 +10,13 @@ class LoginController extends Controller
 {
     function index()
     {
+        // Jika user sudah login, arahkan ke dashboard
+        if (Auth::check()) {
+            return redirect()->route('dashboard');
+        }
         return view('landing.login');
     }
+
     function login(Request $request)
     {
         $request->validate([
@@ -28,15 +33,15 @@ class LoginController extends Controller
         ];
 
         if (Auth::attempt($infologin, $request->remember)) {
-            return redirect('admin');
+            return redirect()->route('dashboard'); // Redirect ke dashboard setelah login
         } else {
-            return redirect('login')->withErrors('Username dan Password salah')->withInput();
+            return redirect()->route('login')->withErrors('Username dan Password salah')->withInput();
         }
     }
 
     function logout()
     {
         Auth::logout();
-        return redirect('')->withErrors('Berhasil Logout!')->withInput();
+        return redirect('/')->withErrors('Berhasil Logout!')->withInput();
     }
 }

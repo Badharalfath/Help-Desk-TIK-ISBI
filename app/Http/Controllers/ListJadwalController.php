@@ -46,4 +46,21 @@ class ListJadwalController extends Controller
         // Menampilkan PDF di browser
         return $pdf->stream('maintenance-report-' . $jadwal->tanggal . '.pdf'); // 'stream()' menampilkan PDF
     }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:Pending,Ongoing,Completed',
+        ]);
+
+        $jadwal = Jadwal::find($id);
+        if (!$jadwal) {
+            return redirect()->back()->with('error', 'Jadwal tidak ditemukan.');
+        }
+
+        $jadwal->status = $request->input('status');
+        $jadwal->save();
+
+        return redirect()->route('listjadwal')->with('success', 'Status berhasil diubah.');
+    }
 }

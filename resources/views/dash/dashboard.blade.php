@@ -125,144 +125,210 @@
                         </div>
                     </div>
                 </div>
+                <h2 class="text-xl font-bold mb-2 mt-4">Status Maintenance</h2>
 
                 <!-- Grid ketiga -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
-                    <!-- Div Card besar 2x2 -->
-                    <div class="md:col-span-2 bg-white shadow rounded-lg p-6 h-full max-h-[500px]">
-                        <h2 class="text-xl font-bold mb-4">Card Besar 2x2</h2>
-                        <p>Konten untuk card yang besar...</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 ">
+                    <!-- Div Card besar 2x2 (Table) -->
+                    <div class="md:col-span-2 bg-white shadow rounded-lg p-6 h-full max-h-[525px] overflow-auto">
+                        
+                        <table class="min-w-full text-left text-gray-700">
+                            <thead>
+                                <tr>
+                                    <th class="border-b px-4 py-2">Tanggal</th>
+                                    <th class="border-b px-4 py-2">Kegiatan</th>
+                                    <th class="border-b px-4 py-2">Kategori</th>
+                                    <th class="border-b px-4 py-2">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($schedules as $schedule)
+                                    <tr>
+                                        <td class="border-b px-4 py-2">{{ $schedule->tanggal }}</td>
+                                        <td class="border-b px-4 py-2">{{ $schedule->kegiatan }}</td>
+                                        <td class="border-b px-4 py-2">{{ $schedule->kategori }}</td>
+                                        <td class="border-b px-4 py-2">{{ $schedule->status }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
 
-                    <!-- Div Card vertikal -->
-                    <div class="grid grid-rows-2 gap-6">
-                        <!-- Card 1 -->
-                        <div class="bg-white shadow rounded-lg p-6 max-h-[250px]">
-                            <h2 class="text-xl font-bold mb-4">Card Besar 2x2</h2>
-                            <p>Konten untuk card yang besar...</p>
+                    <!-- Container for Pie and Bar Charts -->
+                    <div class="md:col-span-1 grid grid-rows-2 gap-6">
+                        <!-- Pie Chart for Jadwal by Status -->
+                        <div class="bg-white shadow rounded-lg max-h-[250px] flex items-center justify-center">
+                            <canvas id="schedulePieChart"></canvas>
                         </div>
-                        <!-- Card 2 -->
+
+                        <!-- Bar Chart for Jadwal by Status -->
                         <div class="bg-white shadow rounded-lg p-6 max-h-[250px]">
-                            <h2 class="text-xl font-bold mb-4">Card Besar 2x2</h2>
-                            <p>Konten untuk card yang besar...</p>
+                            <canvas id="scheduleBarChart"></canvas>
                         </div>
                     </div>
                 </div>
 
+
+                <script>
+                    // Data for charts from Blade variables
+                    const ticketStatuses = @json($ticketStatuses);
+
+                    // Pie Chart Data
+                    const ctxPie = document.getElementById('pieChart').getContext('2d');
+                    const pieChart = new Chart(ctxPie, {
+                        type: 'pie',
+                        data: {
+                            labels: ['Pending', 'Unsolved', 'Ongoing', 'Solved'],
+                            datasets: [{
+                                data: [ticketStatuses.pending, ticketStatuses.unsolved, ticketStatuses.ongoing,
+                                    ticketStatuses.solved
+                                ],
+                                backgroundColor: ['#9CA3AF', '#6B7280', '#FBBF24',
+                                    '#10B981'
+                                ], // Light Gray, Gray, Yellow, Green
+                            }]
+                        },
+                        options: {
+                            plugins: {
+                                legend: {
+                                    position: 'right', // Pindahkan legend ke sebelah kiri
+                                    labels: {
+                                        boxWidth: 15, // Lebar kotak warna pada legend
+                                        padding: 30, // Jarak antara legend dengan chart
+                                    }
+                                }
+                            },
+                            layout: {
+                                padding: {
+                                    left: 0, // Tambahkan padding agar chart tidak terlalu menempel
+                                }
+                            }
+                        }
+                    });
+
+                    // Bar Chart Data
+                    const ctxBar = document.getElementById('barChart').getContext('2d');
+                    const barChart = new Chart(ctxBar, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Pending', 'Unsolved', 'Ongoing', 'Solved'],
+                            datasets: [{
+                                label: 'Ticket Status Count',
+                                data: [ticketStatuses.pending, ticketStatuses.unsolved, ticketStatuses.ongoing,
+                                    ticketStatuses.solved
+                                ],
+                                backgroundColor: ['#9CA3AF', '#6B7280', '#FBBF24',
+                                    '#10B981'
+                                ], // Light Gray, Gray, Yellow, Green
+                            }]
+                        },
+                        options: {
+                            indexAxis: 'y', // Horizontal bar chart
+                        }
+                    });
+
+                    // Data for charts from Blade variables
+                    const ticketCategories = @json($ticketCategories);
+
+                    // Pie Chart for Categories
+                    const ctxPie2 = document.getElementById('pieChart2').getContext('2d');
+                    const pieChart2 = new Chart(ctxPie2, {
+                        type: 'pie',
+                        data: {
+                            labels: ['Aplikasi', 'Email/Website', 'Jaringan/Internet'],
+                            datasets: [{
+                                data: [ticketCategories.aplikasi, ticketCategories.email_website, ticketCategories
+                                    .jaringan
+                                ],
+                                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'], // Red, Blue, Yellow
+                            }]
+                        },
+                        options: {
+                            plugins: {
+                                legend: {
+                                    position: 'right',
+                                    labels: {
+                                        boxWidth: 15,
+                                        padding: 30,
+                                    }
+                                }
+                            },
+                            layout: {
+                                padding: {
+                                    left: 0,
+                                }
+                            }
+                        }
+                    });
+
+                    // Bar Chart for Categories
+                    const ctxBar2 = document.getElementById('barChart2').getContext('2d');
+                    const barChart2 = new Chart(ctxBar2, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Aplikasi', 'Email/Website', 'Jaringan/Internet'],
+                            datasets: [{
+                                label: 'Ticket Count by Category',
+                                data: [ticketCategories.aplikasi, ticketCategories.email_website, ticketCategories
+                                    .jaringan
+                                ],
+                                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'], // Red, Blue, Yellow
+                            }]
+                        },
+                        options: {
+                            indexAxis: 'y', // Horizontal bar chart
+                        }
+                    });
+
+                    const scheduleData = @json($scheduleData); // Pass the schedule data from the controller
+
+                    // Pie Chart for Schedule Statuses
+                    const ctxSchedulePie = document.getElementById('schedulePieChart').getContext('2d');
+                    const schedulePieChart = new Chart(ctxSchedulePie, {
+                        type: 'pie',
+                        data: {
+                            labels: ['Pending', 'Ongoing', 'Completed'],
+                            datasets: [{
+                                data: [scheduleData.pending, scheduleData.ongoing, scheduleData.completed],
+                                backgroundColor: ['#FBBF24', '#3B82F6', '#10B981'], // Yellow, Blue, Green
+                            }]
+                        },
+                        options: {
+                            plugins: {
+                                legend: {
+                                    position: 'right',
+                                    labels: {
+                                        boxWidth: 15,
+                                        padding: 30,
+                                    }
+                                }
+                            },
+                            layout: {
+                                padding: {
+                                    left: 0,
+                                }
+                            }
+                        }
+                    });
+
+                    // Bar Chart for Schedule Statuses
+                    const ctxScheduleBar = document.getElementById('scheduleBarChart').getContext('2d');
+                    const scheduleBarChart = new Chart(ctxScheduleBar, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Pending', 'Ongoing', 'Completed'],
+                            datasets: [{
+                                label: 'Jadwal Count by Status',
+                                data: [scheduleData.pending, scheduleData.ongoing, scheduleData.completed],
+                                backgroundColor: ['#FBBF24', '#3B82F6', '#10B981'], // Yellow, Blue, Green
+                            }]
+                        },
+                        options: {
+                            indexAxis: 'y', // Horizontal bar chart
+                        }
+                    });
+                </script>
             </div>
-
-            <script>
-                // Data for charts from Blade variables
-                const ticketStatuses = @json($ticketStatuses);
-
-                // Pie Chart Data
-                const ctxPie = document.getElementById('pieChart').getContext('2d');
-                const pieChart = new Chart(ctxPie, {
-                    type: 'pie',
-                    data: {
-                        labels: ['Pending', 'Unsolved', 'Ongoing', 'Solved'],
-                        datasets: [{
-                            data: [ticketStatuses.pending, ticketStatuses.unsolved, ticketStatuses.ongoing,
-                                ticketStatuses.solved
-                            ],
-                            backgroundColor: ['#9CA3AF', '#6B7280', '#FBBF24',
-                                '#10B981'
-                            ], // Light Gray, Gray, Yellow, Green
-                        }]
-                    },
-                    options: {
-                        plugins: {
-                            legend: {
-                                position: 'right', // Pindahkan legend ke sebelah kiri
-                                labels: {
-                                    boxWidth: 15, // Lebar kotak warna pada legend
-                                    padding: 30, // Jarak antara legend dengan chart
-                                }
-                            }
-                        },
-                        layout: {
-                            padding: {
-                                left: 0, // Tambahkan padding agar chart tidak terlalu menempel
-                            }
-                        }
-                    }
-                });
-
-                // Bar Chart Data
-                const ctxBar = document.getElementById('barChart').getContext('2d');
-                const barChart = new Chart(ctxBar, {
-                    type: 'bar',
-                    data: {
-                        labels: ['Pending', 'Unsolved', 'Ongoing', 'Solved'],
-                        datasets: [{
-                            label: 'Ticket Status Count',
-                            data: [ticketStatuses.pending, ticketStatuses.unsolved, ticketStatuses.ongoing,
-                                ticketStatuses.solved
-                            ],
-                            backgroundColor: ['#9CA3AF', '#6B7280', '#FBBF24',
-                                '#10B981'
-                            ], // Light Gray, Gray, Yellow, Green
-                        }]
-                    },
-                    options: {
-                        indexAxis: 'y', // Horizontal bar chart
-                    }
-                });
-
-                // Data for charts from Blade variables
-                const ticketCategories = @json($ticketCategories);
-
-                // Pie Chart for Categories
-                const ctxPie2 = document.getElementById('pieChart2').getContext('2d');
-                const pieChart2 = new Chart(ctxPie2, {
-                    type: 'pie',
-                    data: {
-                        labels: ['Aplikasi', 'Email/Website', 'Jaringan/Internet'],
-                        datasets: [{
-                            data: [ticketCategories.aplikasi, ticketCategories.email_website, ticketCategories
-                                .jaringan
-                            ],
-                            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'], // Red, Blue, Yellow
-                        }]
-                    },
-                    options: {
-                        plugins: {
-                            legend: {
-                                position: 'right',
-                                labels: {
-                                    boxWidth: 15,
-                                    padding: 30,
-                                }
-                            }
-                        },
-                        layout: {
-                            padding: {
-                                left: 0,
-                            }
-                        }
-                    }
-                });
-
-                // Bar Chart for Categories
-                const ctxBar2 = document.getElementById('barChart2').getContext('2d');
-                const barChart2 = new Chart(ctxBar2, {
-                    type: 'bar',
-                    data: {
-                        labels: ['Aplikasi', 'Email/Website', 'Jaringan/Internet'],
-                        datasets: [{
-                            label: 'Ticket Count by Category',
-                            data: [ticketCategories.aplikasi, ticketCategories.email_website, ticketCategories
-                                .jaringan
-                            ],
-                            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'], // Red, Blue, Yellow
-                        }]
-                    },
-                    options: {
-                        indexAxis: 'y', // Horizontal bar chart
-                    }
-                });
-            </script>
-        </div>
     </body>
 
     </html>

@@ -28,10 +28,26 @@ class DashboardController extends Controller
             ')
             ->first();
 
+        // Query to get all schedule data (jadwal) for the table
+        $schedules = DB::table('jadwal')
+            ->select('tanggal', 'kegiatan', 'kategori', 'status')
+            ->get();
+
+        // Query to get counts of schedules by status (Pending, Ongoing, Completed)
+        $scheduleData = DB::table('jadwal')
+            ->selectRaw('
+                SUM(CASE WHEN status = "Pending" THEN 1 ELSE 0 END) as pending,
+                SUM(CASE WHEN status = "Ongoing" THEN 1 ELSE 0 END) as ongoing,
+                SUM(CASE WHEN status = "Completed" THEN 1 ELSE 0 END) as completed
+            ')
+            ->first();
+
         // Pass data to the view
         return view('dash.dashboard', [
             'ticketStatuses' => $ticketStatuses,
-            'ticketCategories' => $ticketCategories
+            'ticketCategories' => $ticketCategories,
+            'schedules' => $schedules,
+            'scheduleData' => $scheduleData
         ]);
     }
 }
