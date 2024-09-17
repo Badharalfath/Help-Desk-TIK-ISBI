@@ -109,6 +109,9 @@
                                 @elseif($ticket->progress_status == 'unsolved')
                                     <span
                                         class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-gray-500">Unsolved</span>
+                                @elseif($ticket->progress_status == 'spam')
+                                    <span
+                                        class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-red-500">Spam</span>
                                 @else
                                     <span
                                         class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-gray-500">Pending</span>

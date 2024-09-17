@@ -41,6 +41,14 @@ class EditTiketController extends Controller
         $ticket->progress_status = $request->input('progress_status');
         $ticket->reject_reason = $request->input('reject_reason');
 
+        // Jika permission_status adalah rejected, progress_status di-set otomatis ke 'spam'
+        if ($ticket->permission_status === 'rejected') {
+            $ticket->progress_status = 'spam';
+        } else {
+            // Jika permission_status bukan rejected, progress_status mengikuti input user
+            $ticket->progress_status = $request->input('progress_status');
+        }
+
         $ticket->save();
 
         // Redirect dengan pesan sukses
