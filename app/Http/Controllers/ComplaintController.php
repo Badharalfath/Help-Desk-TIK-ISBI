@@ -25,23 +25,28 @@ class ComplaintController extends Controller
             'judul' => 'required|string|max:255',
             'keluhan' => 'required|string',
             'kategori' => 'required|string',
-            'foto_keluhan' => 'nullable|image|max:5012',
+            'foto.*' => 'nullable|image|max:5012', // Validasi setiap file foto
             'g-recaptcha-response' => 'required|captcha',
-            'lokasi' => $request->kategori === 'Jaringan' ? 'required|string|max:255' : 'nullable|string', // Validasi lokasi jika kategori adalah Jaringan
+            'lokasi' => $request->kategori === 'Jaringan' ? 'required|string|max:255' : 'nullable|string',
         ]);
 
-        // Handle upload foto keluhan
-        $fotoName = null;
+        // Handle upload multiple foto keluhan
+        $fotoNames = [];
         if ($request->hasFile('foto')) {
-            $originalFilename = $request->file('foto')->getClientOriginalName();
-            $newFilename = rand(1000000000, 9999999999) . '_' . $originalFilename;
+            foreach ($request->file('foto') as $foto) {
+                $originalFilename = $foto->getClientOriginalName();
+                $newFilename = rand(1000000000, 9999999999) . '_' . $originalFilename;
 
-            // Simpan file dengan nama baru di folder 'storage/app/public/fotos'
-            $request->file('foto')->storeAs('public/fotos', $newFilename);
+                // Simpan file dengan nama baru di folder 'storage/app/public/fotos'
+                $foto->storeAs('public/fotos', $newFilename);
 
-            // Hanya simpan nama file
-            $fotoName = $newFilename;
+                // Tambahkan nama file ke array
+                $fotoNames[] = $newFilename;
+            }
         }
+
+        // Gabungkan nama-nama file yang di-upload menjadi satu string dipisahkan dengan koma
+        $fotoNamesString = implode(',', $fotoNames);
 
         // Simpan data keluhan ke database
         $complaint = Ticket::create([
@@ -50,8 +55,8 @@ class ComplaintController extends Controller
             'judul' => $request->judul,
             'keluhan' => $request->keluhan,
             'kategori' => $request->kategori,
-            'lokasi' => $request->kategori === 'Jaringan' ? $request->lokasi : null, // Simpan lokasi jika kategori Jaringan
-            'foto_keluhan' => $fotoName,
+            'lokasi' => $request->kategori === 'Jaringan' ? $request->lokasi : null,
+            'foto_keluhan' => $fotoNamesString,  // Simpan string nama-nama file foto
             'tanggal' => now(),
             'permission_status' => 'pending',
             'progress_status' => 'pending',
@@ -65,6 +70,7 @@ class ComplaintController extends Controller
 
         return redirect()->route('complaint')->with('success', 'Your complaint has been submitted successfully!');
     }
+
 
 
 

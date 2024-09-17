@@ -77,7 +77,7 @@
                         <!-- Input for Foto Laporan -->
                         <div class="mb-4">
                             <label for="foto" class="block text-gray-700 font-bold mb-2">Foto Laporan</label>
-                            <input type="file" name="foto" id="foto_keluhan"
+                            <input type="file" name="foto[]" id="foto" multiple
                                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                         </div>
 
