@@ -171,10 +171,13 @@
                         const fotos = jadwal.foto_kedua.split(','); // Pisahkan string foto yang dipisahkan koma
                         fotoSesudahHTML = fotos.map(foto_kedua => `
                         <div class="mt-2 p-2 border rounded-lg shadow-md bg-white">
-                            <img src="${storageUrl}/${foto_kedua.trim()}" alt="Foto Sebelum Maintenance" class="w-full h-auto max-w-md mx-auto">
+                            <img src="${storageUrl}/${foto_kedua.trim()}" alt="Foto Sesudah Maintenance" class="w-full h-auto max-w-md mx-auto">
                         </div>
                     `).join(''); // Gabungkan semua foto menjadi satu HTML string
+                    } else {
+                        fotoSesudahHTML = '<p class="text-gray-700">Data belum tersedia</p>';
                     }
+
 
                     detailsHTML += `
                             <li class="mb-4 border-b pb-2">
@@ -209,9 +212,9 @@
                                     ${fotoHTML} <!-- Menampilkan semua foto -->
                                 </div>
 
-                                <!-- Dokumentasi Sesudah -->
+                                <!-- Dokumentasi Sesudah Maintenance-->
                                 <div class="my-4">
-                                    <label for="dokumentasi" class="text-lg font-bold text-gray-800">Sebelum Maintenance</label>
+                                    <label for="dokumentasi" class="text-lg font-bold text-gray-800">Sesudah Maintenance</label>
                                     ${fotoSesudahHTML} <!-- Menampilkan semua foto -->
                                 </div>
 
