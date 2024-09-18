@@ -2,12 +2,12 @@
 
 @section('content')
     <!-- Main Content -->
-    <div class="container mx-auto p-10">
+    <div class="container mx-auto p-8">
         <h2 class="text-2xl font-bold mb-5">Daftar Pengguna</h2>
 
         <!-- Button tambah user -->
         <div class="mb-4">
-            <a href="{{ route('users.create') }}" class="bg-blue-500 text-white py-2 px-4 rounded">Tambah Pengguna</a>
+            <a href="{{ route('users.create') }}" class="bg-blue-500 text-white py-2 px-4 rounded ">Tambah Pengguna</a>
         </div>
 
         <!-- Tabel daftar users -->

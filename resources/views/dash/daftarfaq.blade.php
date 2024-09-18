@@ -1,7 +1,7 @@
 @extends('layouts.homedash')
 
 @section('content')
-    <div class="overflow-x-auto mt-3 p-6">
+    <div class="overflow-x-auto mt-3 py-6 px-16">
         <div class="flex justify-between mb-4">
             <h1 class="text-xl font-bold">Daftar FAQ</h1>
             <a href="{{ route('formfaq.index') }}" class="bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded">
@@ -24,89 +24,103 @@
             </div>
         @endif
 
-        <div class="flex">
-            <!-- Tabel untuk bidang_permasalahan = it -->
-            <div class="w-1/2 mr-4 bg-white shadow-md rounded">
+        <div class="flex space-x-4">
+            <!-- Wrapper untuk tabel bidang_permasalahan = it -->
+            <div class="w-1/2 bg-white shadow-md rounded flex-grow-0">
                 <!-- Judul di luar tabel -->
                 <div class="px-4 py-2 bg-gray-100 rounded-t">
                     <h2 class="text-lg font-bold">Internet dan Jaringan</h2>
                 </div>
-                <!-- Tabel FAQ IT -->
-                <table class="min-w-full bg-white border border-gray-200">
-                    <thead>
-                        <tr>
-                            <th class="py-2 px-4 border-b bg-gray-100 text-left text-sm font-bold text-gray-700">ID</th>
-                            <th class="py-2 px-4 border-b bg-gray-100 text-left text-sm font-bold text-gray-700">Nama
-                                Masalah</th>
-                            <th class="py-2 px-4 border-b bg-gray-100 text-left text-sm font-bold text-gray-700"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($itFaqs as $index => $faq)
-                            <tr class="hover:bg-gray-100">
-                                <td class="py-2 px-4 border-b text-sm text-gray-600">{{ $faq->id }}</td>
-                                <td class="py-2 px-4 border-b text-sm text-gray-600">{{ $faq->nama_masalah }}</td>
-                                <td class="py-2 px-4 border-b text-sm text-gray-600">
-                                    <button class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded"
-                                        onclick="showDetails({{ $faq->id }})">Detail</button>
-                                    <a href="{{ route('faq.edit', $faq->id) }}"
-                                        class="bg-yellow-500 hover:bg-yellow-700 text-white py-1 px-3 rounded">
-                                        Edit
-                                    </a>
-                                    <form action="{{ route('faq.destroy', $faq->id) }}" method="POST" class="inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit"
-                                            class="bg-red-500 hover:bg-red-700 text-white py-1 px-3 rounded"
-                                            onclick="return confirm('Apakah Anda yakin ingin menghapus FAQ ini?')">Delete</button>
-                                    </form>
-                                </td>
+                <!-- Wrapper untuk tabel dengan tinggi tetap dan scroll -->
+                <div class="max-h-[400px] overflow-auto">
+                    <!-- Tabel FAQ IT -->
+                    <table class="min-w-full bg-white border border-gray-200">
+                        <thead>
+                            <tr>
+                                <th class="py-2 px-4 border-b bg-gray-100 text-left text-sm font-bold text-gray-700">ID</th>
+                                <th class="py-2 px-4 border-b bg-gray-100 text-left text-sm font-bold text-gray-700">Nama
+                                    Masalah</th>
+                                <th class="py-2 px-4 border-b bg-gray-100 text-left text-sm font-bold text-gray-700"></th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach ($itFaqs as $index => $faq)
+                                <tr class="hover:bg-gray-100">
+                                    <td class="py-2 px-4 border-b text-sm text-gray-600">{{ $faq->id }}</td>
+                                    <td class="py-2 px-4 border-b text-sm text-gray-600">{{ $faq->nama_masalah }}</td>
+                                    <td class="py-2 px-4 border-b text-sm text-gray-600">
+                                        <!-- Detail Button -->
+                                        <button
+                                            class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded transition duration-300 ease-in-out mx-1">
+                                            Detail
+                                        </button>
+
+                                        <!-- Edit Button -->
+                                        <a href="{{ route('faq.edit', $faq->id) }}"
+                                            class="bg-yellow-500 hover:bg-yellow-600 text-white py-1 px-3 rounded transition duration-300 ease-in-out mx-1">
+                                            Edit
+                                        </a>
+
+                                        <!-- Delete Button -->
+                                        <form action="{{ route('faq.destroy', $faq->id) }}" method="POST"
+                                            class="inline mx-1">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                class="bg-red-400 hover:bg-red-800 text-white py-1 px-3 rounded transition duration-300 ease-in-out"
+                                                onclick="return confirm('Apakah Anda yakin ingin menghapus FAQ ini?')">
+                                                Delete
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
-            <!-- Tabel untuk bidang_permasalahan = apps -->
-            <div class="w-1/2 bg-white shadow-md rounded">
+            <!-- Wrapper untuk tabel bidang_permasalahan = apps -->
+            <div class="w-1/2 bg-white shadow-md rounded flex-grow-0">
                 <!-- Judul di luar tabel -->
                 <div class="px-4 py-2 bg-gray-100 rounded-t">
                     <h2 class="text-lg font-bold">Aplikasi dan Email</h2>
                 </div>
-                <!-- Tabel FAQ Apps -->
-                <table class="min-w-full bg-white border border-gray-200">
-                    <thead>
-                        <tr>
-                            <th class="py-2 px-4 border-b bg-gray-100 text-left text-sm font-bold text-gray-700">ID</th>
-                            <th class="py-2 px-4 border-b bg-gray-100 text-left text-sm font-bold text-gray-700">Nama
-                                Masalah</th>
-                            <th class="py-2 px-4 border-b bg-gray-100 text-left text-sm font-bold text-gray-700"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($appsFaqs as $index => $faq)
-                            <tr class="hover:bg-gray-100">
-                                <td class="py-2 px-4 border-b text-sm text-gray-600">{{ $faq->id }}</td>
-                                <td class="py-2 px-4 border-b text-sm text-gray-600">{{ $faq->nama_masalah }}</td>
-                                <td class="py-2 px-4 border-b text-sm text-gray-600">
-                                    <button class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded"
-                                        onclick="showDetails({{ $faq->id }})">Detail</button>
-                                    <a href="{{ route('faq.edit', $faq->id) }}"
-                                        class="bg-yellow-500 hover:bg-yellow-700 text-white py-1 px-3 rounded">
-                                        Edit
-                                    </a>
-                                    <form action="{{ route('faq.destroy', $faq->id) }}" method="POST" class="inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit"
-                                            class="bg-red-500 hover:bg-red-700 text-white py-1 px-3 rounded"
-                                            onclick="return confirm('Apakah Anda yakin ingin menghapus FAQ ini?')">Delete</button>
-                                    </form>
-                                </td>
+                <!-- Wrapper untuk tabel dengan tinggi tetap dan scroll -->
+                <div class="max-h-[400px] overflow-auto">
+                    <!-- Tabel FAQ Apps -->
+                    <table class="min-w-full bg-white border border-gray-200">
+                        <thead>
+                            <tr>
+                                <th class="py-2 px-4 border-b bg-gray-100 text-left text-sm font-bold text-gray-700">ID</th>
+                                <th class="py-2 px-4 border-b bg-gray-100 text-left text-sm font-bold text-gray-700">Nama
+                                    Masalah</th>
+                                <th class="py-2 px-4 border-b bg-gray-100 text-left text-sm font-bold text-gray-700"></th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach ($appsFaqs as $index => $faq)
+                                <tr class="hover:bg-gray-100">
+                                    <td class="py-2 px-4 border-b text-sm text-gray-600">{{ $faq->id }}</td>
+                                    <td class="py-2 px-4 border-b text-sm text-gray-600">{{ $faq->nama_masalah }}</td>
+                                    <td class="py-2 px-4 border-b text-sm text-gray-600">
+                                        <button class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded"
+                                            onclick="showDetails({{ $faq->id }})">Detail</button>
+                                        <a href="{{ route('faq.edit', $faq->id) }}"
+                                            class="bg-yellow-500 hover:bg-yellow-700 text-white py-1 px-3 rounded">Edit</a>
+                                        <form action="{{ route('faq.destroy', $faq->id) }}" method="POST" class="inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                class="bg-red-500 hover:bg-red-700 text-white py-1 px-3 rounded"
+                                                onclick="return confirm('Apakah Anda yakin ingin menghapus FAQ ini?')">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -150,11 +164,10 @@
                     <p><strong>Nama Masalah:</strong> ${data.nama_masalah}</p>
                     <p><strong>Bidang Permasalahan:</strong> ${data.bidang_permasalahan}</p>
                     <p><strong>Deskripsi Penyelesaian Masalah:</strong> ${deskripsiHTML}</p>
-                `;
+                    <p><strong>Link Video:</strong> <a href="${data.link_video}" target="_blank">${data.link_video}</a></p>
+                    <p><strong>Link Gambar:</strong> <a href="${data.link_gambar}" target="_blank">${data.link_gambar}</a></p>
+                    `;
                     document.getElementById('detailModal').classList.remove('hidden');
-                })
-                .catch(error => {
-                    console.error('Error fetching data:', error);
                 });
         }
 

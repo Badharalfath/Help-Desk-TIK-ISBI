@@ -16,11 +16,11 @@
         @include('layouts.partial.sidebar')
 
         <!-- Main content container -->
-        <div class="flex-grow flex flex-col ml-64">
+        <div class="flex-grow flex flex-col ml-64 ">
             @include('layouts.partial.navdash')
 
             <!-- Main Content -->
-            <main class="flex-grow p-4 mt-6">
+            <main class="flex-grow p-4 mt-6 mt-[-50px]">
                 @yield('content')
             </main>
 

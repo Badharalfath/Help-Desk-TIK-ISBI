@@ -5,7 +5,7 @@
     <!-- Tabel Default (Semua Tiket) -->
     <div class="flex justify-between items-center  pl-6 pr-6">
         <h1 class="title-font text-black sm:text-4xl text-3xl font-medium">Daftar Antrian Tiket</h1>
-        <div class="mb-4 flex justify-end">
+        <div class="mb-[-30px] flex justify-end">
             @if ($isInput)
                 <a href="{{ route('tickets.generatePdf') }}"
                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">

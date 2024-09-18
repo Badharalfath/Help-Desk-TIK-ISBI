@@ -35,9 +35,16 @@ Route::get('/complaint', [ComplaintController::class, 'showForm'])->name('compla
 Route::middleware(['auth.all'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/tiket', [TiketController::class, 'index'])->name('tiket');
-    Route::get('/jadwal', [JadwalController::class, 'index'])->name('jadwal');
+
     Route::get('/listjadwal', [ListJadwalController::class, 'index'])->name('listjadwal');
     Route::get('/tickets/pdf', [TiketController::class, 'generatePdf'])->name('tickets.generatePdf');
+
+    // Route FAQ
+    Route::get('/daftarfaq', [FormFAQController::class, 'menu'])->name('faq.index');
+
+    // Route Users
+    Route::get('/user', [InputUserController::class, 'index'])->name('user');
+
 });
 
 Route::middleware(['auth.admin'])->group(function () {
@@ -46,7 +53,6 @@ Route::middleware(['auth.admin'])->group(function () {
     Route::post('/tickets/{id}', [EditTiketController::class, 'update'])->name('ticket.update');
 
     // Route FAQ
-    Route::get('/daftarfaq', [FormFAQController::class, 'menu'])->name('faq.index');
     Route::get('/formfaq', [FormFAQController::class, 'index'])->name('formfaq.index');
     Route::get('/faq/{id}', [FormFAQController::class, 'show'])->name('faq.show');
     Route::post('/formfaq', [FormFAQController::class, 'store'])->name('formfaq.store');
@@ -54,7 +60,14 @@ Route::middleware(['auth.admin'])->group(function () {
     Route::put('/faq/{id}', [FormFAQController::class, 'update'])->name('faq.update');
     Route::delete('/faq/{id}', [FormFAQController::class, 'destroy'])->name('faq.destroy');
 
+    // Route Users
+    Route::get('/inuser', [InputUserController::class, 'create'])->name('inuser');
+    Route::get('/users/create', [InputUserController::class, 'create'])->name('users.create');
+    Route::post('/users/store', [InputUserController::class, 'store'])->name('users.store');
+    Route::resource('users', InputUserController::class);
+
     // Route Jadwal
+    Route::get('/jadwal', [JadwalController::class, 'index'])->name('jadwal');
     Route::post('/jadwal', [JadwalController::class, 'store'])->name('jadwal.store');
     Route::get('/jadwal/{id}/edit-foto-kedua', [JadwalController::class, 'editFotoKedua'])->name('jadwal.editFotoKedua');
     Route::post('/jadwal/{id}/update-foto-kedua', [JadwalController::class, 'updateFotoKedua'])->name('jadwal.updateFotoKedua');
@@ -66,12 +79,7 @@ Route::middleware(['auth.admin'])->group(function () {
     Route::get('/tambahtiket', [TambahTiketController::class, 'showForm'])->name('tambahtiket');
     Route::resource('tickets', EditTiketController::class);
 
-    // Route Users
-    Route::resource('users', InputUserController::class);
-    Route::get('/user', [InputUserController::class, 'index'])->name('user');
-    Route::get('/inuser', [InputUserController::class, 'create'])->name('inuser');
-    Route::get('/users/create', [InputUserController::class, 'create'])->name('users.create');
-    Route::post('/users/store', [InputUserController::class, 'store'])->name('users.store');
+
 });
 
 // Route User login
