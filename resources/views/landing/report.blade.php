@@ -5,7 +5,7 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            margin: 20px; /* Added margin for better spacing */
+            margin: 20px;
         }
         table {
             width: 100%;
@@ -22,11 +22,11 @@
         }
         img {
             display: block;
-            margin: 20px auto; /* Centers the image */
-            max-width: 400px; /* Ensures image is not too wide */
-            max-height: 300px; /* Ensures image is not too tall */
-            border: 1px solid #ddd; /* Adds a border around the image */
-            border-radius: 5px; /* Slightly rounded corners */
+            margin: 20px auto;
+            max-width: 400px;
+            max-height: 300px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
         }
         h1 {
             text-align: center;
@@ -45,14 +45,28 @@
     <p><strong>Deskripsi:</strong></p>
     <p>{{ $jadwal->deskripsi }}</p>
 
+    <!-- Dokumentasi Sebelum Maintenance -->
     @if ($jadwal->foto)
         <p><strong>Dokumentasi Sebelum Maintenance:</strong></p>
-        <img src="{{ public_path('storage/fotos/' . $jadwal->foto) }}" alt="Foto Sebelum Maintenance">
+        @php
+            // Pisahkan foto yang dipisahkan oleh koma menjadi array
+            $fotoSebelumArray = explode(',', $jadwal->foto);
+        @endphp
+        @foreach ($fotoSebelumArray as $foto)
+            <img src="{{ public_path('storage/fotos/' . trim($foto)) }}" alt="Foto Sebelum Maintenance">
+        @endforeach
     @endif
 
+    <!-- Dokumentasi Setelah Maintenance -->
     @if ($jadwal->foto_kedua)
         <p><strong>Dokumentasi Setelah Maintenance:</strong></p>
-        <img src="{{ public_path('storage/fotos/' . $jadwal->foto_kedua) }}" alt="Foto Setelah Maintenance">
+        @php
+            // Pisahkan foto kedua yang dipisahkan oleh koma menjadi array
+            $fotoSesudahArray = explode(',', $jadwal->foto_kedua);
+        @endphp
+        @foreach ($fotoSesudahArray as $foto_kedua)
+            <img src="{{ public_path('storage/fotos/' . trim($foto_kedua)) }}" alt="Foto Setelah Maintenance">
+        @endforeach
     @endif
 </body>
 </html>
