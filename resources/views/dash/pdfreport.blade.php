@@ -35,6 +35,7 @@
     <div class="header">
         <h1>Laporan Tiket</h1>
     </div>
+
     <table>
         <thead>
             <tr>
@@ -43,25 +44,31 @@
                 <th>Email</th>
                 <th>Nama</th>
                 <th>Judul Keluhan</th>
+                <th>Kategori</th> <!-- Kolom kategori -->
                 <th>Permission Status</th>
                 <th>Alasan Ditolak</th>
                 <th>Status Progress</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($tickets as $ticket)
-            <tr>
-                <td>{{ $ticket->id }}</td>
-                <td>{{ $ticket->tanggal ? \Carbon\Carbon::parse($ticket->tanggal)->format('d/m/Y') : 'Tanggal tidak tersedia' }}</td>
-                <td>{{ $ticket->email }}</td>
-                <td>{{ $ticket->name }}</td>
-                <td>{{ $ticket->judul }}</td>
-                <td>{{ $ticket->permission_status }}</td>
-                <td>{{ $ticket->reject_reason ?? '-' }}</td>
-                <td>{{ $ticket->progress_status }}</td>
-            </tr>
+            {{-- Loop untuk menampilkan semua tiket dari berbagai kategori --}}
+            @foreach($categories as $categoryName => $ticketsInCategory)
+                @foreach($ticketsInCategory as $ticket)
+                <tr>
+                    <td>{{ $ticket->id }}</td>
+                    <td>{{ $ticket->tanggal ? \Carbon\Carbon::parse($ticket->tanggal)->format('d/m/Y') : 'Tanggal tidak tersedia' }}</td>
+                    <td>{{ $ticket->email }}</td>
+                    <td>{{ $ticket->name }}</td>
+                    <td>{{ $ticket->judul }}</td>
+                    <td>{{ $categoryName }}</td> <!-- Menampilkan kategori di kolom kategori -->
+                    <td>{{ $ticket->permission_status }}</td>
+                    <td>{{ $ticket->reject_reason ?? '-' }}</td>
+                    <td>{{ $ticket->progress_status }}</td>
+                </tr>
+                @endforeach
             @endforeach
         </tbody>
     </table>
+
 </body>
 </html>

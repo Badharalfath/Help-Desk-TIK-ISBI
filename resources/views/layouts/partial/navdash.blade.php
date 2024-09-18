@@ -12,10 +12,12 @@
         </a>
         <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
             <a href="{{ route('logout') }}"
-                class="py-2.5 px-5 font-medium uppercase text-gray-800 hover:text-blue-500 border-b-2 border-transparent hover:border-blue-500">
+                class="py-2.5 px-5 font-medium uppercase text-gray-800 hover:text-blue-500 border-b-2 border-transparent hover:border-blue-500 relative"
+                style="top: -5px;"> <!-- Adjust the 'top' value to move the cursor target upward -->
                 Logout
             </a>
         </nav>
+        
     </div>
 </header>
 
