@@ -1,10 +1,11 @@
 @extends('layouts.homedash')
 
 @section('content')
-<div class="overflow-x-auto mt-3 p-6">
+<div class="overflow-x-auto mt-6 py-6 px-16">
+    
     <div class="flex justify-between items-center">
-        <h1 class="title-font text-black sm:text-4xl text-3xl font-medium">List Tabel Maintenance</h1>
-        <div class="mb-4 flex justify-end">
+        <h1 class="title-font text-black sm:text-4xl text-3xl font-medium mb-[-15px]">List Tabel Maintenance</h1>
+        <div class="mb-[-25px] flex justify-end">
             <a href="{{ route('jadwal') }}" class="text-gray-900 hover:text-white border border-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-900 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
                 Input Jadwal
             </a>

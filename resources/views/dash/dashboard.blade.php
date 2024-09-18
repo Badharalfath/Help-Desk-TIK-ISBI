@@ -34,7 +34,7 @@
                 </div>
             @endif
 
-            <h2 class="text-xl font-bold mb-2">Status Tiket</h2>
+            <h2 class="text-xl font-bold mb-2 mt-4">Status Tiket</h2>
 
             <!-- Grid pertama -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -73,14 +73,14 @@
                 </div>
 
                 <!-- Pie Chart Section kedua -->
-                <div class="bg-white shadow rounded-lg p-6 max-h-[250px] flex items-center justify-center">
+                <div class="bg-white shadow rounded-lg h-[280px] p-6 flex items-center justify-center">
                     <div class="flex items-center justify-between w-full">
                         <canvas id="pieChart"></canvas>
                     </div>
                 </div>
 
                 <!-- Bar Chart Section -->
-                <div class="bg-white shadow rounded-lg p-6 max-h-[250px]">
+                <div class="bg-white shadow rounded-lg p-6 h-[280px]">
                     <canvas id="barChart"></canvas>
                 </div>
             </div>

@@ -1,13 +1,21 @@
-<header class="bg-white fixed top-0 left-64 w-full z-50 shadow-lg backdrop-blur-md p-4">
+{{-- <header class="bg-white fixed top-0 left-64 w-full z-50 shadow-lg backdrop-blur-md p-4">
     <div class="flex justify-between items-center">
-        <h1 class="text-xl font-bold">Help Desk Admin</h1>
-        <div class="pr-4">
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" class="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5">
-                    Logout
-                </button>
-            </form>
-        </div>
+        <h1 class="text-xl font-bold">Welcome, {{ auth()->user()->name }}</h1>
+    </div>
+</header> --}}
+
+
+<header class="text-gray-600 body-font mt-[-10px]">
+    <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+        <a class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
+            <span class="ml-3 text-xl">Welcome, {{ auth()->user()->name }}</span>
+        </a>
+        <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
+            <a href="{{ route('logout') }}"
+                class="py-2.5 px-5 font-medium uppercase text-gray-800 hover:text-blue-500 border-b-2 border-transparent hover:border-blue-500">
+                Logout
+            </a>
+        </nav>
     </div>
 </header>
+

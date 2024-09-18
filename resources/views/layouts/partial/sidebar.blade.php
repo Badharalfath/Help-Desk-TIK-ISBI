@@ -1,7 +1,7 @@
 sidebar.blade.php
 <aside class="fixed top-0 left-0 w-64 h-screen bg-gray-800 text-white shadow-md">
     <div class="p-4 flex items-center justify-center">
-        <a href="{{ route('dashboard') }}" class="text-xl font-bold">Welcome</a>
+        <a href="{{ route('dashboard') }}" class="text-xl font-bold">Help Desk Dashboard</a>
     </div>
     <nav class="mt-8">
         <ul class="space-y-2">

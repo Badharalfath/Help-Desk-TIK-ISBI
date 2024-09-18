@@ -12,16 +12,16 @@ class FormFAQController extends Controller
         // Mengembalikan view formfaq.blade.php (form untuk menambahkan FAQ)
         return view('dash.formfaq');
     }
-    
+
     public function show($id)
     {
         // Ambil data FAQ berdasarkan ID
         $faq = Faq::findOrFail($id);
-    
+
         // Kembalikan data dalam bentuk JSON untuk keperluan AJAX
         return response()->json($faq);
     }
-    
+
     public function menu()
     {
         // Mengambil data FAQ berdasarkan bidang permasalahan

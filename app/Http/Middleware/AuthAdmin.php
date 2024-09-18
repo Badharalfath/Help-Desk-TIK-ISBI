@@ -16,16 +16,19 @@ class AuthAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::check()){
+        if (Auth::check()) {
             $user = Auth::user();
-            if($user->role == "admin"){
+            if ($user->role === 'admin') {
                 return $next($request);
-            }else{
-                return redirect('dashboard')-> withErrors('Maaf Anda Tidak Mempunyai Akses Sebagai Administrator')->withInput();
+            } else {
+                // Check if the current route is 'jadwal'
+                if ($request->routeIs('listjadwal')) {
+                    return redirect()->route('listjadwal')->withErrors('Maaf Anda Tidak Mempunyai Akses Sebagai Administrator')->withInput();
+                }
+                return redirect()->route('dashboard')->withErrors('Maaf Anda Tidak Mempunyai Akses Sebagai Administrator')->withInput();
             }
-
-        }else{
-            return redirect('login')-> withErrors('Tidak Mempunyai Akses Silahkan Login Dahulu')->withInput();
+        } else {
+            return redirect()->route('login')->withErrors('Tidak Mempunyai Akses Silahkan Login Dahulu')->withInput();
         }
     }
 }
