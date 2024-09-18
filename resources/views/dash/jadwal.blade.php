@@ -177,7 +177,7 @@
                     }
                 })),
                 @if ($isInput)
-                                    dateClick: function (info) {
+                                        dateClick: function (info) {
                         showMaintenanceDetails(info.dateStr);
                     },
                     eventClick: function (info) {
@@ -245,14 +245,17 @@
                         <div class="my-4 bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative">
                             Foto kedua sudah ada dan tidak dapat diunggah lagi.
                         </div>` : `
-                        <div class="mb-4">
-                            <label for="foto_kedua" class="block text-gray-700 font-bold mb-2">Input Foto Setelah Maintenance</label>
-                            <input type="file" name="foto_kedua" id="foto_kedua" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                        </div>
-
-                        <button type="submit" class="w-full py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                            Submit
-                        </button>`}
+                        <form id="fotoKeduaForm" action="/jadwal/${jadwal.id}/update-foto-kedua" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="mb-4">
+                                <label for="foto_kedua" class="block text-gray-700 font-bold mb-2">Input Foto Setelah Maintenance</label>
+                                <input type="file" id="foto_kedua" name="foto_kedua[]" multiple
+                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            </div>
+                            <button type="submit" class="w-full py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                                Submit
+                            </button>
+                        </form>`}
                 </li>`;
                 });
                 detailsHTML += '</ul>';
