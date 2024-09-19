@@ -30,10 +30,10 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                 </svg>
                 <div class="absolute hidden group-hover:block bg-white shadow-lg py-2 mt-1 w-48 left-0 top-10">
-                    <a href="#" id="scroll-sejarah"
-                        class="block px-4 py-2 text-gray-800 hover:bg-gray-100 text-sm cursor-pointer">Sejarah UPT</a>
-                    <a href="#" id="scroll-tugas"
-                        class="block px-4 py-2 text-gray-800 hover:bg-gray-100 text-sm cursor-pointer">Tugas &
+                    <a href="#sejarah-upt" 
+                        class="block px-4 py-2 text-gray-800 hover:bg-gray-100 text-sm cursor-pointer scroll-to">Sejarah UPT</a>
+                    <a href="#fungsi-upt" 
+                        class="block px-4 py-2 text-gray-800 hover:bg-gray-100 text-sm cursor-pointer scroll-to">Tugas &
                         Fungsi</a>
                 </div>
             </div>

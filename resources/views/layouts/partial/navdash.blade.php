@@ -20,19 +20,3 @@
 
     </div>
 </header>
-
-<script>
-    document.getElementById('scroll-sejarah').addEventListener('click', function(e) {
-        e.preventDefault();
-        document.getElementById('sejarah-upt').scrollIntoView({
-            behavior: 'smooth'
-        });
-    });
-
-    document.getElementById('scroll-tugas').addEventListener('click', function(e) {
-        e.preventDefault();
-        document.getElementById('tugas-fungsi-upt').scrollIntoView({
-            behavior: 'smooth'
-        });
-    });
-</script>
