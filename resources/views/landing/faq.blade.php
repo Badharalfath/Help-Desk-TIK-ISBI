@@ -61,7 +61,7 @@
                                 </svg>
                             </button>
                             <!-- Konten FAQ tanpa simbol -->
-                            <div class="text-gray-600 hidden transition-opacity duration-300" id="faq{{ $faq->id }}">
+                            <div class="text-gray-600 hidden transition-opacity duration-300 whitespace-pre-wrap break-words my-[-50px]" id="faq{{ $faq->id }}">
                                 @foreach(explode("\n", $faq->deskripsi_penyelesaian_masalah) as $point)
                                     <div>{{ $point }}</div>
                                 @endforeach
