@@ -1,22 +1,12 @@
 @extends('layouts.homedash')
 
 @section('content')
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Help Desk</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-</head>
-
-<body class="bg-gray-900 text-white font-sans flex flex-col min-h-screen">
 
     <!-- Main Content -->
-    <div class="flex-grow flex justify-center items-center mt-[150px] mb-[50px]">
-        <div class="bg-white text-black rounded-lg shadow-lg p-8 w-full max-w-md">
-            <h2 class="text-2xl font-semibold text-center mb-4">Ticket Details</h2>
+    <div class="flex-grow flex justify-center items-center mt-[50px] mb-[50px]">
+        <div class="bg-white text-black rounded-lg shadow-lg p-8 w-full max-w-[1000px]">
+            <h2 class="text-2xl font-semibold text-center ">Ticket Details</h2>
+            <hr class="w-[240px] h-1 mx-auto mt-2 mb-4 bg-gray-100 border-0 rounded dark:bg-gray-700">
 
             @if ($errors->any())
                 <ul>
@@ -30,31 +20,49 @@
 
             <form action="{{ route('ticket.update', $ticket->id) }}" method="POST">
                 @csrf
+                <h1 class="text-1xl font-semibold text-left ">Email</h1>
+
                 <div class="mb-4">
                     <input type="email" name="email" placeholder="Email" value="{{ $ticket->email }}"
                         class="w-full p-2 border border-gray-300 rounded" readonly>
                 </div>
+                <h1 class="text-1xl font-semibold text-left ">Nama</h1>
+
                 <div class="mb-4">
                     <input type="text" name="name" placeholder="Name" value="{{ $ticket->name }}"
                         class="w-full p-2 border border-gray-300 rounded" readonly>
                 </div>
+                <h1 class="text-1xl font-semibold text-left ">Judul</h1>
+
                 <div class="mb-4">
                     <input type="text" name="judul" placeholder="Complaint Title" value="{{ $ticket->judul }}"
                         class="w-full p-2 border border-gray-300 rounded" readonly>
                 </div>
-                <div class="mb-4">
-                    <textarea name="keluhan" placeholder="Complaint" class="w-full p-2 border border-gray-300 rounded"
-                        readonly>{{ $ticket->keluhan }}</textarea>
+                <h1 class="text-1xl font-semibold text-left ">Deskripsi</h1>
+
+                <div class="mb-2">
+                    <textarea name="keluhan" placeholder="Complaint" class="w-full p-2 border border-gray-300 rounded" readonly>{{ $ticket->keluhan }}</textarea>
                 </div>
+
+                <h1 class="text-1xl font-semibold text-left ">Lokasi</h1>
+
+                @if ($ticket->kategori == 'Jaringan')
+                    <div class="mb-4">
+                        <input type="text" name="lokasi" placeholder="Location" value="{{ $ticket->lokasi }}"
+                            class="w-full p-2 border border-gray-300 rounded" readonly>
+                    </div>
+                @endif
+                <h1 class="text-1xl font-semibold text-left ">Gambar</h1>
+
                 <!-- Bagian untuk menampilkan foto keluhan -->
                 <div class="mt-2 p-2 border rounded-lg shadow-md bg-white">
                     @php
                         $fotoKeluhanArray = $ticket->foto_keluhan ? explode(',', $ticket->foto_keluhan) : [];
                     @endphp
 
-                    @if(!empty($fotoKeluhanArray))
+                    @if (!empty($fotoKeluhanArray))
                         <div class="grid grid-cols-1 gap-4">
-                            @foreach($fotoKeluhanArray as $foto)
+                            @foreach ($fotoKeluhanArray as $foto)
                                 <div class="mb-4">
                                     <img src="{{ Storage::url('fotos/' . $foto) }}" alt="Foto Keluhan"
                                         class="w-full h-auto max-w-md mx-auto">
@@ -68,12 +76,11 @@
                 </div>
 
 
-                <h2 class="text-base font-semibold text-center mb-4">Permission</h2>
-                <hr class="w-48 h-1 mx-auto my-2 bg-gray-100 border-0 rounded dark:bg-gray-700">
+                <h2 class="text-base font-semibold text-center mb-2 mt-2">Permission</h2>
+                <hr class="w-48 h-1 mx-auto my-2 bg-gray-100 border-0 rounded dark:bg-gray-700 mb-6">
 
                 <div class="mb-4 flex justify-around">
-                    <div class="relative"
-                        style="{{ $ticket->permission_status == 'approved' ? 'display: none;' : '' }}">
+                    <div class="relative" style="{{ $ticket->permission_status == 'approved' ? 'display: none;' : '' }}">
                         <input type="radio" name="permission_status" id="permission_rejected" value="rejected"
                             class="hidden peer" {{ $ticket->permission_status == 'rejected' ? 'checked' : '' }}
                             onclick="toggleFields()">
@@ -152,11 +159,6 @@
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white text-center p-4 mt-auto">
-        &copy; 2024 Help Desk. All rights reserved.
-    </footer>
-
     <script>
         function toggleFields() {
             const rejectRadio = document.getElementById('permission_rejected');
@@ -180,7 +182,7 @@
         toggleFields();
     </script>
 
-</body>
+    </body>
 
-</html>
+    </html>
 @endsection

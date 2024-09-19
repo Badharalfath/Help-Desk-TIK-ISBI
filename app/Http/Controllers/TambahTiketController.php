@@ -68,7 +68,7 @@ class TambahTiketController extends Controller
 
         Mail::to($emailAdmin)->cc($emailAdmins)->send(new ComplaintSubmitted($complaint));
 
-        return redirect()->route('tambahtiket')->with('success', 'Your complaint has been submitted successfully!');
+        return redirect()->route('tiket')->with('success', 'Your complaint has been submitted successfully!');
     }
 
 

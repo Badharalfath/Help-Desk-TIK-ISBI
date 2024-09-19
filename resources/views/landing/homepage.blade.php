@@ -1,8 +1,8 @@
 @extends('layouts.homelayout')
 
 @section('content')
-    <section class="text-gray-600 body-font pt-28 relative">
-        <!-- Swiper -->
+    <!-- Div 1: Jumbotron with Carousel -->
+    <div class="relative text-white ">
         <div class="swiper-container absolute inset-0 z-0 h-[60vh]">
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
@@ -21,101 +21,84 @@
             </div>
         </div>
 
-        <!-- Content -->
-        <div class="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center relative z-10">
-            <div
-                class="lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center text-white">
-                <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium">Before they sold out
-                    <br class="hidden lg:inline-block">readymade gluten
-                </h1>
-                <p class="mb-8 leading-relaxed">Copper mug try-hard pitchfork pour-over freegan heirloom neutra air plant
-                    cold-pressed tacos poke beard tote bag. Heirloom echo park mlkshk tote bag selvage hot chicken authentic
-                    tumeric truffaut hexagon try-hard chambray.</p>
-                <div class="flex justify-center">
-                    <button
-                        class="inline-flex text-white bg-blue-500 border-0 py-2 px-6 focus:outline-none hover:bg-blue-600 rounded text-lg">Button</button>
-                    <button
-                        class="ml-4 inline-flex text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-gray-200 rounded text-lg">Button</button>
+        <!-- Welcome Text -->
+        <div class="relative z-10 container mx-auto px-5 py-24 flex flex-col items-start justify-center h-[60vh]">
+            <h1 class="text-4xl sm:text-5xl font-bold">Selamat Datang di Helpdesk TIK</h1>
+            <p class="mt-4 text-lg leading-relaxed">Kami di sini untuk membantu Anda dengan berbagai kebutuhan teknis
+                dan informasi terkait teknologi informasi di Universitas Institut Seni Budaya Indonesia (ISBI) Bandung.</p>
+
+        </div>
+    </div>
+
+    <!-- Div 2: Sejarah UPT TIK -->
+    <div class="bg-gray-100 py-24 relative">
+        <div class="container mx-auto px-5 text-center">
+            <h2 class="text-3xl font-semibold mb-4">Sejarah UPT</h2>
+            <p class="text-lg leading-relaxed mb-8">
+                UPT Teknologi Informasi dan Komunikasi (TIK) di ISBI Bandung didirikan untuk mendukung kegiatan akademik dan
+                administrasi
+                melalui penerapan teknologi informasi yang efisien dan terkini. Lahir dari kebutuhan universitas untuk
+                beradaptasi dengan
+                perkembangan zaman, UPT TIK berfungsi sebagai pusat layanan dan pengelolaan infrastruktur IT.
+            </p>
+
+            <!-- Parallax Image -->
+            <div class="relative">
+                <div class="parallax bg-center bg-cover h-72"
+                    style="background-image: url('https://dummyimage.com/1920x1080/000/fff');"></div>
+                <div class="absolute inset-0 bg-blue-600 opacity-50 flex items-center justify-center">
+                    <p class="text-white text-lg">"Bersama Teknologi, Kami Membangun Masa Depan"</p>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <section class="text-gray-600 body-font mt-40">
-        <div class="container px-5 py-24 mx-auto flex flex-wrap">
-            <div class="lg:w-2/3 mx-auto">
-                <div class="flex flex-wrap w-full bg-gray-100 py-32 px-10 relative mb-4">
-                    <img alt="gallery" class="w-full object-cover h-full object-center block opacity-25 absolute inset-0"
-                        src="https://dummyimage.com/820x340">
-                    <div class="text-center relative z-10 w-full">
-                        <h2 class="text-2xl text-gray-900 font-medium title-font mb-2">Shooting Stars</h2>
-                        <p class="leading-relaxed">Skateboard +1 mustache fixie paleo lumbersexual.</p>
-                        <a class="mt-3 text-blue-500 inline-flex items-center">Learn More
-                            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
-                                <path d="M5 12h14M12 5l7 7-7 7"></path>
-                            </svg>
-                        </a>
-                    </div>
+    <!-- Div 3: Tugas dan Fungsi UPT TIK -->
+    <div class="bg-white py-24">
+        <div class="container mx-auto px-5">
+            <h2 class="text-3xl font-semibold text-center mb-8">Tugas dan Fungsi</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+                <!-- Tugas Section -->
+                <div id="sejarah-upt" class="bg-gray-100 p-6 rounded shadow-lg animate-fade-up scroll-smooth">
+                    <h3 class="text-xl font-bold mb-4">Tugas UPT TIK</h3>
+                    <ul class="list-disc ml-6 text-left">
+                        <li>Mengelola infrastruktur jaringan dan server di lingkungan kampus.</li>
+                        <li>Menyediakan layanan teknologi informasi yang berkualitas.</li>
+                        <li>Membantu implementasi sistem informasi akademik dan administrasi.</li>
+                        <li>Mendukung pengembangan e-learning dan multimedia.</li>
+                    </ul>
                 </div>
-                <div class="flex flex-wrap -mx-2">
-                    <div class="px-2 w-1/2">
-                        <div class="flex flex-wrap w-full bg-gray-100 sm:py-24 py-16 sm:px-10 px-6 relative">
-                            <img alt="gallery"
-                                class="w-full object-cover h-full object-center block opacity-25 absolute inset-0"
-                                src="https://dummyimage.com/542x460">
-                            <div class="text-center relative z-10 w-full">
-                                <h2 class="text-xl text-gray-900 font-medium title-font mb-2">Shooting Stars</h2>
-                                <p class="leading-relaxed">Skateboard +1 mustache fixie paleo lumbersexual.</p>
-                                <a class="mt-3 text-blue-500 inline-flex items-center">Learn More
-                                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
-                                        <path d="M5 12h14M12 5l7 7-7 7"></path>
-                                    </svg>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="px-2 w-1/2">
-                        <div class="flex flex-wrap w-full bg-gray-100 sm:py-24 py-16 sm:px-10 px-6 relative">
-                            <img alt="gallery"
-                                class="w-full object-cover h-full object-center block opacity-25 absolute inset-0"
-                                src="https://dummyimage.com/542x420">
-                            <div class="text-center relative z-10 w-full">
-                                <h2 class="text-xl text-gray-900 font-medium title-font mb-2">Shooting Stars</h2>
-                                <p class="leading-relaxed">Skateboard +1 mustache fixie paleo lumbersexual.</p>
-                                <a class="mt-3 text-blue-500 inline-flex items-center">Learn More
-                                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
-                                        <path d="M5 12h14M12 5l7 7-7 7"></path>
-                                    </svg>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+
+                <!-- Fungsi Section -->
+                <div id="tugas-fungsi-upt"
+                    class="bg-gray-100 p-6 rounded shadow-lg animate-fade-up delay-100 scroll-smooth">
+                    <h3 class="text-xl font-bold mb-4">Fungsi UPT TIK</h3>
+                    <ul class="list-disc ml-6 text-left">
+                        <li>Meningkatkan efisiensi operasional melalui teknologi digital.</li>
+                        <li>Memastikan ketersediaan layanan IT yang handal untuk seluruh sivitas akademika.</li>
+                        <li>Menyediakan pelatihan dan dukungan IT kepada dosen, mahasiswa, dan staf.</li>
+                        <li>Mengembangkan inovasi teknologi dalam pendidikan dan administrasi kampus.</li>
+                    </ul>
                 </div>
             </div>
         </div>
-
-        <div class="w-full h-72 bg-gray-200 flex items-center justify-center">
-            <p class="text-xl font-semibold">Container 1</p>
-        </div>
-
-        <div class="w-full h-72 bg-gray-50 flex items-center justify-center">
-            <p class="text-xl font-semibold">Container 2</p>
-        </div>
-
-        <div class="w-full h-72 bg-gray-200 flex items-center justify-center">
-            <p class="text-xl font-semibold">Container 3</p>
-        </div>
-
-        <div class="w-full h-72 bg-gray-50 flex items-center justify-center">
-            <p class="text-xl font-semibold">Container 4</p>
-        </div>
-    </section>
+    </div>
 
 
 
+    <div class="w-full h-72 bg-gray-200 flex items-center justify-center">
+        <p class="text-xl font-semibold">Container 1</p>
+    </div>
+    <div class="w-full h-72 bg-gray-200 flex items-center justify-center">
+        <p class="text-xl font-semibold">Container 1</p>
+    </div>
+    <div class="w-full h-72 bg-gray-200 flex items-center justify-center">
+        <p class="text-xl font-semibold">Container 1</p>
+    </div>
+    <div class="w-full h-72 bg-gray-200 flex items-center justify-center">
+        <p class="text-xl font-semibold">Container 1</p>
+    </div>
     <!-- Swiper Initialization Script -->
     <script>
         var swiper = new Swiper('.swiper-container', {
@@ -130,4 +113,5 @@
             },
         });
     </script>
+
 @endsection

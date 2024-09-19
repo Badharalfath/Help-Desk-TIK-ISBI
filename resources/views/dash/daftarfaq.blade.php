@@ -3,6 +3,12 @@
 @section('content')
     <div class="overflow-x-auto mt-3 py-6 px-16">
         <div class="flex justify-between mb-4">
+            <!-- Flash message after user creation -->
+            @if (session('success'))
+                <div class="bg-green-500 text-white p-4 rounded mb-4">
+                    {{ session('success') }}
+                </div>
+            @endif
             <h1 class="text-xl font-bold">Daftar FAQ</h1>
             <a href="{{ route('formfaq.index') }}" class="bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded">
                 Tambah FAQ
@@ -50,10 +56,8 @@
                                     <td class="py-2 px-4 border-b text-sm text-gray-600">{{ $faq->nama_masalah }}</td>
                                     <td class="py-2 px-4 border-b text-sm text-gray-600">
                                         <!-- Detail Button -->
-                                        <button
-                                            class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded transition duration-300 ease-in-out mx-1">
-                                            Detail
-                                        </button>
+                                        <button class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded"
+                                            onclick="showDetails({{ $faq->id }})">Detail</button>
 
                                         <!-- Edit Button -->
                                         <a href="{{ route('faq.edit', $faq->id) }}"
@@ -144,29 +148,28 @@
 
                     // Cek jika deskripsi disimpan dalam format JSON array
                     if (Array.isArray(data.deskripsi_penyelesaian_masalah)) {
-                        deskripsiHTML = '<ol>';
+                        deskripsiHTML = '<div class="space-y-2">'; // Gunakan div dengan margin antara item
                         data.deskripsi_penyelesaian_masalah.forEach((item) => {
-                            deskripsiHTML += `<li>${item}</li>`;
+                            deskripsiHTML += `<p>${item}</p>`;
                         });
-                        deskripsiHTML += '</ol>';
+                        deskripsiHTML += '</div>';
                     } else {
                         // Jika deskripsi dipisahkan oleh newline (\n)
                         const deskripsiItems = data.deskripsi_penyelesaian_masalah.split('\n');
-                        deskripsiHTML = '<ol>';
+                        deskripsiHTML = '<div class="space-y-2">'; // Gunakan div dengan margin antara item
                         deskripsiItems.forEach((item) => {
-                            deskripsiHTML += `<li>${item.trim()}</li>`;
+                            deskripsiHTML += `<p>${item.trim()}</p>`;
                         });
-                        deskripsiHTML += '</ol>';
+                        deskripsiHTML += '</div>';
                     }
 
                     document.getElementById('modalContent').innerHTML = `
-                    <p><strong>ID:</strong> ${data.id}</p>
-                    <p><strong>Nama Masalah:</strong> ${data.nama_masalah}</p>
-                    <p><strong>Bidang Permasalahan:</strong> ${data.bidang_permasalahan}</p>
-                    <p><strong>Deskripsi Penyelesaian Masalah:</strong> ${deskripsiHTML}</p>
-                    <p><strong>Link Video:</strong> <a href="${data.link_video}" target="_blank">${data.link_video}</a></p>
-                    <p><strong>Link Gambar:</strong> <a href="${data.link_gambar}" target="_blank">${data.link_gambar}</a></p>
-                    `;
+            <p class="mb-2"><strong>ID:</strong> ${data.id}</p>
+            <p class="mb-2"><strong>Nama Masalah:</strong> ${data.nama_masalah}</p>
+            <p class="mb-2"><strong>Bidang Permasalahan:</strong> ${data.bidang_permasalahan}</p>
+            <p class="mb-2"><strong>Deskripsi Penyelesaian Masalah:</strong></p>
+            <div class="whitespace-pre-wrap break-words">${deskripsiHTML}</div>
+            `;
                     document.getElementById('detailModal').classList.remove('hidden');
                 });
         }

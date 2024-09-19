@@ -41,7 +41,6 @@ Route::middleware(['auth.all'])->group(function () {
 
     // Route FAQ
     Route::get('/daftarfaq', [FormFAQController::class, 'menu'])->name('faq.index');
-
     // Route Users
     Route::get('/user', [InputUserController::class, 'index'])->name('user');
 
@@ -53,6 +52,7 @@ Route::middleware(['auth.admin'])->group(function () {
     Route::post('/tickets/{id}', [EditTiketController::class, 'update'])->name('ticket.update');
 
     // Route FAQ
+
     Route::get('/formfaq', [FormFAQController::class, 'index'])->name('formfaq.index');
     Route::get('/faq/{id}', [FormFAQController::class, 'show'])->name('faq.show');
     Route::post('/formfaq', [FormFAQController::class, 'store'])->name('formfaq.store');
