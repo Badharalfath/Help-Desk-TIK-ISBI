@@ -2,18 +2,16 @@
 
 @section('content')
     <div class="overflow-x-auto mt-3 py-6 px-16">
-        <div class="flex justify-between mb-4">
-            <!-- Flash message after user creation -->
-            @if (session('success'))
-                <div class="bg-green-500 text-white p-4 rounded mb-4">
-                    {{ session('success') }}
-                </div>
-            @endif
-            <h1 class="text-xl font-bold">Daftar FAQ</h1>
-            <a href="{{ route('formfaq.index') }}" class="bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded">
+        <h2 class="text-2xl font-bold mb-[-45px]">Daftar Pengguna</h2>
+        
+        <div class=" flex justify-end mb-4">
+            <a href="{{ route('formfaq.index') }}"
+                class="text-gray-900 hover:text-white border border-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-900 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
                 Tambah FAQ
             </a>
         </div>
+
+
 
         <!-- Notifikasi Sukses -->
         @if (session('success'))

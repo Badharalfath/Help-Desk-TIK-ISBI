@@ -2,7 +2,10 @@
 
 @section('content')
 
-<h1 class="text-xl font-bold mb-4">Edit FAQ</h1>
+<div class="container mx-auto p-[30px] mt-[-10px]">
+    <h1 class="text-xl font-bold mb-4">Edit FAQ</h1>
+    <div class="bg-white shadow-md rounded-lg overflow-hidden p-6">
+
 
 <form action="{{ route('faq.update', $faq->id) }}" method="POST">
     @csrf
@@ -34,9 +37,11 @@
             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700" rows="10">{{ $faq->deskripsi_penyelesaian_masalah }}</textarea>
     </div>
 
-    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">
-        Update FAQ
-    </button>
+    
+    <button type="submit"
+                    class="w-full py-2.5 px-5 me-2 mb-2 text-sm font-medium text-white focus:outline-none bg-gray-800 rounded-full border border-gray-200 hover:bg-gray-100 hover:text-gray-800 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                    Submit
+                </button>
 </form>
 
 @endsection

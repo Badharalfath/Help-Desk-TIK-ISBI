@@ -44,9 +44,10 @@
                     <textarea name="keluhan" placeholder="Complaint" class="w-full p-2 border border-gray-300 rounded" readonly>{{ $ticket->keluhan }}</textarea>
                 </div>
 
-                <h1 class="text-1xl font-semibold text-left ">Lokasi</h1>
+
 
                 @if ($ticket->kategori == 'Jaringan')
+                    <h1 class="text-1xl font-semibold text-left ">Lokasi</h1>
                     <div class="mb-4">
                         <input type="text" name="lokasi" placeholder="Location" value="{{ $ticket->lokasi }}"
                             class="w-full p-2 border border-gray-300 rounded" readonly>
@@ -54,26 +55,42 @@
                 @endif
                 <h1 class="text-1xl font-semibold text-left ">Gambar</h1>
 
-                <!-- Bagian untuk menampilkan foto keluhan -->
-                <div class="mt-2 p-2 border rounded-lg shadow-md bg-white">
+                <!-- Bagian untuk menampilkan foto keluhan dalam bentuk carousel -->
+                <div class="mt-2 p-2 border rounded-lg shadow-md bg-white relative">
                     @php
                         $fotoKeluhanArray = $ticket->foto_keluhan ? explode(',', $ticket->foto_keluhan) : [];
                     @endphp
 
                     @if (!empty($fotoKeluhanArray))
-                        <div class="grid grid-cols-1 gap-4">
-                            @foreach ($fotoKeluhanArray as $foto)
-                                <div class="mb-4">
-                                    <img src="{{ Storage::url('fotos/' . $foto) }}" alt="Foto Keluhan"
-                                        class="w-full h-auto max-w-md mx-auto">
-                                </div>
-                            @endforeach
+                        <!-- Wrapper untuk carousel -->
+                        <div id="carousel" class="relative overflow-hidden w-full h-auto max-w-md mx-auto">
+                            <!-- Container gambar -->
+                            <div id="carousel-images" class="flex transition-transform duration-300 ease-in-out">
+                                @foreach ($fotoKeluhanArray as $foto)
+                                    <div class="min-w-full">
+                                        <img src="{{ Storage::url('fotos/' . $foto) }}" alt="Foto Keluhan"
+                                            class="w-full h-auto object-cover">
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        <!-- Tombol untuk navigasi -->
+                        <div id="prev"
+                            class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-500 text-white p-2 rounded-full hover:bg-gray-700 cursor-pointer">
+                            &#60;
+                        </div>
+                        <div id="next"
+                            class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-500 text-white p-2 rounded-full hover:bg-gray-700 cursor-pointer">
+                            &#62;
                         </div>
                     @else
+                        <!-- Placeholder jika tidak ada foto -->
                         <img src="{{ asset('images/default-placeholder.png') }}" alt="Foto Keluhan"
                             class="w-full h-auto max-w-md mx-auto">
                     @endif
                 </div>
+
 
 
                 <h2 class="text-base font-semibold text-center mb-2 mt-2">Permission</h2>
@@ -180,6 +197,44 @@
 
         // Call function on page load in case one of the options was already selected
         toggleFields();
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const images = document.querySelectorAll('#carousel-images > div');
+            const totalImages = images.length;
+            let currentIndex = 0;
+
+            const prevButton = document.getElementById('prev');
+            const nextButton = document.getElementById('next');
+            const carouselImages = document.getElementById('carousel-images');
+
+            function updateCarousel() {
+                // Hitung posisi gambar berdasarkan index saat ini
+                const translateX = -currentIndex * 100;
+                carouselImages.style.transform = `translateX(${translateX}%)`;
+            }
+
+            prevButton.addEventListener('click', function(event) {
+                event.preventDefault(); // Mencegah refresh/redirect
+                if (currentIndex > 0) {
+                    currentIndex--;
+                } else {
+                    currentIndex = totalImages - 1;
+                }
+                updateCarousel();
+            });
+
+            nextButton.addEventListener('click', function(event) {
+                event.preventDefault(); // Mencegah refresh/redirect
+                if (currentIndex < totalImages - 1) {
+                    currentIndex++;
+                } else {
+                    currentIndex = 0;
+                }
+                updateCarousel();
+            });
+        });
     </script>
 
     </body>
