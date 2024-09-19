@@ -29,6 +29,7 @@ Route::get('/maintenance/generate-report', [MaintenanceController::class, 'gener
 Route::post('/maintenance/generateReport', [MaintenanceController::class, 'generateReport'])->name('maintenance.generateReport');
 Route::get('/monitoring', [MonitoringController::class, 'index'])->name('monitoring');
 Route::get('/reginternet', [RegInternetController::class, 'index'])->name('reginternet');
+Route::get('/regemail', [RegInternetController::class, 'email'])->name('regemail');
 Route::get('/complaint', [ComplaintController::class, 'showForm'])->name('complaint');
 
 // Route Dashboard

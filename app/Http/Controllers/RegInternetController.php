@@ -11,4 +11,8 @@ class RegInternetController extends Controller
     {
         return view('landing.reginternet');
     }
+    public function email()
+    {
+        return view('landing.regemail');
+    }
 }
