@@ -209,9 +209,15 @@
                                     <span
                                         class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-yellow-500">On
                                         Going</span>
-                                @else
+                                @elseif($ticket->progress_status == 'unsolved')
                                     <span
                                         class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-gray-500">Unsolved</span>
+                                @elseif($ticket->progress_status == 'spam')
+                                    <span
+                                        class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-red-500">Spam</span>
+                                @else
+                                    <span
+                                        class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-gray-500">Pending</span>
                                 @endif
                             </div>
                         </td>
@@ -238,7 +244,7 @@
 
     <!-- Tabel Aplikasi -->
     <div class="flex justify-between items-center  pl-6 pr-6">
-        <h2 class="text-2xl font-bold">Tiket Kategori Jaringan</h2>
+        <h2 class="text-2xl font-bold">Tiket Kategori Aplikasi</h2>
     </div>
     <div class="flex justify-center items-center bg-cover bg-center px-6 rounded-xl mb-[50px]"
         style="background-image: url('/path-to-background-image');">
@@ -305,9 +311,15 @@
                                     <span
                                         class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-yellow-500">On
                                         Going</span>
-                                @else
+                                @elseif($ticket->progress_status == 'unsolved')
                                     <span
                                         class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-gray-500">Unsolved</span>
+                                @elseif($ticket->progress_status == 'spam')
+                                    <span
+                                        class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-red-500">Spam</span>
+                                @else
+                                    <span
+                                        class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-gray-500">Pending</span>
                                 @endif
                             </div>
                         </td>
@@ -334,7 +346,7 @@
 
     <!-- Tabel Email/Website -->
     <div class="flex justify-between items-center  pl-6 pr-6">
-        <h2 class="text-2xl font-bold">Tiket Kategori Jaringan</h2>
+        <h2 class="text-2xl font-bold">Tiket Kategori Email/Website</h2>
     </div>
     <div class="flex justify-center items-center bg-cover bg-center px-6 rounded-xl mb-[50px]"
         style="background-image: url('/path-to-background-image');">
@@ -401,9 +413,15 @@
                                     <span
                                         class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-yellow-500">On
                                         Going</span>
-                                @else
+                                @elseif($ticket->progress_status == 'unsolved')
                                     <span
                                         class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-gray-500">Unsolved</span>
+                                @elseif($ticket->progress_status == 'spam')
+                                    <span
+                                        class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-red-500">Spam</span>
+                                @else
+                                    <span
+                                        class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-gray-500">Pending</span>
                                 @endif
                             </div>
                         </td>
