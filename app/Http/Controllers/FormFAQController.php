@@ -49,7 +49,7 @@ class FormFAQController extends Controller
         ]);
 
         // Redirect kembali dengan pesan sukses
-        return redirect()->back()->with('success', 'FAQ berhasil ditambahkan.');
+        return redirect()->route('faq.index')->with('success', 'FAQ berhasil ditambahkan.');
     }
 
     // Tampilkan form edit FAQ
