@@ -92,7 +92,7 @@
                 <div class="absolute hidden group-hover:block bg-white shadow-lg py-2 mt-1 w-48 left-0 top-10">
                     <a href="{{ route('reginternet') }}"
                         class="block px-4 py-2 text-gray-800 hover:bg-gray-100 text-sm">Akses Internet</a>
-                    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 text-sm">Email</a>
+                    <a href="{{ route('regemail') }}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 text-sm">Email</a>
                 </div>
             </div>
 
