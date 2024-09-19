@@ -21,7 +21,7 @@
         <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center space-x-4">
             <!-- Tentang TIK Dropdown -->
             <div class="relative group flex items-center">
-                <a href="#"
+                <a href="{{ route('home') }}"
                     class="py-2.5 px-5 font-medium uppercase text-gray-800 hover:text-blue-500 border-b-2 border-transparent hover:border-blue-500">
                     Tentang TIK
                 </a>
