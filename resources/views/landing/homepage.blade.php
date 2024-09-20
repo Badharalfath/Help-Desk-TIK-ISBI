@@ -59,7 +59,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
 
             <!-- Tugas Section -->
-            <div id="sejarah-upt" class="bg-gray-100 p-6 rounded shadow-lg animate-fade-up scroll-smooth">
+            <div class="bg-gray-100 p-6 rounded shadow-lg animate-fade-up scroll-smooth">
                 <h3 class="text-xl font-bold mb-4">Tugas UPT TIK</h3>
                 <ul class="list-disc ml-6 text-left">
                     <li>Mengelola infrastruktur jaringan dan server di lingkungan kampus.</li>
@@ -84,20 +84,75 @@
     </div>
 </div>
 
+<!-- Container Layanan TIK ISBI -->
+<div class="bg-white py-12">
+    <div class="container mx-auto px-5 text-center">
+        <h1 id="layanan-tik" class="text-3xl font-semibold mb-4">Layanan TIK ISBI</h1>
+        
+        <p class="text-lg leading-relaxed mb-4">
+            UPT TIK menyediakan berbagai layanan untuk mendukung kebutuhan teknologi informasi di kampus. Berikut adalah beberapa layanan utama yang kami sediakan:
+        </p>
+        <h2 id="internet-isbi" class="text-3xl font-semibold mb-4">Akses Internet</h2>
+
+        <!-- Internet Section -->
+        <div class="bg-gray-100 p-6 rounded shadow-lg mx-[200px]">
+            <h3 class="text-xl font-bold mb-4">Akses Internet</h3>
+            <ul class="list-disc ml-6 text-left">
+                <li>Menyediakan koneksi internet yang stabil dan cepat di seluruh area kampus.</li>
+                <li>Memfasilitasi akses Wi-Fi untuk mahasiswa, dosen, dan staf.</li>
+                <li>Mengelola bandwidth untuk memastikan ketersediaan akses internet bagi semua pengguna.</li>
+                <li>Memberikan dukungan teknis untuk permasalahan koneksi internet.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Container 2: Aplikasi & Website -->
+<div class="bg-white py-12">
+    <div class="container mx-auto px-5 text-center">
+        <h1 id="aplikasi-isbi" class="text-3xl font-semibold mb-4">Aplikasi & Website</h1>
+        <p class="text-lg leading-relaxed mb-4">
+            UPT TIK menyediakan berbagai layanan untuk mendukung kebutuhan teknologi informasi di kampus. Berikut adalah beberapa layanan utama yang kami sediakan:
+        </p>
+
+        <!-- Aplikasi Web Section -->
+        <div class="bg-gray-100 p-6 rounded shadow-lg mx-[200px]">
+            <h3 class="text-xl font-bold mb-4">Aplikasi & Website</h3>
+            <ul class="list-disc ml-6 text-left">
+                <li>Mengembangkan dan memelihara aplikasi kampus untuk mendukung proses akademik dan administrasi.</li>
+                <li>Menyediakan layanan hosting dan domain untuk website fakultas dan unit-unit di kampus.</li>
+                <li>Menjaga keamanan dan performa aplikasi serta website kampus.</li>
+                <li>Memberikan pelatihan dan panduan penggunaan aplikasi kampus kepada civitas akademika.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Container 3: Email -->
+<div class="bg-white py-12">
+    <div class="container mx-auto px-5 text-center">
+        <h2 id="email-isbi" class="text-3xl font-semibold mb-4">Email</h2>
+        <p class="text-lg leading-relaxed mb-4">
+            UPT TIK menyediakan berbagai layanan untuk mendukung kebutuhan teknologi informasi di kampus. Berikut adalah beberapa layanan utama yang kami sediakan:
+        </p>
+
+        <!-- Email Section -->
+        <div class="bg-gray-100 p-6 rounded shadow-lg animate-fade-up delay-100 scroll-smooth mx-[200px]">
+            <h3 class="text-xl font-bold mb-4">Email</h3>
+            <ul class="list-disc ml-6 text-left">
+                <li>Menyediakan layanan email resmi untuk dosen, mahasiswa, dan staf.</li>
+                <li>Mengelola sistem email kampus agar tetap aman dan terlindungi dari ancaman siber.</li>
+                <li>Memastikan ketersediaan layanan email yang andal untuk komunikasi resmi di lingkungan kampus.</li>
+                <li>Memberikan dukungan teknis terkait konfigurasi dan penggunaan layanan email.</li>
+            </ul>
+        </div>
+    </div>
+</div>
 
 
-<div class="w-full h-72 bg-gray-200 flex items-center justify-center">
-    <p class="text-xl font-semibold">Container 1</p>
-</div>
-<div class="w-full h-72 bg-gray-200 flex items-center justify-center">
-    <p class="text-xl font-semibold">Container 1</p>
-</div>
-<div class="w-full h-72 bg-gray-200 flex items-center justify-center">
-    <p class="text-xl font-semibold">Container 1</p>
-</div>
-<div class="w-full h-72 bg-gray-200 flex items-center justify-center">
-    <p class="text-xl font-semibold">Container 1</p>
-</div>
+
+
+
 <!-- Swiper Initialization Script -->
 <script>
     var swiper = new Swiper('.swiper-container', {
