@@ -42,11 +42,27 @@
 </head>
 
 <body class="bg-[url('https://dummyimage.com/1920x1080/000/fff')] text-black font-sans">
+
+
     <main class="container mx-auto py-10">
-        <a href="{{ route('listjadwal') }}"
-            class="text-gray-900 hover:text-white border border-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-900 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
-            Kembali
-        </a>
+
+        <div class="flex justify-between items-center">
+            <h2 class="text-2xl font-bold mb-5">Daftar Pengguna</h2>
+
+            <!-- Button tambah user -->
+
+            <div class=" flex justify-end mb-4">
+                <a href="{{ route('listjadwal') }}"
+                    class="text-gray-900 hover:text-white border border-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-900 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
+                    Kembali
+                </a>
+                <a href="{{ route('jadwal') }}"
+                    class="text-gray-900 hover:text-white border border-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-900 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
+                    Input Pengguna
+                </a>
+            </div>
+        </div>
+        
         <div class="flex flex-col md:flex-row justify-center mt-10">
 
             <!-- Calendar Section -->
