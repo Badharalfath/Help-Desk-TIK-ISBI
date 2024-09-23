@@ -64,7 +64,7 @@
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                    @foreach($jadwals as $jadwal)
+                    @foreach($jadwalsPaginated as $jadwal)
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="text-sm text-gray-900">{{ $jadwal->id }}</div>
@@ -90,6 +90,10 @@
                     @endforeach
                 </tbody>
             </table>
+            <!-- Pagination Links -->
+            <div class="mt-4">
+            {{ $jadwalsPaginated->withQueryString()->links() }}
+            </div>
         </div>
 
         <h1 class="text-black text-3xl sm:text-4xl mt-24 pl-6 font-medium" id="jadwal-maintenance">Jadwal Maintenance

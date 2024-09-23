@@ -48,8 +48,8 @@
                 <td class="px-6 py-4 whitespace-nowrap">{{ $jadwal->id }}</td>
                 <td class="px-6 py-4 whitespace-nowrap">{{ \Carbon\Carbon::parse($jadwal->tanggal)->format('d/m/Y') }}</td>
                 <td class="px-6 py-4 whitespace-nowrap">{{ $jadwal->kategori }}</td>
-                <td class="px-6 py-4 whitespace-nowrap">{{ $jadwal->kegiatan }}</td>
-                <td class="px-6 py-4 whitespace-nowrap">{{ $jadwal->deskripsi }}</td>
+                <td class="px-6 py-4 whitespace-nowrap">{{ \Illuminate\Support\Str::limit($jadwal->kegiatan, 20) }}</td>
+                <td class="px-6 py-4 whitespace-nowrap">{{ \Illuminate\Support\Str::limit($jadwal->deskripsi, 20) }}</td>
                 <td class="px-6 py-4 whitespace-nowrap">
                     <form action="{{ route('updateStatus', $jadwal->id) }}" method="POST">
                         @csrf
