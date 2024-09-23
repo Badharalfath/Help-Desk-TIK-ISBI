@@ -9,14 +9,12 @@ class FAQController extends Controller
 {
     public function index()
     {
-        // Ambil data FAQ dari database dan pisahkan berdasarkan kategori
-        $faqsIT = Faq::where('bidang_permasalahan', 'it')->get();
-        $faqsApps = Faq::where('bidang_permasalahan', 'apps')->get();
+        // Ambil semua data FAQ dan kelompokkan berdasarkan 'bidang_permasalahan'
+        $faqsByCategory = Faq::all()->groupBy('bidang_permasalahan');
 
-        // Kirim data ke blade view
+        // Kirim data yang sudah dikelompokkan ke blade view
         return view('landing.faq', [
-            'faqsIT' => $faqsIT,
-            'faqsApps' => $faqsApps,
+            'faqsByCategory' => $faqsByCategory,
         ]);
     }
 }

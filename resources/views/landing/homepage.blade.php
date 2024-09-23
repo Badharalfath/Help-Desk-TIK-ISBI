@@ -85,10 +85,10 @@
 </div>
 
 <!-- Container Layanan TIK ISBI -->
-<div class="bg-white py-12">
+<div class="bg-gray-100 py-12">
     <div class="container mx-auto px-5 text-center">
         <h1 id="layanan-tik" class="text-3xl font-semibold mb-4">Layanan TIK ISBI</h1>
-        
+
         <p class="text-lg leading-relaxed mb-4">
             UPT TIK menyediakan berbagai layanan untuk mendukung kebutuhan teknologi informasi di kampus. Berikut adalah beberapa layanan utama yang kami sediakan:
         </p>
@@ -129,7 +129,7 @@
 </div>
 
 <!-- Container 3: Email -->
-<div class="bg-white py-12">
+<div class="bg-gray-100 py-12">
     <div class="container mx-auto px-5 text-center">
         <h2 id="email-isbi" class="text-3xl font-semibold mb-4">Email</h2>
         <p class="text-lg leading-relaxed mb-4">
