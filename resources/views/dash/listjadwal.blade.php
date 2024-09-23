@@ -6,14 +6,31 @@
     <div class="flex justify-between items-center mb-[-20px]">
         <h2 class="text-2xl font-bold mb-5">List Tabel Maintenance</h2>
 
-        <div class=" flex justify-end">
+        <div class=" flex justify-end mb-[-100px]">
             <a href="{{ route('jadwal') }}" class="text-gray-900 hover:text-white border border-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-900 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
                 Input Jadwal
             </a>
         </div>
     </div>
 
+    <!-- Filter Form -->
+    <form id="filterForm" action="{{ route('listjadwal') }}" method="GET" class="mb-5 flex space-x-4 mt-5">
+        <!-- Filter by Kategori -->
+        <select name="kategori" class="border-gray-300 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-[250px] p-2" onchange="document.getElementById('filterForm').submit()">
+            <option value="">Pilih Kategori</option>
+            <option value="Aplikasi & Website" {{ request('kategori') == 'Aplikasi & Website' ? 'selected' : '' }}>Aplikasi & Website</option>
+            <option value="Internet & Jaringan" {{ request('kategori') == 'Internet & Jaringan' ? 'selected' : '' }}>Internet & Jaringan</option>
+        </select>
 
+        <!-- Filter by Status -->
+        <select name="status" class="border-gray-300 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-[250px] p-2" onchange="document.getElementById('filterForm').submit()">
+            <option value="">Pilih Status</option>
+            <option value="Pending" {{ request('status') == 'Pending' ? 'selected' : '' }}>Pending</option>
+            <option value="Ongoing" {{ request('status') == 'Ongoing' ? 'selected' : '' }}>Ongoing</option>
+            <option value="Completed" {{ request('status') == 'Completed' ? 'selected' : '' }}>Completed</option>
+        </select>
+    </form>
+    
     <table class="min-w-full divide-y divide-gray-200 mt-6">
         <thead class="bg-gray-50">
             <tr>
@@ -47,5 +64,11 @@
             @endforeach
         </tbody>
     </table>
+
+    <!-- Pagination Links -->
+    <div class="mt-4">
+        {{ $jadwals->withQueryString()->links() }}
+    </div>
+
 </div>
 @endsection
