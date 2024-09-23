@@ -4,7 +4,7 @@
     @php
         use Illuminate\Support\Str;
     @endphp
-    <div class="container mx-auto py-10">
+    <div class="container mx-auto ">
         <!-- Tabel Default (Semua Tiket) -->
         @if (session('success'))
             <div class="bg-green-500 text-white p-3 rounded mb-4">
