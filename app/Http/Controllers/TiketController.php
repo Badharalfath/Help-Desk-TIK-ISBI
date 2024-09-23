@@ -37,8 +37,8 @@ class TiketController extends Controller
         $query->where('progress_status', $progress_status);
     }
 
-    // Jika tidak ada filter yang diterapkan, ambil semua tiket
-    $tickets = $query->get();
+    // Paginate hasil query menjadi 10 data per halaman
+    $tickets = $query->paginate(10);
 
     // Cek apakah user memiliki peran admin
     $isInput = Auth::user()->role == 'admin';
@@ -50,6 +50,7 @@ class TiketController extends Controller
         'filters' => $request->all(), // Mengirimkan data filter agar form tetap terisi
     ]);
 }
+
 
 
     public function generatePdf()

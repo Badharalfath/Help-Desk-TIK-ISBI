@@ -5,15 +5,7 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Help Desk Admin</title>
-    @vite('resources/css/app.css')
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- FullCalendar CSS -->
-    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css' rel='stylesheet' />
     <style>
         /* Modal styles */
         .modal {
@@ -41,9 +33,6 @@
     </style>
 </head>
 
-<body class="bg-[url('https://dummyimage.com/1920x1080/000/fff')] text-black font-sans">
-
-
     <main class="container mx-auto py-10">
 
         <div class="flex justify-between items-center">
@@ -62,7 +51,7 @@
                 </a>
             </div>
         </div>
-        
+
         <div class="flex flex-col md:flex-row justify-center mt-10">
 
             <!-- Calendar Section -->
