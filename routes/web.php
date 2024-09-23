@@ -48,8 +48,10 @@ Route::middleware(['auth.all'])->group(function () {
 });
 
 Route::middleware(['auth.admin'])->group(function () {
+    
     Route::get('/edittiket', [EditTiketController::class, 'index'])->name('edittiket');
     Route::get('/tickets/{id}/edit', [EditTiketController::class, 'edit'])->name('ticket.edit');
+
     Route::post('/tickets/{id}', [EditTiketController::class, 'update'])->name('ticket.update');
 
     // Route FAQ

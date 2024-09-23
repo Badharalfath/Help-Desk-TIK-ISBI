@@ -8,10 +8,23 @@ use Illuminate\Http\Request;
 
 class EditTiketController extends Controller
 {
+
+    public function index()
+{
+    // Ambil semua tiket untuk ditampilkan di halaman edit
+    $tickets = Ticket::all();
+
+    // Kembalikan view dengan data tiket
+    return view('dash.edittiket', compact('tickets'));
+}
+
     public function edit($id)
     {
-        $ticket = Ticket::findOrFail($id);
-        return view('dash.edittiket', compact('ticket'));
+        // Temukan tiket berdasarkan ID
+    $ticket = Ticket::findOrFail($id);
+
+    // Kirim data tiket ke view 'dash.edittiket'
+    return view('dash.edittiket', compact('ticket'));
     }
 
     public function update(Request $request, $id)
