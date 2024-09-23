@@ -11,23 +11,28 @@ class ListJadwalController extends Controller
 {
     public function index(Request $request)
     {
-        $month = $request->input('month');
-
-        // Jika tidak ada bulan yang diterima, gunakan bulan dan tahun saat ini
-        if (!$month) {
-            $currentMonthYear = Carbon::now()->format('Y-m');
-        } else {
-            $currentMonthYear = $month;
-        }
+        $kategori = $request->input('kategori');
+        $status = $request->input('status');
 
         // Ambil jadwal dari database sesuai dengan bulan dan tahun yang ditentukan
-        $jadwals = Jadwal::whereYear('tanggal', '=', Carbon::parse($currentMonthYear)->year)
-            ->whereMonth('tanggal', '=', Carbon::parse($currentMonthYear)->month)
-            ->get();
+        $jadwals = Jadwal::query();
+
+        // Apply filter kategori jika ada
+        if ($kategori) {
+            $jadwals->where('kategori', $kategori);
+        }
+
+        // Apply filter status jika ada
+        if ($status) {
+            $jadwals->where('status', $status);
+        }
+
+        $jadwals = $jadwals->paginate(10);
 
         // Kirim variabel ke view
-        return view('dash.listjadwal', compact('currentMonthYear', 'jadwals'));
+        return view('dash.listjadwal', compact('jadwals'));
     }
+
 
     public function generateReport(Request $request)
     {
