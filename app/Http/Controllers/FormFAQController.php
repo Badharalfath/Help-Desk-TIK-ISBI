@@ -10,7 +10,13 @@ class FormFAQController extends Controller
     // Menampilkan form untuk menambahkan FAQ
     public function index()
     {
-        return view('dash.formfaq');
+        // Fetch distinct bidang_permasalahan values from the faqs table
+        $bidangPermasalahanOptions = Faq::distinct()->pluck('bidang_permasalahan');
+
+        // Pass them to the formfaq view
+        return view('dash.formfaq', compact('bidangPermasalahanOptions'));
+
+       
     }
 
     // Menampilkan detail FAQ berdasarkan ID (untuk keperluan AJAX)
@@ -23,11 +29,15 @@ class FormFAQController extends Controller
     // Menampilkan FAQ berdasarkan kategori 'it' dan 'apps'
     public function menu()
     {
-        $itFaqs = Faq::where('bidang_permasalahan', 'it')->get();
-        $appsFaqs = Faq::where('bidang_permasalahan', 'apps')->get();
+        // Get unique bidang_permasalahan from the faqs table
+        $categories = Faq::select('bidang_permasalahan')->distinct()->get();
 
-        return view('dash.daftarfaq', compact('itFaqs', 'appsFaqs'));
+        // Fetch all FAQs, will be filtered by JavaScript later
+        $allFaqs = Faq::all();
+
+        return view('dash.daftarfaq', compact('allFaqs', 'categories'));
     }
+
 
     // Menyimpan FAQ baru ke dalam database
     public function store(Request $request)
