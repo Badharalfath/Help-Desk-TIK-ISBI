@@ -70,14 +70,13 @@ class InputUserController extends Controller
 
         // Jika ada password baru, update password
         if ($request->filled('password')) {
-            $user->update([
-                'password' => Hash::make($request->password),
-            ]);
+            $user->password = Hash::make($request->password);
         }
-
-        return redirect()->route('users.index')->with('success', 'User berhasil diupdate');
+    
+        $user->save();
+    
+        return redirect()->route('users.index')->with('success', 'User updated successfully.');
     }
-
     // Menghapus user berdasarkan ID
     public function destroy($id)
     {
