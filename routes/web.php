@@ -15,6 +15,7 @@ use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\EditTiketController;
 use App\Http\Controllers\InputUserController;
 use App\Http\Controllers\ListJadwalController;
+use App\Http\Controllers\WallmountController;
 use Illuminate\Support\Facades\Route;
 
 route::get('/', [HomeController::class, 'index'])->name('home');
@@ -48,7 +49,7 @@ Route::middleware(['auth.all'])->group(function () {
 });
 
 Route::middleware(['auth.admin'])->group(function () {
-    
+
     Route::get('/edittiket', [EditTiketController::class, 'index'])->name('edittiket');
     Route::get('/tickets/{id}/edit', [EditTiketController::class, 'edit'])->name('ticket.edit');
 
@@ -81,6 +82,11 @@ Route::middleware(['auth.admin'])->group(function () {
     // Route Tiket
     Route::get('/tambahtiket', [TambahTiketController::class, 'showForm'])->name('tambahtiket');
     Route::resource('tickets', EditTiketController::class);
+
+    // Route Wallmount
+    Route::get('/wallmount/create', [WallmountController::class, 'create'])->name('wallmount.create');
+    Route::post('/wallmount/store', [WallmountController::class, 'store'])->name('wallmount.store');
+
 
 
 });

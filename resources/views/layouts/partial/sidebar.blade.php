@@ -30,7 +30,7 @@ sidebar.blade.php
                         </a>
                     </li>
                     <li>
-                        <a href="#"
+                        <a href="{{ route('wallmount.create') }}"
                             class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white">
                             <i class="fas fa-tools mr-3 text-sm"></i>
                             <span class="text-sm">Wallmount</span>
