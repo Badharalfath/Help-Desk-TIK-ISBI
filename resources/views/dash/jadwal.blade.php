@@ -5,6 +5,13 @@
 <html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help Desk Admin</title>
+    @vite('resources/css/app.css')
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 
     <style>
         /* Modal styles */
@@ -33,10 +40,13 @@
     </style>
 </head>
 
+<body class="bg-[url('https://dummyimage.com/1920x1080/000/fff')] text-black font-sans">
+
+
     <main class="container mx-auto py-10">
 
         <div class="flex justify-between items-center">
-            <h2 class="text-2xl font-bold mb-5">Daftar Jadwal</h2>
+            <h2 class="text-2xl font-bold mb-5">Daftar Pengguna</h2>
 
             <!-- Button tambah user -->
 
@@ -47,7 +57,7 @@
                 </a>
                 <a href="{{ route('jadwal') }}"
                     class="text-gray-900 hover:text-white border border-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-900 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
-                    Input Jadwal
+                    Input Pengguna
                 </a>
             </div>
         </div>
@@ -108,6 +118,7 @@
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             required>
                             <option value="" disabled selected>-</option>
+                            <option value="Website">Website</option>
                             <option value="Aplikasi & Website">Aplikasi & Website</option>
                             <option value="Internet & Jaringan">Internet & Jaringan</option>
                         </select>
