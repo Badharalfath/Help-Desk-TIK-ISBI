@@ -84,8 +84,14 @@ Route::middleware(['auth.admin'])->group(function () {
     Route::resource('tickets', EditTiketController::class);
 
     // Route Wallmount
+    Route::get('/wallmount', [WallmountController::class, 'index'])->name('wallmount.index');
     Route::get('/wallmount/create', [WallmountController::class, 'create'])->name('wallmount.create');
     Route::post('/wallmount/store', [WallmountController::class, 'store'])->name('wallmount.store');
+    Route::get('/wallmount/{id}', [WallmountController::class, 'show'])->name('wallmount.show');
+    Route::get('/wallmount/{id}/edit', [WallmountController::class, 'edit'])->name('wallmount.edit');
+    Route::put('/wallmount/{id}', [WallmountController::class, 'update'])->name('wallmount.update');
+    Route::delete('/wallmount/{id}', [WallmountController::class, 'destroy'])->name('wallmount.destroy');
+
 
 
 
