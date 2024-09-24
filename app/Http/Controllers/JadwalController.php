@@ -12,18 +12,11 @@ class JadwalController extends Controller
 {
     public function index(Request $request)
     {
-        // Ambil parameter bulan atau gunakan bulan sekarang jika tidak ada
-        $currentMonthYear = $request->input('month') ?: date('Y-m');
-
-        // Ambil jadwal berdasarkan bulan yang diminta
-        $jadwals = Jadwal::whereYear('tanggal', '=', Carbon::parse($currentMonthYear)->year)
-            ->whereMonth('tanggal', '=', Carbon::parse($currentMonthYear)->month)
-            ->get();
-
+        $jadwals = Jadwal::all();
 
         $isInput = Auth::user()->role == 'admin';
 
-        return view('dash.jadwal', compact('jadwals', 'currentMonthYear', 'isInput'));
+        return view('dash.jadwal', compact('jadwals', 'isInput'));
     }
 
     public function store(Request $request)
