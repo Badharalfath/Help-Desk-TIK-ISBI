@@ -13,11 +13,30 @@ sidebar.blade.php
                 </a>
             </li>
             <li>
-                <a href="{{ route('listjadwal') }}"
-                    class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white">
+                 <!-- Ubah nama Kelola Jadwal menjadi Maintenance dan tambahkan cursor-pointer -->
+                <a href="javascript:void(0);" onclick="toggleDropdown('maintenance-dropdown')"
+                    class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white cursor-pointer">
                     <i class="fas fa-calendar-alt mr-3"></i>
-                    <span>Kelola Jadwal</span>
+                    <span>Maintenance</span>
+                    <i class="fas fa-chevron-down ml-auto transition-transform transform rotate-chevron"></i>
                 </a>
+                <!-- Sub-menu untuk Jadwal Maintenance dan Wallmount dengan animasi -->
+                <ul id="maintenance-dropdown" class="ml-6 space-y-2 overflow-hidden transition-all duration-300 max-h-0">
+                    <li>
+                        <a href="{{ route('listjadwal') }}"
+                            class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white">
+                            <i class="fas fa-calendar-day mr-3 text-sm"></i>
+                            <span class="text-sm">Jadwal Maintenance</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white">
+                            <i class="fas fa-tools mr-3 text-sm"></i>
+                            <span class="text-sm">Wallmount</span>
+                        </a>
+                    </li>
+                </ul>
             </li>
             <li>
                 <a href="{{ route('tiket') }}"
@@ -45,3 +64,27 @@ sidebar.blade.php
         </ul>
     </nav>
 </aside>
+
+<script>
+    function toggleDropdown(id) {
+        const dropdown = document.getElementById(id);
+        const chevron = dropdown.previousElementSibling.querySelector('.rotate-chevron'); // Pilih ikon chevron
+        
+        if (dropdown.style.maxHeight) {
+            // Jika dropdown terbuka, sembunyikan dengan transisi
+            dropdown.style.maxHeight = null;
+            chevron.classList.remove('rotate-180'); // Kembalikan ikon panah
+        } else {
+            // Jika dropdown tertutup, buka dengan transisi
+            dropdown.style.maxHeight = dropdown.scrollHeight + 'px';
+            chevron.classList.add('rotate-180'); // Putar ikon panah ke atas
+        }
+    }
+</script>
+
+<style>
+    /* Tambahkan class rotate-180 untuk memutar ikon panah */
+    .rotate-180 {
+        transform: rotate(180deg);
+    }
+</style>
