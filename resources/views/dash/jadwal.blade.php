@@ -116,14 +116,32 @@
                         <label for="kategori" class="block text-gray-700 font-bold mb-2">Kategori</label>
                         <select id="kategori" name="kategori"
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            required>
+                            onchange="showWallmountOptions(this)" required>
                             <option value="" disabled selected>-</option>
                             <option value="Website">Website</option>
                             <option value="Aplikasi & Website">Aplikasi & Website</option>
                             <option value="Internet & Jaringan">Internet & Jaringan</option>
+                            <option value="Wallmount">Wallmount</option>
                         </select>
                     </div>
 
+                    <!-- Section that will display when Wallmount is selected -->
+                    <div id="wallmount-section" class="mb-4 hidden">
+                        <label for="wallmount_id" class="block text-gray-700 font-bold mb-2">Pilih Wallmount</label>
+                        <select id="wallmount_id" name="wallmount_id" onchange="fetchPerangkat(this.value)"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <option value="" disabled selected>Pilih Wallmount</option>
+                            @foreach ($wallmounts as $wallmount)
+                                <option value="{{ $wallmount->id }}">{{ $wallmount->nama }} ({{ $wallmount->lokasi }})
+                                </option>
+                            @endforeach
+                        </select>
+                        <label for="wallmount_id" class="block text-gray-700 font-bold mb-2 mt-4">Pilih Perangkat</label>
+                        <select id="perangkat" name="perangkat_id"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <option value="">Pilih Perangkat</option>
+                        </select>
+                    </div>
 
                     <div class="mb-4">
                         <label for="kegiatan" class="block text-gray-700 font-bold mb-2">Kegiatan Maintenance</label>
@@ -192,7 +210,7 @@
                     }
                 })),
                 @if ($isInput)
-                                        dateClick: function (info) {
+                                                            dateClick: function (info) {
                         showMaintenanceDetails(info.dateStr);
                     },
                     eventClick: function (info) {
@@ -278,6 +296,58 @@
             } else {
                 detailsDiv.innerHTML = document.getElementById('jadwalForm').outerHTML;
                 document.getElementById('tanggal').value = date;
+            }
+        }
+
+        function showWallmountOptions(selectElement) {
+            var selectedCategory = selectElement.value;
+            var wallmountSection = document.getElementById('wallmount-section');
+
+            if (selectedCategory === 'Wallmount') {
+                wallmountSection.classList.remove('hidden');
+            } else {
+                wallmountSection.classList.add('hidden');
+            }
+        }
+
+        document.getElementById('wallmount').addEventListener('change', function () {
+            var wallmountId = this.value;
+            var perangkatSelect = document.getElementById('perangkat');
+
+            // Clear perangkat dropdown
+            perangkatSelect.innerHTML = '<option value="">Pilih Perangkat</option>';
+
+            if (wallmountId) {
+                fetch(`/get-perangkat/${wallmountId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        data.forEach(function (perangkat) {
+                            perangkatSelect.innerHTML += `<option value="${perangkat.id}">${perangkat.nama_perangkat}</option>`;
+                        });
+                    });
+            }
+        });
+
+        function fetchPerangkat(wallmountId) {
+            if (wallmountId) {
+                fetch(`/get-perangkat/${wallmountId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        let perangkatSelect = document.getElementById('perangkat');
+                        perangkatSelect.innerHTML = '<option value="">Pilih Perangkat</option>'; // Reset dropdown
+
+                        data.forEach(perangkat => {
+                            let option = document.createElement('option');
+                            option.value = perangkat.id;
+                            option.text = perangkat.nama_perangkat;
+                            perangkatSelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching perangkat:', error);
+                    });
+            } else {
+                document.getElementById('perangkat').innerHTML = '<option value="">Pilih Perangkat</option>'; // Reset jika wallmount tidak dipilih
             }
         }
     </script>

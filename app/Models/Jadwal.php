@@ -16,6 +16,7 @@ class Jadwal extends Model
         'jam_mulai',
         'jam_berakhir',
         'kategori',
+        'wallmount_id',
         'kegiatan',
         'deskripsi',
         'pic',

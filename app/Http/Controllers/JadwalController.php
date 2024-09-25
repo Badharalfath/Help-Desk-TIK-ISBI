@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Jadwal;
+use App\Models\Wallmount;
+use App\Models\Perangkat;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -13,10 +15,20 @@ class JadwalController extends Controller
     public function index(Request $request)
     {
         $jadwals = Jadwal::all();
+        $wallmounts = Wallmount::all();
 
         $isInput = Auth::user()->role == 'admin';
 
-        return view('dash.jadwal', compact('jadwals', 'isInput'));
+        return view('dash.jadwal', compact('jadwals', 'isInput', 'wallmounts'));
+    }
+
+    public function getPerangkatByWallmount($id)
+    {
+        // Ambil perangkat berdasarkan wallmount yang dipilih
+        $perangkats = Perangkat::where('id_wallmount', $id)->get();
+
+        // Kembalikan hasil dalam format JSON agar dapat digunakan oleh JavaScript
+        return response()->json($perangkats);
     }
 
     public function store(Request $request)
@@ -27,6 +39,7 @@ class JadwalController extends Controller
             'jam_mulai' => 'required|date_format:H:i',
             'jam_berakhir' => 'required|date_format:H:i|after:jam_mulai',
             'kategori' => 'required|string',
+            'wallmount_id' => 'nullable|exists:wallmount,id', // validasi jika kategori wallmount
             'kegiatan' => 'required|string|max:255',
             'deskripsi' => 'required|string',
             'pic' => 'required|string|max:255',
@@ -56,6 +69,7 @@ class JadwalController extends Controller
             'jam_mulai' => $request->input('jam_mulai'),
             'jam_berakhir' => $request->input('jam_berakhir'),
             'kategori' => $request->input('kategori'),
+            'wallmount_id' => $request->input('wallmount_id'), // simpan wallmount jika ada
             'kegiatan' => $request->input('kegiatan'),
             'deskripsi' => $request->input('deskripsi'),
             'pic' => $request->input('pic'),
@@ -113,4 +127,5 @@ class JadwalController extends Controller
 
         return view('dash.edit-foto-kedua', compact('jadwal', 'hasFotoKedua'));
     }
+
 }
