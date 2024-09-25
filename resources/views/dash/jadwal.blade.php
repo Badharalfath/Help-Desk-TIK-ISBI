@@ -136,11 +136,12 @@
                                 </option>
                             @endforeach
                         </select>
-                        <label for="wallmount_id" class="block text-gray-700 font-bold mb-2 mt-4">Pilih Perangkat</label>
-                        <select id="perangkat" name="perangkat_id"
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                            <option value="">Pilih Perangkat</option>
-                        </select>
+                        <div id="perangkat-container" class="mb-4" style="display:none;">
+                            <h5>Pilih Perangkat:</h5>
+                            <div id="perangkat-checkboxes">
+                                <!-- Checkbox perangkat akan dimuat di sini oleh JavaScript -->
+                            </div>
+                        </div>
                     </div>
 
                     <div class="mb-4">
@@ -210,7 +211,7 @@
                     }
                 })),
                 @if ($isInput)
-                                                            dateClick: function (info) {
+                                                                                        dateClick: function (info) {
                         showMaintenanceDetails(info.dateStr);
                     },
                     eventClick: function (info) {
@@ -310,46 +311,44 @@
             }
         }
 
-        document.getElementById('wallmount').addEventListener('change', function () {
-            var wallmountId = this.value;
-            var perangkatSelect = document.getElementById('perangkat');
-
-            // Clear perangkat dropdown
-            perangkatSelect.innerHTML = '<option value="">Pilih Perangkat</option>';
-
-            if (wallmountId) {
-                fetch(`/get-perangkat/${wallmountId}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        data.forEach(function (perangkat) {
-                            perangkatSelect.innerHTML += `<option value="${perangkat.id}">${perangkat.nama_perangkat}</option>`;
-                        });
-                    });
-            }
-        });
-
         function fetchPerangkat(wallmountId) {
+            console.log('Fetching perangkat for wallmount ID:', wallmountId); // Debugging: cek ID yang dikirim
+
             if (wallmountId) {
-                fetch(`/get-perangkat/${wallmountId}`)
+                // Lakukan AJAX request untuk mengambil perangkat berdasarkan wallmount
+                fetch(`/perangkat-by-wallmount/${wallmountId}`)
                     .then(response => response.json())
                     .then(data => {
-                        let perangkatSelect = document.getElementById('perangkat');
-                        perangkatSelect.innerHTML = '<option value="">Pilih Perangkat</option>'; // Reset dropdown
+                        console.log('Data perangkat:', data); // Debugging: cek data perangkat yang diterima
 
-                        data.forEach(perangkat => {
-                            let option = document.createElement('option');
-                            option.value = perangkat.id;
-                            option.text = perangkat.nama_perangkat;
-                            perangkatSelect.appendChild(option);
-                        });
+                        // Kosongkan container perangkat
+                        const perangkatContainer = document.getElementById('perangkat-checkboxes');
+                        perangkatContainer.innerHTML = '';
+
+                        // Tampilkan checkbox perangkat jika ada perangkat yang ditemukan
+                        if (data.length > 0) {
+                            document.getElementById('perangkat-container').style.display = 'block';
+                            data.forEach(perangkat => {
+                                perangkatContainer.innerHTML += `
+                            <label>
+                                <input type="checkbox" name="perangkat_id[]" value="${perangkat.id}">
+                                ${perangkat.nama_perangkat}
+                            </label><br>
+                        `;
+                            });
+                        } else {
+                            perangkatContainer.innerHTML = '<p>Tidak ada perangkat untuk wallmount ini.</p>';
+                        }
                     })
                     .catch(error => {
-                        console.error('Error fetching perangkat:', error);
+                        console.error('Error:', error); // Debugging: tampilkan error jika ada
                     });
             } else {
-                document.getElementById('perangkat').innerHTML = '<option value="">Pilih Perangkat</option>'; // Reset jika wallmount tidak dipilih
+                // Sembunyikan container perangkat jika tidak ada wallmount yang dipilih
+                document.getElementById('perangkat-container').style.display = 'none';
             }
         }
+
     </script>
 </body>
 @endsection

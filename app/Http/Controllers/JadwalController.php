@@ -24,12 +24,10 @@ class JadwalController extends Controller
 
     public function getPerangkatByWallmount($id)
     {
-        // Ambil perangkat berdasarkan wallmount yang dipilih
         $perangkats = Perangkat::where('id_wallmount', $id)->get();
-
-        // Kembalikan hasil dalam format JSON agar dapat digunakan oleh JavaScript
         return response()->json($perangkats);
     }
+
 
     public function store(Request $request)
     {
@@ -64,17 +62,26 @@ class JadwalController extends Controller
         }
 
         // Simpan data jadwal
-        Jadwal::create([
+        $jadwal = Jadwal::create([
             'tanggal' => $request->input('tanggal'),
             'jam_mulai' => $request->input('jam_mulai'),
             'jam_berakhir' => $request->input('jam_berakhir'),
             'kategori' => $request->input('kategori'),
-            'wallmount_id' => $request->input('wallmount_id'), // simpan wallmount jika ada
+            'wallmount_id' => $request->input('wallmount_id'),
             'kegiatan' => $request->input('kegiatan'),
             'deskripsi' => $request->input('deskripsi'),
             'pic' => $request->input('pic'),
-            'foto' => implode(',', $fotoNames), // Simpan nama file sebagai string yang dipisahkan koma
+            'foto' => implode(',', $fotoNames),
         ]);
+
+        // Simpan perangkat yang dipilih
+        if ($request->has('perangkat_id')) {
+            foreach ($request->input('perangkat_id') as $perangkatId) {
+                $jadwal->update(['perangkat_id' => $perangkatId]);
+            }
+        }
+
+
 
         return redirect()->route('jadwal')->with('success', 'Jadwal berhasil ditambahkan.');
     }

@@ -22,5 +22,6 @@ class Jadwal extends Model
         'pic',
         'foto',
         'foto_kedua',
+        'perangkat_id',
     ];    
 }

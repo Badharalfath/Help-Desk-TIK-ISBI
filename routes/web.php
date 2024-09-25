@@ -78,7 +78,7 @@ Route::middleware(['auth.admin'])->group(function () {
     Route::get('/jadwal/create', [JadwalController::class, 'create'])->name('jadwal.create');
     Route::post('/jadwal/store', [JadwalController::class, 'store'])->name('jadwal.store');
     Route::post('/update-status/{id}', [ListJadwalController::class, 'updateStatus'])->name('updateStatus');
-    Route::get('/get-perangkat/{id}', [JadwalController::class, 'getPerangkatByWallmount']);
+    Route::get('/perangkat-by-wallmount/{id}', [JadwalController::class, 'getPerangkatByWallmount']);
 
 
     // Route Tiket
