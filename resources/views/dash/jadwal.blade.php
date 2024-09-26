@@ -132,16 +132,20 @@
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                             <option value="" disabled selected>Pilih Wallmount</option>
                             @foreach ($wallmounts as $wallmount)
-                                <option value="{{ $wallmount->id }}">{{ $wallmount->nama }} ({{ $wallmount->lokasi }})
+                                <option value="{{ $wallmount->id }}">{{ $wallmount->nama }} (lokasi :
+                                    {{ $wallmount->lokasi }})
                                 </option>
                             @endforeach
                         </select>
-                        <div id="perangkat-container" class="mb-4" style="display:none;">
-                            <h5>Pilih Perangkat:</h5>
-                            <div id="perangkat-checkboxes">
-                                <!-- Checkbox perangkat akan dimuat di sini oleh JavaScript -->
-                            </div>
+                        <div>
+                            <label for="perangkat" class="block text-gray-700 font-bold mb-2 mt-4">Pilih
+                                Perangkat:</label>
+                            <select name="perangkat_id" id="perangkat"
+                                class="form-select shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                <option value="">Pilih perangkat</option>
+                            </select>
                         </div>
+
                     </div>
 
                     <div class="mb-4">
@@ -211,7 +215,7 @@
                     }
                 })),
                 @if ($isInput)
-                                                                                        dateClick: function (info) {
+                                                                                                            dateClick: function (info) {
                         showMaintenanceDetails(info.dateStr);
                     },
                     eventClick: function (info) {
@@ -223,82 +227,100 @@
         calendar.render();
             });
 
-        function showMaintenanceDetails(date) {
-            const jadwals = @json($jadwals);
-            const storageUrl = "{{ asset('storage/fotos') }}";
-            const detailsDiv = document.getElementById('maintenanceDetails');
-            const maintenanceForDate = jadwals.filter(jadwal => jadwal.tanggal === date);
+            function showMaintenanceDetails(date) {
+    const jadwals = @json($jadwals);
+    const storageUrl = "{{ asset('storage/fotos') }}";
+    const detailsDiv = document.getElementById('maintenanceDetails');
+    const maintenanceForDate = jadwals.filter(jadwal => jadwal.tanggal === date);
 
-            if (maintenanceForDate.length > 0) {
-                let detailsHTML = '<ul>';
-                maintenanceForDate.forEach(jadwal => {
-                    // Mengolah foto jika lebih dari satu
-                    let fotoHTML = '';
-                    if (jadwal.foto) {
-                        const fotos = jadwal.foto.split(','); // Pisahkan string foto yang dipisahkan koma
-                        fotoHTML = fotos.map(foto => `
-                        <div class="mt-2 p-2 border rounded-lg shadow-md bg-white">
-                            <img src="${storageUrl}/${foto.trim()}" alt="Foto Sebelum Maintenance" class="w-full h-auto max-w-md mx-auto">
-                        </div>
-                    `).join(''); // Gabungkan semua foto menjadi satu HTML string
-                    }
-
-                    detailsHTML += `
-                <li class="mb-4 border-b pb-2">
-                    <!-- Kegiatan Maintenance -->
-                    <div class="my-4">
-                        <label for="kegiatan" class="text-lg font-bold text-gray-800">Kegiatan Maintenance</label>
-                        <input type="text" id="kegiatan" name="kegiatan" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="${jadwal.kegiatan}" readonly>
+    if (maintenanceForDate.length > 0) {
+        let detailsHTML = '<ul>';
+        maintenanceForDate.forEach(jadwal => {
+            // Process photos if there are multiple
+            let fotoHTML = '';
+            if (jadwal.foto) {
+                const fotos = jadwal.foto.split(','); // Split photo string by comma
+                fotoHTML = fotos.map(foto => `
+                    <div class="mt-2 p-2 border rounded-lg shadow-md bg-white">
+                        <img src="${storageUrl}/${foto.trim()}" alt="Foto Sebelum Maintenance" class="w-full h-auto max-w-md mx-auto">
                     </div>
-
-                    <!-- Waktu Maintenance -->
-                    <div class="my-4">
-                        <label for="waktu_maintenance" class="text-lg font-bold text-gray-800">Waktu Maintenance</label>
-                        <div class="flex items-center gap-2">
-                            <input type="text" id="tanggal" name="tanggal" class="text-center shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="${jadwal.tanggal}" readonly>
-                            <input type="text" id="jam_mulai" name="jam_mulai" class="text-center shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value=" Jam ${jadwal.jam_mulai}" readonly>
-                            <span class="text-center mx-1">-</span>
-                            <input type="text" id="jam_berakhir" name="jam_berakhir" class="text-center shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="${jadwal.jam_berakhir}" readonly>
-                        </div>
-                    </div>
-
-                    <!-- Deskripsi Maintenance -->
-                    <div class="my-4">
-                        <label for="deskripsi" class="text-lg font-bold text-gray-800">Deskripsi Maintenance</label>
-                        <textarea id="deskripsi" name="deskripsi" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="4" readonly>${jadwal.deskripsi}</textarea>
-                    </div>
-
-                    <!-- Dokumentasi Sebelum Maintenance -->
-                    <div class="my-4">
-                        <label for="dokumentasi" class="text-lg font-bold text-gray-800">Sebelum Maintenance</label>
-                        ${fotoHTML} <!-- Menampilkan semua foto -->
-                    </div>
-
-                    <!-- Input gambar kedua jika belum ada -->
-                    ${jadwal.foto_kedua ? `
-                        <div class="my-4 bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative">
-                            Foto kedua sudah ada dan tidak dapat diunggah lagi.
-                        </div>` : `
-                        <form id="fotoKeduaForm" action="/jadwal/${jadwal.id}/update-foto-kedua" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            <div class="mb-4">
-                                <label for="foto_kedua" class="block text-gray-700 font-bold mb-2">Input Foto Setelah Maintenance</label>
-                                <input type="file" id="foto_kedua" name="foto_kedua[]" multiple
-                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                            </div>
-                            <button type="submit" class="w-full py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                                Submit
-                            </button>
-                        </form>`}
-                </li>`;
-                });
-                detailsHTML += '</ul>';
-                detailsDiv.innerHTML = detailsHTML;
-            } else {
-                detailsDiv.innerHTML = document.getElementById('jadwalForm').outerHTML;
-                document.getElementById('tanggal').value = date;
+                `).join(''); // Combine all photos into a single HTML string
             }
-        }
+
+            detailsHTML += `
+            <li class="mb-4 border-b pb-2">
+                <!-- Kegiatan Maintenance -->
+                <div class="my-4">
+                    <label for="kegiatan" class="text-lg font-bold text-gray-800">Kegiatan Maintenance</label>
+                    <input type="text" id="kegiatan" name="kegiatan" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="${jadwal.kegiatan}" readonly>
+                </div>
+
+                <!-- Waktu Maintenance -->
+                <div class="my-4">
+                    <label for="waktu_maintenance" class="text-lg font-bold text-gray-800">Waktu Maintenance</label>
+                    <div class="flex items-center gap-2">
+                        <input type="text" id="tanggal" name="tanggal" class="text-center shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="${jadwal.tanggal}" readonly>
+                        <input type="text" id="jam_mulai" name="jam_mulai" class="text-center shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value=" Jam ${jadwal.jam_mulai}" readonly>
+                        <span class="text-center mx-1">-</span>
+                        <input type="text" id="jam_berakhir" name="jam_berakhir" class="text-center shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="${jadwal.jam_berakhir}" readonly>
+                    </div>
+                </div>
+
+                <!-- Deskripsi Maintenance -->
+                <div class="my-4">
+                    <label for="deskripsi" class="text-lg font-bold text-gray-800">Deskripsi Maintenance</label>
+                    <textarea id="deskripsi" name="deskripsi" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="4" readonly>${jadwal.deskripsi}</textarea>
+                </div>
+                
+                ${jadwal.wallmount ? `
+                    <!-- Nama Wallmount -->
+                    <div class="my-4">
+                        <label for="wallmount" class="text-lg font-bold text-gray-800">Wallmount</label>
+                        <input type="text" id="wallmount" name="wallmount" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="${jadwal.wallmount.nama}" readonly>
+                    </div>
+                ` : ''}
+
+                ${jadwal.perangkat ? `
+                    <!-- Nama Perangkat -->
+                    <div class="my-4">
+                        <label for="perangkat" class="text-lg font-bold text-gray-800">Perangkat</label>
+                        <input type="text" id="perangkat" name="perangkat" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="${jadwal.perangkat.nama_perangkat}" readonly>
+                    </div>
+                ` : ''}
+
+                <!-- Dokumentasi Sebelum Maintenance -->
+                <div class="my-4">
+                    <label for="dokumentasi" class="text-lg font-bold text-gray-800">Sebelum Maintenance</label>
+                    ${fotoHTML} <!-- Display all photos -->
+                </div>
+
+                <!-- Input gambar kedua jika belum ada -->
+                ${jadwal.foto_kedua ? `
+                    <div class="my-4 bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative">
+                        Foto kedua sudah ada dan tidak dapat diunggah lagi.
+                    </div>` : `
+                    <form id="fotoKeduaForm" action="/jadwal/${jadwal.id}/update-foto-kedua" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="mb-4">
+                            <label for="foto_kedua" class="block text-gray-700 font-bold mb-2">Input Foto Setelah Maintenance</label>
+                            <input type="file" id="foto_kedua" name="foto_kedua[]" multiple
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        </div>
+                        <button type="submit" class="w-full py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                            Submit
+                        </button>
+                    </form>`}
+            </li>`;
+        });
+        detailsHTML += '</ul>';
+        detailsDiv.innerHTML = detailsHTML;
+    } else {
+        detailsDiv.innerHTML = document.getElementById('jadwalForm').outerHTML;
+        document.getElementById('tanggal').value = date;
+    }
+}
+
+
 
         function showWallmountOptions(selectElement) {
             var selectedCategory = selectElement.value;
@@ -321,33 +343,28 @@
                     .then(data => {
                         console.log('Data perangkat:', data); // Debugging: cek data perangkat yang diterima
 
-                        // Kosongkan container perangkat
-                        const perangkatContainer = document.getElementById('perangkat-checkboxes');
-                        perangkatContainer.innerHTML = '';
+                        // Kosongkan select perangkat
+                        const perangkatSelect = document.getElementById('perangkat');
+                        perangkatSelect.innerHTML = '<option value="">Pilih perangkat</option>';
 
-                        // Tampilkan checkbox perangkat jika ada perangkat yang ditemukan
+                        // Tambahkan option perangkat jika ada perangkat yang ditemukan
                         if (data.length > 0) {
-                            document.getElementById('perangkat-container').style.display = 'block';
                             data.forEach(perangkat => {
-                                perangkatContainer.innerHTML += `
-                            <label>
-                                <input type="checkbox" name="perangkat_id[]" value="${perangkat.id}">
-                                ${perangkat.nama_perangkat}
-                            </label><br>
+                                perangkatSelect.innerHTML += `
+                            <option value="${perangkat.id}">${perangkat.nama_perangkat}</option>
                         `;
                             });
-                        } else {
-                            perangkatContainer.innerHTML = '<p>Tidak ada perangkat untuk wallmount ini.</p>';
                         }
                     })
                     .catch(error => {
                         console.error('Error:', error); // Debugging: tampilkan error jika ada
                     });
             } else {
-                // Sembunyikan container perangkat jika tidak ada wallmount yang dipilih
-                document.getElementById('perangkat-container').style.display = 'none';
+                // Kosongkan select perangkat jika tidak ada wallmount yang dipilih
+                document.getElementById('perangkat').innerHTML = '<option value="">Pilih perangkat</option>';
             }
         }
+
 
     </script>
 </body>

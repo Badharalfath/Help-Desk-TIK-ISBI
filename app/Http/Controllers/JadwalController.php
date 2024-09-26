@@ -14,7 +14,7 @@ class JadwalController extends Controller
 {
     public function index(Request $request)
     {
-        $jadwals = Jadwal::all();
+        $jadwals = Jadwal::with(['wallmount', 'perangkat'])->get();
         $wallmounts = Wallmount::all();
 
         $isInput = Auth::user()->role == 'admin';
@@ -68,20 +68,12 @@ class JadwalController extends Controller
             'jam_berakhir' => $request->input('jam_berakhir'),
             'kategori' => $request->input('kategori'),
             'wallmount_id' => $request->input('wallmount_id'),
+            'perangkat_id' => $request->input('perangkat_id'),
             'kegiatan' => $request->input('kegiatan'),
             'deskripsi' => $request->input('deskripsi'),
             'pic' => $request->input('pic'),
             'foto' => implode(',', $fotoNames),
         ]);
-
-        // Simpan perangkat yang dipilih
-        if ($request->has('perangkat_id')) {
-            foreach ($request->input('perangkat_id') as $perangkatId) {
-                $jadwal->update(['perangkat_id' => $perangkatId]);
-            }
-        }
-
-
 
         return redirect()->route('jadwal')->with('success', 'Jadwal berhasil ditambahkan.');
     }

@@ -23,5 +23,16 @@ class Jadwal extends Model
         'foto',
         'foto_kedua',
         'perangkat_id',
-    ];    
+    ];
+
+    public function wallmount()
+    {
+        return $this->belongsTo(Wallmount::class, 'wallmount_id');
+    }
+
+    public function perangkat()
+    {
+        return $this->belongsTo(Perangkat::class, 'perangkat_id');
+    }
+
 }
