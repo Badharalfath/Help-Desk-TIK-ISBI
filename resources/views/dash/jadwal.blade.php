@@ -44,7 +44,6 @@
 
 
     <main class="container mx-auto py-10">
-
         <div class="flex justify-between items-center">
             <h2 class="text-2xl font-bold mb-5">Daftar Pengguna</h2>
 
@@ -85,6 +84,15 @@
                             </svg>
                         </button>
                     </div>
+                @endif
+                @if ($errors->any())
+                        <div class="bg-red-500 text-white p-3 rounded mb-4">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
                 @endif
 
                 <h2 class="text-xl font-bold mb-4">Tambahkan Jadwal Maintenance</h2>
@@ -215,7 +223,7 @@
                     }
                 })),
                 @if ($isInput)
-                                                                                                            dateClick: function (info) {
+                        dateClick: function (info) {
                         showMaintenanceDetails(info.dateStr);
                     },
                     eventClick: function (info) {
@@ -227,29 +235,36 @@
         calendar.render();
             });
 
-            function showMaintenanceDetails(date) {
-    const jadwals = @json($jadwals);
-    const storageUrl = "{{ asset('storage/fotos') }}";
-    const detailsDiv = document.getElementById('maintenanceDetails');
-    const maintenanceForDate = jadwals.filter(jadwal => jadwal.tanggal === date);
+        function showMaintenanceDetails(date) {
+            const jadwals = @json($jadwals);
+            const storageUrl = "{{ asset('storage/fotos') }}";
+            const detailsDiv = document.getElementById('maintenanceDetails');
+            const maintenanceForDate = jadwals.filter(jadwal => jadwal.tanggal === date);
 
-    if (maintenanceForDate.length > 0) {
-        let detailsHTML = '<ul>';
-        maintenanceForDate.forEach(jadwal => {
-            // Process photos if there are multiple
-            let fotoHTML = '';
-            if (jadwal.foto) {
-                const fotos = jadwal.foto.split(','); // Split photo string by comma
-                fotoHTML = fotos.map(foto => `
-                    <div class="mt-2 p-2 border rounded-lg shadow-md bg-white">
-                        <img src="${storageUrl}/${foto.trim()}" alt="Foto Sebelum Maintenance" class="w-full h-auto max-w-md mx-auto">
+            if (maintenanceForDate.length > 0) {
+                let detailsHTML = '<ul>';
+                maintenanceForDate.forEach(jadwal => {
+                    // Process photos if there are multiple
+                    let fotoHTML = '';
+                    if (jadwal.foto) {
+                        const fotos = jadwal.foto.split(','); // Split photo string by comma
+                        fotoHTML = `
+                    <div class="relative">
+                        <div class="flex overflow-hidden" id="carousel-${jadwal.id}">
+                            ${fotos.map((foto, index) => `
+                                <div class="carousel-item w-full flex-shrink-0 transition-transform duration-500 ${index === 0 ? 'block' : 'hidden'}">
+                                    <img src="${storageUrl}/${foto.trim()}" alt="Foto Sebelum Maintenance" class="w-full h-full object-contain max-h-64 rounded-lg">
+                                </div>
+                            `).join('')}
+                        </div>
+                        <button class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow" onclick="moveSlide(${jadwal.id}, -1)">&#10094;</button>
+                        <button class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow" onclick="moveSlide(${jadwal.id}, 1)">&#10095;</button>
                     </div>
-                `).join(''); // Combine all photos into a single HTML string
-            }
-
-            detailsHTML += `
+                `;
+                    }
+                    detailsHTML += `
             <li class="mb-4 border-b pb-2">
-                <!-- Kegiatan Maintenance -->
+                 <!-- Kegiatan Maintenance -->
                 <div class="my-4">
                     <label for="kegiatan" class="text-lg font-bold text-gray-800">Kegiatan Maintenance</label>
                     <input type="text" id="kegiatan" name="kegiatan" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="${jadwal.kegiatan}" readonly>
@@ -311,14 +326,14 @@
                         </button>
                     </form>`}
             </li>`;
-        });
-        detailsHTML += '</ul>';
-        detailsDiv.innerHTML = detailsHTML;
-    } else {
-        detailsDiv.innerHTML = document.getElementById('jadwalForm').outerHTML;
-        document.getElementById('tanggal').value = date;
-    }
-}
+                });
+                detailsHTML += '</ul>';
+                detailsDiv.innerHTML = detailsHTML;
+            } else {
+                detailsDiv.innerHTML = document.getElementById('jadwalForm').outerHTML;
+                document.getElementById('tanggal').value = date;
+            }
+        }
 
 
 
@@ -365,6 +380,29 @@
             }
         }
 
+
+        let currentSlides = {};
+
+        function moveSlide(jadwalId, direction) {
+            const slides = document.querySelectorAll(`#carousel-${jadwalId} .carousel-item`);
+            const totalSlides = slides.length;
+
+            // Initialize current slide if not already
+            if (!currentSlides[jadwalId]) {
+                currentSlides[jadwalId] = 0;
+            }
+
+            // Update current slide index
+            currentSlides[jadwalId] = (currentSlides[jadwalId] + direction + totalSlides) % totalSlides;
+
+            // Hide all slides and show the current one
+            slides.forEach((slide, index) => {
+                slide.classList.add('hidden');
+                if (index === currentSlides[jadwalId]) {
+                    slide.classList.remove('hidden');
+                }
+            });
+        }
 
     </script>
 </body>

@@ -81,7 +81,7 @@ class JadwalController extends Controller
     public function updateFotoKedua(Request $request, $id)
     {
         $request->validate([
-            'foto_kedua.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Mengubah validasi menjadi array
+            'foto_kedua.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:5012', // Mengubah validasi menjadi array
         ]);
 
         $jadwal = Jadwal::find($id);
