@@ -9,9 +9,17 @@ use App\Models\User;
 class InputUserController extends Controller
 {
     // Menampilkan daftar user
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::all();
+        $search = $request->input('search'); // Ambil input search
+
+        // Jika ada input pencarian, lakukan pencarian berdasarkan email, name, atau role
+        $users = User::when($search, function($query, $search) {
+            return $query->where('email', 'like', '%' . $search . '%')
+                         ->orWhere('name', 'like', '%' . $search . '%')
+                         ->orWhere('role', 'like', '%' . $search . '%');
+        })->get();
+
         return view('dash.user', compact('users'));
     }
 

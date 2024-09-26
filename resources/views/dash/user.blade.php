@@ -11,6 +11,15 @@
         @endif
         <div class="flex justify-between items-center">
             <h2 class="text-2xl font-bold mb-5">Daftar Pengguna</h2>
+ 
+            <!-- Search Form -->
+<form action="{{ route('users.index') }}" method="GET">
+    <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari Data......"
+        class="border-gray-300 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-[250px] p-2" />
+    <button type="submit" class="bg-gray-500 text-white px-4 py-2 rounded-lg">
+        Cari
+    </button>
+</form>
 
             <!-- Button tambah user -->
 

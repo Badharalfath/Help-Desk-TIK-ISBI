@@ -56,7 +56,7 @@ Route::middleware(['auth.admin'])->group(function () {
     Route::post('/tickets/{id}', [EditTiketController::class, 'update'])->name('ticket.update');
 
     // Route FAQ
-
+    Route::get('/faq/menu', [FormFAQController::class, 'menu'])->name('faq.menu');
     Route::get('/formfaq', [FormFAQController::class, 'index'])->name('formfaq.index');
     Route::get('/faq/{id}', [FormFAQController::class, 'show'])->name('faq.show');
     Route::post('/formfaq', [FormFAQController::class, 'store'])->name('formfaq.store');

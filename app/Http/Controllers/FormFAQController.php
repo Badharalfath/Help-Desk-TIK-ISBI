@@ -27,13 +27,22 @@ class FormFAQController extends Controller
     }
 
     // Menampilkan FAQ berdasarkan kategori 'it' dan 'apps'
-    public function menu()
+    public function menu(Request $request)
     {
         // Get unique bidang_permasalahan from the faqs table
         $categories = Faq::select('bidang_permasalahan')->distinct()->get();
 
         // Fetch all FAQs, will be filtered by JavaScript later
         $allFaqs = Faq::all();
+
+
+        // Ambil input search
+        $search = $request->input('search');
+
+        // Fetch all FAQs, filtered by search if input is provided
+        $allFaqs = Faq::when($search, function($query, $search) {
+            return $query->where('nama_masalah', 'like', '%' . $search . '%');
+        })->get();
 
         return view('dash.daftarfaq', compact('allFaqs', 'categories'));
     }

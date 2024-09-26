@@ -41,6 +41,8 @@
                                 class="border-gray-300 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2">
                         </div>
 
+
+
                         <!-- Filter by Kategori -->
                         <div>
                             <label for="kategori" class="block text-sm font-medium text-gray-700">Kategori</label>
@@ -89,8 +91,17 @@
                                 <option value="spam" {{ request('progress_status') == 'spam' ? 'selected' : '' }}>Spam
                                 </option>
                             </select>
+
                         </div>
-                    </div>
+                        <!-- Search Input -->
+                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari Data......"
+                            class="border-gray-300 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-[250px] p-2" />
+                    
+                    
+                        </div>
+
+
+
                 </form>
 
                 <!-- Tabel Tiket -->

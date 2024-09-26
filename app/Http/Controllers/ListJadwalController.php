@@ -13,6 +13,7 @@ class ListJadwalController extends Controller
     {
         $kategori = $request->input('kategori');
         $status = $request->input('status');
+        $search = $request->input('search');
 
         // Ambil jadwal dari database sesuai dengan bulan dan tahun yang ditentukan
         $jadwals = Jadwal::query();
@@ -26,6 +27,18 @@ class ListJadwalController extends Controller
         if ($status) {
             $jadwals->where('status', $status);
         }
+
+        // Apply search filter jika ada
+        if ($search) {
+            $jadwals->where(function ($query) use ($search) {
+                $query->where('id', 'like', '%' . $search . '%')
+                    ->orWhere('tanggal', 'like', '%' . $search . '%')
+                    ->orWhere('kategori', 'like', '%' . $search . '%')
+                    ->orWhere('deskripsi', 'like', '%' . $search . '%')
+                    ->orWhere('status', 'like', '%' . $search . '%');
+            });
+    }
+
 
         $jadwals = $jadwals->paginate(10);
 
