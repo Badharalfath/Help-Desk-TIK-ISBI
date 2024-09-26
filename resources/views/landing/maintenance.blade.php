@@ -122,11 +122,28 @@
                 const jadwals = @json($jadwals);
                 const calendarEl = document.getElementById('calendar');
 
+                // Fungsi untuk menentukan warna berdasarkan kategori
+                function getCategoryColor(kategori) {
+                    switch (kategori) {
+                        case 'Aplikasi & Website':
+                            return '#FF9800'; // Oranye
+                        case 'Internet & Jaringan':
+                            return '#2196F3'; // Biru
+                        case 'Wallmount':
+                            return '#4f8f4d'; // Hijau
+                        default:
+                            return '#9E9E9E'; // Abu-abu untuk kategori lain
+                    }
+                }
+
                 const calendar = new FullCalendar.Calendar(calendarEl, {
                     initialView: 'dayGridMonth',
                     events: jadwals.map(jadwal => ({
-                        title: jadwal.kegiatan,
+                        title: jadwal.kategori,
                         start: jadwal.tanggal,
+                        backgroundColor: getCategoryColor(jadwal.kategori),
+                        borderColor: getCategoryColor(jadwal.kategori),
+                        textColor: '#ffffff',
                         extendedProps: {
                             id: jadwal.id,
                             kegiatan: jadwal.kegiatan,
@@ -134,192 +151,160 @@
                             jam_berakhir: jadwal.jam_berakhir,
                             deskripsi: jadwal.deskripsi,
                             foto: jadwal.foto,
-                            foto_sesudah: jadwal.foto_sesudah
+                            foto_kedua: jadwal
+                                .foto_kedua // Pastikan ini sesuai dengan field di database
                         }
                     })),
-                    dateClick: function(info) {
-                        showMaintenanceDetails(info.dateStr);
-                    },
-                    eventClick: function(info) {
-                        showMaintenanceDetails(info.event.startStr);
-                    }
+
+                        dateClick: function(info) {
+                            showMaintenanceDetails(info.dateStr);
+                        },
+                        eventClick: function(info) {
+                            showMaintenanceDetails(info.event.startStr);
+                        },
+
                 });
 
                 calendar.render();
             });
 
-            // Object to store the current slide index for each carousel
-            let currentSlides = {};
-
             function showMaintenanceDetails(date) {
                 const jadwals = @json($jadwals);
                 const storageUrl = "{{ asset('storage/fotos') }}";
-                const detailsDiv = document.getElementById('detailsContent');
+                const detailsDiv = document.getElementById('maintenanceDetails');
                 const maintenanceForDate = jadwals.filter(jadwal => jadwal.tanggal === date);
 
                 if (maintenanceForDate.length > 0) {
                     let detailsHTML = '<ul>';
                     maintenanceForDate.forEach(jadwal => {
-                        // Carousel for before maintenance photos
                         let fotoHTML = '';
+                        let fotoKeduaHTML = '';
+
+                        // Handling multiple photos for 'before maintenance'
                         if (jadwal.foto) {
                             const fotos = jadwal.foto.split(',');
                             fotoHTML = `
-                    <div class="relative">
-                        <div class="flex overflow-hidden" id="carousel-sebelum-${jadwal.id}">
-                            ${fotos.map((foto, index) => `
-                                        <div class="carousel-item w-full flex-shrink-0 transition-transform duration-500 ${index === 0 ? 'block' : 'hidden'}">
-                                            <img src="${storageUrl}/${foto.trim()}" alt="Foto Sebelum Maintenance" class="w-full h-full object-contain max-h-64 rounded-lg">
-                                        </div>
-                                    `).join('')}
+                        <div class="relative">
+                            <div class="flex overflow-hidden" id="carousel-${jadwal.id}">
+                                ${fotos.map((foto, index) => `
+                                            <div class="carousel-item w-full flex-shrink-0 transition-transform duration-500 ${index === 0 ? 'block' : 'hidden'}">
+                                                <img src="${storageUrl}/${foto.trim()}" alt="Foto Sebelum Maintenance" class="w-full h-full object-contain max-h-64 rounded-lg">
+                                            </div>
+                                        `).join('')}
+                            </div>
+                            <button class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow" onclick="moveSlide(${jadwal.id}, -1)">&#10094;</button>
+                            <button class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow" onclick="moveSlide(${jadwal.id}, 1)">&#10095;</button>
                         </div>
-                        <button class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow" onclick="moveSlide(${jadwal.id}, -1, 'sebelum')">&#10094;</button>
-                        <button class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow" onclick="moveSlide(${jadwal.id}, 1, 'sebelum')">&#10095;</button>
-                    </div>
-                `;
+                    `;
                         }
 
-                        // Carousel for after maintenance photos
-                        let fotoSesudahHTML = '';
+                        // Check for second image (after maintenance)
                         if (jadwal.foto_kedua) {
-                            const fotosSesudah = jadwal.foto_kedua.split(',');
-                            fotoSesudahHTML = `
-                    <div class="relative">
-                        <div class="flex overflow-hidden" id="carousel-sesudah-${jadwal.id}">
-                            ${fotosSesudah.map((foto, index) => `
-                                        <div class="carousel-item w-full flex-shrink-0 transition-transform duration-500 ${index === 0 ? 'block' : 'hidden'}">
-                                            <img src="${storageUrl}/${foto.trim()}" alt="Foto Sesudah Maintenance" class="w-full h-full object-contain max-h-64 rounded-lg">
-                                        </div>
-                                    `).join('')}
+                            const fotoKeduas = jadwal.foto_kedua.split(',');
+                            fotoKeduaHTML = `
+                        <label for="dokumentasi" class="text-lg font-bold text-gray-800">Sesudah Maintenance</label>
+                        <div class="relative">
+                            <div class="flex overflow-hidden" id="carousel-second-${jadwal.id}">
+                                ${fotoKeduas.map((foto, index) => `
+                                            <div class="carousel-item w-full flex-shrink-0 transition-transform duration-500 ${index === 0 ? 'block' : 'hidden'}">
+                                                <img src="${storageUrl}/${foto.trim()}" alt="Foto Setelah Maintenance" class="w-full h-full object-contain max-h-64 rounded-lg">
+                                            </div>
+                                        `).join('')}
+                            </div>
+                            <button class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow" onclick="moveSlideSecond(${jadwal.id}, -1)">&#10094;</button>
+                            <button class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow" onclick="moveSlideSecond(${jadwal.id}, 1)">&#10095;</button>
                         </div>
-                        <button class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow" onclick="moveSlide(${jadwal.id}, -1, 'sesudah')">&#10094;</button>
-                        <button class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow" onclick="moveSlide(${jadwal.id}, 1, 'sesudah')">&#10095;</button>
-                    </div>
-                `;
+                    `;
                         } else {
-                            fotoSesudahHTML = '<p class="text-gray-700">Data belum tersedia</p>';
+                            // If second image is not available, show the upload form
+                            fotoKeduaHTML = `
+                        <div class="flex items-center p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 role="alert">
+                            <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                            </svg>
+                            <span class="sr-only">Info</span>
+                            <div>
+                                <span class="font-medium">Peringatan!</span> Gambar Sebelum Maintenance Belum Tersedia
+                            </div>
+                            </div>`;
                         }
 
                         detailsHTML += `
-                <li class="mb-4 border-b pb-2">
-                    <hr class="w-47 h-1 my-4 bg-gray-100 border-0 rounded dark:bg-gray-700">
-
-                    <!-- Kegiatan Maintenance -->
-                    <div class="my-4">
-                        <label for="kegiatan" class="text-lg font-bold text-gray-800">Kegiatan Maintenance</label>
-                        <input type="text" id="kegiatan" name="kegiatan" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="${jadwal.kegiatan}" readonly>
-                    </div>
-
-                    <!-- Waktu Maintenance -->
-                    <div class="my-4">
-                        <label for="waktu_maintenance" class="text-lg font-bold text-gray-800">Waktu Maintenance</label>
-                        <div class="flex items-center gap-2">
-                            <input type="text" id="tanggal" name="tanggal" class="text-center shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="${jadwal.tanggal}" readonly>
-                            <input type="text" id="jam_mulai" name="jam_mulai" class="text-center shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value=" Jam ${jadwal.jam_mulai}" readonly>
-                            <span class="text-center mx-1">-</span>
-                            <input type="text" id="jam_berakhir" name="jam_berakhir" class="text-center shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="${jadwal.jam_berakhir}" readonly>
+                    <li class="mb-4 border-b pb-2">
+                        <h2 class="text-xl font-bold mb-4">Detail Maintenance</h2>
+                        <hr class="w-47 h-1 my-4 bg-gray-100 border-0 rounded dark:bg-gray-700">
+                        <div class="my-4">
+                            <label for="waktu_maintenance" class="text-lg font-bold text-gray-800">Waktu Maintenance</label>
+                            <div class="flex items-center gap-2">
+                                <input type="text" id="tanggal" name="tanggal" class="text-center shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="${jadwal.tanggal}" readonly>
+                                <input type="text" id="jam_mulai" name="jam_mulai" class="text-center shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value=" Jam ${jadwal.jam_mulai}" readonly>
+                                <span class="text-center mx-1">-</span>
+                                <input type="text" id="jam_berakhir" name="jam_berakhir" class="text-center shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="${jadwal.jam_berakhir}" readonly>
+                            </div>
                         </div>
-                    </div>
-
-                    <!-- Deskripsi Maintenance -->
-                    <div class="my-4">
-                        <label for="deskripsi" class="text-lg font-bold text-gray-800">Deskripsi Maintenance</label>
-                        <textarea id="deskripsi" name="deskripsi" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="4" readonly>${jadwal.deskripsi}</textarea>
-                    </div>
-
-                    <!-- Dokumentasi Sebelum Maintenance -->
-                    <div class="my-4">
-                        <label for="dokumentasi" class="text-lg font-bold text-gray-800">Sebelum Maintenance</label>
-                        ${fotoHTML}
-                    </div>
-
-                    <!-- Dokumentasi Sesudah Maintenance -->
-                    <div class="my-4">
-                        <label for="dokumentasi" class="text-lg font-bold text-gray-800">Sesudah Maintenance</label>
-                        ${fotoSesudahHTML}
-                    </div>
-
-                    <!-- Generate Report Button -->
-                    <div class="my-4">
-                        <form method="POST" action="{{ route('maintenance.generateReport') }}">
-                            @csrf
-                            <input type="hidden" name="jadwal_id" value="${jadwal.id}">
-                            <button type="submit" class="w-full py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                                Generate Report
-                            </button>
-                        </form>
-                    </div>
-                </li>
-            `;
+                        <div class="my-4">
+                            <label for="deskripsi" class="text-lg font-bold text-gray-800">Deskripsi Maintenance</label>
+                            <textarea id="deskripsi" name="deskripsi" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="4" readonly>${jadwal.deskripsi}</textarea>
+                        </div>
+                        ${jadwal.wallmount ? `
+                                    <div class="my-4">
+                                        <label for="wallmount" class="text-lg font-bold text-gray-800">Wallmount</label>
+                                        <input type="text" id="wallmount" name="wallmount" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="${jadwal.wallmount.nama}" readonly>
+                                    </div>` : ''}
+                        <div class="my-4">
+                            <label for="dokumentasi" class="text-lg font-bold text-gray-800">Sebelum Maintenance</label>
+                            ${fotoHTML} <!-- Display all before-maintenance photos -->
+                        </div>
+                        <div class="my-4">
+                            ${fotoKeduaHTML} <!-- Display second image or upload form -->
+                        </div>
+                    </li>`;
                     });
+
                     detailsHTML += '</ul>';
                     detailsDiv.innerHTML = detailsHTML;
                 } else {
-                    detailsDiv.innerHTML = '<p class="text-gray-700">Tidak ada jadwal maintenance pada tanggal ini.</p>';
+                    detailsDiv.innerHTML = '<p>No maintenance found for this date.</p>';
                 }
             }
 
-            // Function to move slides for the carousel
-            function moveSlide(jadwalId, direction, type) {
-                const slides = document.querySelectorAll(`#carousel-${type}-${jadwalId} .carousel-item`);
-                const totalSlides = slides.length;
+            function moveSlide(jadwalId, direction) {
+                const carousel = document.getElementById(`carousel-${jadwalId}`);
+                const items = carousel.getElementsByClassName('carousel-item');
+                let currentIndex = Array.from(items).findIndex(item => !item.classList.contains('hidden'));
 
-                // Initialize current slide if not already
-                if (!currentSlides[jadwalId]) {
-                    currentSlides[jadwalId] = 0;
+                // Update current index based on direction
+                currentIndex += direction;
+                if (currentIndex < 0) {
+                    currentIndex = items.length - 1; // Loop back to the last item
+                } else if (currentIndex >= items.length) {
+                    currentIndex = 0; // Loop back to the first item
                 }
 
-                // Update current slide index
-                currentSlides[jadwalId] = (currentSlides[jadwalId] + direction + totalSlides) % totalSlides;
-
-                // Hide all slides and show the current one
-                slides.forEach((slide, index) => {
-                    slide.classList.add('hidden');
-                    if (index === currentSlides[jadwalId]) {
-                        slide.classList.remove('hidden');
-                    }
+                // Show the current item and hide others
+                Array.from(items).forEach((item, index) => {
+                    item.classList.toggle('hidden', index !== currentIndex);
                 });
             }
 
-            // Scroll untuk List Tabel Maintenance
-            document.getElementById('scroll-list').addEventListener('click', function(event) {
-                event.preventDefault(); // Mencegah default behavior
+            function moveSlideSecond(jadwalId, direction) {
+                const carousel = document.getElementById(`carousel-second-${jadwalId}`);
+                const items = carousel.getElementsByClassName('carousel-item');
+                let currentIndex = Array.from(items).findIndex(item => !item.classList.contains('hidden'));
 
-                if (window.location.pathname.includes('/maintenance')) {
-                    var targetElement = document.getElementById('list-tabel');
-                    var offset = 150; // Sesuaikan dengan kebutuhan offset
-
-                    var elementPosition = targetElement.getBoundingClientRect().top;
-                    var offsetPosition = elementPosition + window.pageYOffset - offset;
-
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: 'smooth'
-                    });
-                } else {
-                    window.location.href = "{{ route('maintenance') }}#list-tabel";
+                // Update current index based on direction
+                currentIndex += direction;
+                if (currentIndex < 0) {
+                    currentIndex = items.length - 1; // Loop back to the last item
+                } else if (currentIndex >= items.length) {
+                    currentIndex = 0; // Loop back to the first item
                 }
-            });
 
-            // Scroll untuk Jadwal Maintenance
-            document.getElementById('scroll-jadwal').addEventListener('click', function(event) {
-                event.preventDefault(); // Mencegah default behavior
-
-                if (window.location.pathname.includes('/maintenance')) {
-                    var targetElement = document.getElementById('jadwal-maintenance');
-                    var offset = 150; // Sesuaikan dengan kebutuhan offset
-
-                    var elementPosition = targetElement.getBoundingClientRect().top;
-                    var offsetPosition = elementPosition + window.pageYOffset - offset;
-
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: 'smooth'
-                    });
-                } else {
-                    window.location.href = "{{ route('maintenance') }}#jadwal-maintenance";
-                }
-            });
+                // Show the current item and hide others
+                Array.from(items).forEach((item, index) => {
+                    item.classList.toggle('hidden', index !== currentIndex);
+                });
+            }
         </script>
     </body>
 

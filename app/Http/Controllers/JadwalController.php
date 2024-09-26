@@ -38,10 +38,9 @@ class JadwalController extends Controller
             'jam_berakhir' => 'required|date_format:H:i|after:jam_mulai',
             'kategori' => 'required|string',
             'wallmount_id' => 'nullable|exists:wallmount,id', // validasi jika kategori wallmount
-            'kegiatan' => 'required|string|max:255',
             'deskripsi' => 'required|string',
             'pic' => 'required|string|max:255',
-            'foto.*' => 'nullable|image|max:5012', // Mengubah validasi menjadi array
+            'foto.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5012', // Mengubah validasi menjadi array
         ]);
 
         $fotoNames = [];
@@ -68,8 +67,6 @@ class JadwalController extends Controller
             'jam_berakhir' => $request->input('jam_berakhir'),
             'kategori' => $request->input('kategori'),
             'wallmount_id' => $request->input('wallmount_id'),
-            'perangkat_id' => $request->input('perangkat_id'),
-            'kegiatan' => $request->input('kegiatan'),
             'deskripsi' => $request->input('deskripsi'),
             'pic' => $request->input('pic'),
             'foto' => implode(',', $fotoNames),
@@ -81,7 +78,7 @@ class JadwalController extends Controller
     public function updateFotoKedua(Request $request, $id)
     {
         $request->validate([
-            'foto_kedua.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:5012', // Mengubah validasi menjadi array
+            'foto_kedua.*' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:5012', // Mengubah validasi menjadi array
         ]);
 
         $jadwal = Jadwal::find($id);
