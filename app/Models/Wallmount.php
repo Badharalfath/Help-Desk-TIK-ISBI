@@ -14,7 +14,7 @@ class Wallmount extends Model
 
     protected $fillable = ['id_wallmount', 'nama', 'lokasi'];
 
-    public function perangkats()
+    public function perangkat()
     {
         return $this->hasMany(Perangkat::class, 'id_wallmount');
     }
