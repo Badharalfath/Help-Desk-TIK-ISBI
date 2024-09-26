@@ -9,10 +9,19 @@ use App\Models\Perangkat;
 
 class WallmountController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         // Ambil semua data wallmount dari database
         $wallmounts = Wallmount::all();
+
+        // Ambil parameter pencarian
+        $search = $request->input('search');
+
+        // Ambil data wallmount, dan jika ada pencarian, filter berdasarkan nama atau lokasi
+        $wallmounts = Wallmount::when($search, function ($query, $search) {
+            return $query->where('nama', 'like', '%' . $search . '%')
+                         ->orWhere('lokasi', 'like', '%' . $search . '%');
+        })->get();
 
         // Kirim data wallmount ke view
         return view('dash.wallmount', compact('wallmounts'));

@@ -94,7 +94,7 @@ Route::middleware(['auth.admin'])->group(function () {
     Route::get('/wallmount/{id}/edit', [WallmountController::class, 'edit'])->name('wallmount.edit');
     Route::put('/wallmount/{id}', [WallmountController::class, 'update'])->name('wallmount.update');
     Route::delete('/wallmount/{id}', [WallmountController::class, 'destroy'])->name('wallmount.destroy');
-
+    Route::get('/wallmounts', [WallmountController::class, 'index'])->name('wallmounts.index');
     Route::get('/wallmount-qr/{id}', [WallmountPerangkatController::class, 'show'])->name('wallmount-qr.show');
 
 });
