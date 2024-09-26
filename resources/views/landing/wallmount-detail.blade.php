@@ -1,10 +1,20 @@
-@extends('layouts.homedash')
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    @vite('resources/css/app.css')
+    <title>Home Page</title>
 
-@section('content')
-<div class="container mx-auto p-4">
-    <h1 class="text-2xl font-bold mb-4">Detail Wallmount</h1>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
 
-    <form>
+</head>
+<div class="container mx-auto p-4 mt-24 mb-[50px]">
+
+    <form class="bg-white p-6 rounded-lg shadow-md max-w-md mx-auto">
+        <h1 class="text-2xl font-bold mb-4 text-center">Detail Wallmount</h1>
         @csrf
         <!-- Nama Wallmount -->
         <div class="mb-4">
@@ -28,16 +38,17 @@
                     value="{{ $perangkat->nama_perangkat }}" readonly>
             @endforeach
         </div>
-        <h2 class="text-lg font-medium mb-4">Foto Wallmount</h2>
         <!-- Carousel Foto -->
-        <div class="mb-4 grid justify-center">
+        <div class="mb-4">
+            <h2 class="text-lg font-medium mb-4">Foto Wallmount</h2>
+
             @php
                 // Memecah string foto yang dipisahkan oleh koma menjadi array
                 $fotos = explode(',', $wallmount->foto);
             @endphp
 
             @if(count($fotos) > 0 && $fotos[0] !== '')
-                <div class="relative max-w-[400px] w-[1000px]">
+                <div class="relative">
                     <div class="flex overflow-hidden" id="carousel-{{ $wallmount->id }}">
                         @foreach($fotos as $index => $foto)
                             <div
@@ -47,20 +58,14 @@
                             </div>
                         @endforeach
                     </div>
-                    <button type="button"
-                        class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow"
+                    <button type="button" class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow"
                         onclick="moveSlide({{ $wallmount->id }}, -1)">&#10094;</button>
-                    <button type="button"
-                        class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow"
+                    <button type="button" class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow"
                         onclick="moveSlide({{ $wallmount->id }}, 1)">&#10095;</button>
                 </div>
             @else
                 <p class="text-gray-500">Tidak ada foto yang tersedia.</p>
             @endif
-        </div>
-
-        <div>
-            <a href="{{ route('wallmount.index') }}" class="bg-gray-500 text-white py-2 px-4 rounded">Kembali</a>
         </div>
     </form>
 </div>
@@ -68,26 +73,25 @@
 <script>
     let currentSlides = {};
 
-    // Function to move slides without page refresh
-    function moveSlide(wallmountId, direction) {
-        const slides = document.querySelectorAll(`#carousel-${wallmountId} .carousel-item`);
-        const totalSlides = slides.length;
+// Function to move slides without page refresh
+function moveSlide(wallmountId, direction) {
+    const slides = document.querySelectorAll(`#carousel-${wallmountId} .carousel-item`);
+    const totalSlides = slides.length;
 
-        // Initialize current slide if not already
-        if (!currentSlides[wallmountId]) {
-            currentSlides[wallmountId] = 0;
-        }
-
-        // Update current slide index
-        currentSlides[wallmountId] = (currentSlides[wallmountId] + direction + totalSlides) % totalSlides;
-
-        // Hide all slides and show the current one
-        slides.forEach((slide, index) => {
-            slide.classList.add('hidden');
-            if (index === currentSlides[wallmountId]) {
-                slide.classList.remove('hidden');
-            }
-        });
+    // Initialize current slide if not already
+    if (!currentSlides[wallmountId]) {
+        currentSlides[wallmountId] = 0;
     }
+
+    // Update current slide index
+    currentSlides[wallmountId] = (currentSlides[wallmountId] + direction + totalSlides) % totalSlides;
+
+    // Hide all slides and show the current one
+    slides.forEach((slide, index) => {
+        slide.classList.add('hidden');
+        if (index === currentSlides[wallmountId]) {
+            slide.classList.remove('hidden');
+        }
+    });
+}
 </script>
-@endsection
