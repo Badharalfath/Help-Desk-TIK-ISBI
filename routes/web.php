@@ -16,6 +16,7 @@ use App\Http\Controllers\EditTiketController;
 use App\Http\Controllers\InputUserController;
 use App\Http\Controllers\ListJadwalController;
 use App\Http\Controllers\WallmountController;
+use App\Http\Controllers\WallmountPerangkatController;
 use Illuminate\Support\Facades\Route;
 
 route::get('/', [HomeController::class, 'index'])->name('home');
@@ -94,8 +95,7 @@ Route::middleware(['auth.admin'])->group(function () {
     Route::put('/wallmount/{id}', [WallmountController::class, 'update'])->name('wallmount.update');
     Route::delete('/wallmount/{id}', [WallmountController::class, 'destroy'])->name('wallmount.destroy');
 
-
-
+    Route::get('/wallmount-qr/{id}', [WallmountPerangkatController::class, 'show'])->name('wallmount-qr.show');
 
 });
 

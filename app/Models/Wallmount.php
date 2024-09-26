@@ -12,7 +12,7 @@ class Wallmount extends Model
 
     protected $table = 'wallmount';
 
-    protected $fillable = ['id_wallmount', 'nama', 'lokasi'];
+    protected $fillable = ['id_wallmount', 'nama', 'lokasi', 'foto'];
 
     public function perangkat()
     {

@@ -20,7 +20,7 @@
         </div>
     @endif
 
-    <form action="{{ route('wallmount.store') }}" method="POST">
+    <form action="{{ route('wallmount.store') }}" method="POST"  enctype="multipart/form-data">
         @csrf
         <div class="mb-4">
             <label for="nama" class="block text-sm font-medium">Nama Wallmount</label>
@@ -37,6 +37,11 @@
             @for ($i = 0; $i < 4; $i++)
                 <input type="text" name="perangkat[]" class="border rounded w-full py-2 px-3 mt-2">
             @endfor
+        </div>
+
+        <div class="mb-4">
+            <label for="foto" class="block text-sm font-medium">Foto Wallmount</label>
+            <input type="file" name="foto[]" class="border rounded w-full py-2 px-3" multiple>
         </div>
 
         <div>

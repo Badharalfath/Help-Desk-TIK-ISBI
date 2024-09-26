@@ -30,6 +30,7 @@ class WallmountController extends Controller
             'lokasi' => 'required|string|max:255',
             'perangkat' => 'required|array|max:4', // Maksimal 4 perangkat
             'perangkat.*' => 'nullable|string|max:255',
+            'foto.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:5012', // Validasi untuk file gambar
         ]);
 
         // Buat Wallmount
@@ -48,8 +49,23 @@ class WallmountController extends Controller
             }
         }
 
+        // Simpan Foto
+        $fotoNames = [];
+        if ($request->hasFile('foto')) {
+            foreach ($request->file('foto') as $foto) {
+                $originalFilename = $foto->getClientOriginalName();
+                $newFilename = rand(1000000000, 9999999999) . '_' . $originalFilename;
+                $foto->storeAs('public/fotos', $newFilename); // Simpan foto ke direktori 'public/fotos'
+                $fotoNames[] = $newFilename;
+            }
+
+            // Simpan nama file sebagai string yang dipisahkan dengan koma
+            $wallmount->update(['foto' => implode(',', $fotoNames)]);
+        }
+
         return redirect()->route('wallmount.index')->with('success', 'Wallmount dan perangkat berhasil ditambahkan.');
     }
+
     public function show($id)
     {
         // Ambil wallmount berdasarkan ID dan perangkat terkaitnya
