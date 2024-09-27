@@ -40,6 +40,7 @@
             <!-- Search Input -->
             <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari Deskripsi......"
                 class="border-gray-300 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-[250px] p-2" />
+            <a href="{{ route('listjadwal') }}" class="btn btn-secondary">Clear</a>
         </form>
 
         <table class="min-w-full divide-y divide-gray-200 mt-6">
@@ -60,7 +61,7 @@
                         <td class="px-6 py-4 whitespace-nowrap">
                             {{ \Carbon\Carbon::parse($jadwal->tanggal)->format('d/m/Y') }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">{{ $jadwal->kategori }}</td>
-                        
+
                         <td class="px-6 py-4 whitespace-nowrap">
                             {{ \Illuminate\Support\Str::limit($jadwal->deskripsi, 20) }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">

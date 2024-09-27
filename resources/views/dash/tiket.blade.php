@@ -96,9 +96,10 @@
                         <!-- Search Input -->
                         <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari Data......"
                             class="border-gray-300 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-[250px] p-2" />
-                    
-                    
-                        </div>
+
+                        <!-- Tambahkan button Clear -->
+                        <a href="{{ route('tiket') }}" class="btn btn-secondary">Clear</a>
+                    </div>
 
 
 

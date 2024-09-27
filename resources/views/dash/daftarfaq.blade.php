@@ -20,6 +20,7 @@
                 <button type="submit" class="bg-gray-500 text-white px-4 py-2 rounded-lg">
                     Cari
                 </button>
+                <a href="{{ route('faq.index') }}" class="btn btn-secondary">Clear</a>
             </form>
 
             <!-- Button on the right -->
