@@ -1,11 +1,5 @@
-{{-- <header class="bg-white fixed top-0 left-64 w-full z-50 shadow-lg backdrop-blur-md p-4">
-    <div class="flex justify-between items-center">
-        <h1 class="text-xl font-bold">Welcome, {{ auth()->user()->name }}</h1>
-    </div>
-</header> --}}
 
-
-<header class="text-gray-600 body-font mt-[-10px]">
+<header class="text-gray-600 body-font">
     <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
         <a class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
             <span class="ml-3 text-xl">Welcome, {{ auth()->user()->name }}</span>

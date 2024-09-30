@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BarangController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\FAQController;
@@ -7,6 +8,7 @@ use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\RegInternetController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DepartemenController;
 use App\Http\Controllers\TambahTiketController;
 use App\Http\Controllers\TiketController;
 use App\Http\Controllers\JadwalController;
@@ -14,7 +16,11 @@ use App\Http\Controllers\FormFAQController;
 use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\EditTiketController;
 use App\Http\Controllers\InputUserController;
+use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\ListJadwalController;
+use App\Http\Controllers\LokasiController;
+use App\Http\Controllers\PenempatanController;
+use App\Http\Controllers\PengadaanController;
 use App\Http\Controllers\WallmountController;
 use App\Http\Controllers\WallmountPerangkatController;
 use Illuminate\Support\Facades\Route;
@@ -53,8 +59,17 @@ Route::middleware(['auth.admin'])->group(function () {
 
     Route::get('/edittiket', [EditTiketController::class, 'index'])->name('edittiket');
     Route::get('/tickets/{id}/edit', [EditTiketController::class, 'edit'])->name('ticket.edit');
-
     Route::post('/tickets/{id}', [EditTiketController::class, 'update'])->name('ticket.update');
+
+
+    // Route Managemen
+    Route::get('/barang', [BarangController::class, 'index'])->name('barang');
+    Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori');
+    Route::get('/penempatan', [PenempatanController::class, 'index'])->name('penempatan');
+    Route::get('/pengadaan', [PengadaanController::class, 'index'])->name('pengadaan');
+    Route::get('/departemen', [DepartemenController::class, 'index'])->name('departemen');
+    Route::get('/lokasi', [LokasiController::class, 'index'])->name('lokasi');
+
 
     // Route FAQ
     Route::get('/faq/menu', [FormFAQController::class, 'menu'])->name('faq.menu');

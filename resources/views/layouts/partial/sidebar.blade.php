@@ -1,4 +1,3 @@
-sidebar.blade.php
 <aside class="fixed top-0 left-0 w-64 h-screen bg-gray-800 text-white shadow-md">
     <div class="p-4 flex items-center justify-center">
         <a href="{{ route('dashboard') }}" class="text-xl font-bold">Help Desk Dashboard</a>
@@ -13,14 +12,12 @@ sidebar.blade.php
                 </a>
             </li>
             <li>
-                 <!-- Ubah nama Kelola Jadwal menjadi Maintenance dan tambahkan cursor-pointer -->
                 <a href="javascript:void(0);" onclick="toggleDropdown('maintenance-dropdown')"
                     class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white cursor-pointer">
                     <i class="fas fa-calendar-alt mr-3"></i>
                     <span>Maintenance</span>
                     <i class="fas fa-chevron-down ml-auto transition-transform transform rotate-chevron"></i>
                 </a>
-                <!-- Sub-menu untuk Jadwal Maintenance dan Wallmount dengan animasi -->
                 <ul id="maintenance-dropdown" class="ml-6 space-y-2 overflow-hidden transition-all duration-300 max-h-0">
                     <li>
                         <a href="{{ route('listjadwal') }}"
@@ -58,9 +55,60 @@ sidebar.blade.php
                     <i class="fas fa-question-circle mr-3"></i>
                     <span>Form FAQ</span>
                 </a>
-
             </li>
-
+            <!-- Tambahan Dropdown Manajemen Asset -->
+            <li>
+                <a href="javascript:void(0);" onclick="toggleDropdown('asset-dropdown')"
+                    class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white cursor-pointer">
+                    <i class="fas fa-boxes mr-3"></i>
+                    <span>Manajemen Asset</span>
+                    <i class="fas fa-chevron-down ml-auto transition-transform transform rotate-chevron"></i>
+                </a>
+                <ul id="asset-dropdown" class="ml-6 space-y-2 overflow-hidden transition-all duration-300 max-h-0">
+                    <li>
+                        <a href="{{ route('barang') }}"
+                            class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white">
+                            <i class="fas fa-box mr-3 text-sm"></i>
+                            <span class="text-sm">Data Barang</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('departemen') }}"
+                            class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white">
+                            <i class="fas fa-building mr-3 text-sm"></i>
+                            <span class="text-sm">Data Departemen</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('kategori') }}"
+                            class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white">
+                            <i class="fas fa-tags mr-3 text-sm"></i>
+                            <span class="text-sm">Data Kategori</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('lokasi') }}"
+                            class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white">
+                            <i class="fas fa-map-marker-alt mr-3 text-sm"></i>
+                            <span class="text-sm">Data Lokasi</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('penempatan') }}"
+                            class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white">
+                            <i class="fas fa-warehouse mr-3 text-sm"></i>
+                            <span class="text-sm">Data Penempatan</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('pengadaan') }}"
+                            class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white">
+                            <i class="fas fa-shopping-cart mr-3 text-sm"></i>
+                            <span class="text-sm">Data Pengadaan</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
         </ul>
     </nav>
 </aside>
@@ -68,22 +116,19 @@ sidebar.blade.php
 <script>
     function toggleDropdown(id) {
         const dropdown = document.getElementById(id);
-        const chevron = dropdown.previousElementSibling.querySelector('.rotate-chevron'); // Pilih ikon chevron
-        
+        const chevron = dropdown.previousElementSibling.querySelector('.rotate-chevron');
+
         if (dropdown.style.maxHeight) {
-            // Jika dropdown terbuka, sembunyikan dengan transisi
             dropdown.style.maxHeight = null;
-            chevron.classList.remove('rotate-180'); // Kembalikan ikon panah
+            chevron.classList.remove('rotate-180');
         } else {
-            // Jika dropdown tertutup, buka dengan transisi
             dropdown.style.maxHeight = dropdown.scrollHeight + 'px';
-            chevron.classList.add('rotate-180'); // Putar ikon panah ke atas
+            chevron.classList.add('rotate-180');
         }
     }
 </script>
 
 <style>
-    /* Tambahkan class rotate-180 untuk memutar ikon panah */
     .rotate-180 {
         transform: rotate(180deg);
     }
