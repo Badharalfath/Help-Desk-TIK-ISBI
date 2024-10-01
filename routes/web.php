@@ -68,6 +68,11 @@ Route::middleware(['auth.admin'])->group(function () {
     Route::get('/penempatan', [PenempatanController::class, 'index'])->name('penempatan');
     Route::get('/pengadaan', [PengadaanController::class, 'index'])->name('pengadaan');
     Route::get('/departemen', [DepartemenController::class, 'index'])->name('departemen');
+    Route::get('/departemen/tambah', [DepartemenController::class, 'create'])->name('departemen.create');
+    Route::post('/departemen/tambah', [DepartemenController::class, 'store'])->name('departemen.store');
+    Route::get('/departemen/{kode}/edit', [DepartemenController::class, 'edit'])->name('departemen.edit');
+    Route::put('/departemen/{kode}', [DepartemenController::class, 'update'])->name('departemen.update');
+    Route::delete('/departemen/{kode}', [DepartemenController::class, 'destroy'])->name('departemen.destroy');
     Route::get('/lokasi', [LokasiController::class, 'index'])->name('lokasi');
 
 
