@@ -5,6 +5,8 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
+use App\Observers\BarangObserver;
+use App\Models\Barang; // Tambahkan model Barang
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,6 +23,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Daftarkan observer untuk model Barang
+        Barang::observe(BarangObserver::class);
+
+        // Validasi Captcha
         Validator::extend('captcha', function ($attribute, $value, $parameters, $validator) {
             $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
                 'secret' => env('RECAPTCHA_SECRET_KEY'),
