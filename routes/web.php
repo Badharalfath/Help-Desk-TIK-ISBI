@@ -64,7 +64,17 @@ Route::middleware(['auth.admin'])->group(function () {
 
     // Route Managemen
     Route::get('/barang', [BarangController::class, 'index'])->name('barang');
+    Route::get('/barang/create', [BarangController::class, 'create'])->name('barang.create');
+    Route::post('/barang', [BarangController::class, 'store'])->name('barang.store');
+    Route::get('/barang/{kd_barang}/edit', [BarangController::class, 'edit'])->name('barang.edit');
+    Route::put('/barang/{kd_barang}', [BarangController::class, 'update'])->name('barang.update');
+    Route::delete('/barang/{kd_barang}', [BarangController::class, 'destroy'])->name('barang.destroy');
     Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori');
+    Route::get('/kategori/create', [KategoriController::class, 'create'])->name('kategori.create');
+    Route::post('/kategori', [KategoriController::class, 'store'])->name('kategori.store');
+    Route::get('/kategori/{kd_kategori}/edit', [KategoriController::class, 'edit'])->name('kategori.edit');
+    Route::put('/kategori/{kd_kategori}', [KategoriController::class, 'update'])->name('kategori.update');
+    Route::delete('/kategori/{kd_kategori}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
     Route::get('/penempatan', [PenempatanController::class, 'index'])->name('penempatan');
     Route::get('/pengadaan', [PengadaanController::class, 'index'])->name('pengadaan');
     Route::get('/departemen', [DepartemenController::class, 'index'])->name('departemen');

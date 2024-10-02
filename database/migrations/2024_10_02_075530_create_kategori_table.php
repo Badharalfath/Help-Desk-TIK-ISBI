@@ -6,26 +6,16 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateKategoriTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('kategori', function (Blueprint $table) {
-            $table->id('kd_kategori'); // Auto increment dengan format K001, K002 dst.
+            $table->string('kd_kategori', 6)->primary(); // Primary key berupa kode kategori
             $table->string('nama_kategori');
-            $table->integer('qty_barang')->default(0); // Jumlah barang berdasarkan kategori
+            $table->integer('qty_barang')->default(0); // Akan otomatis dihitung berdasarkan barang
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('kategori');
