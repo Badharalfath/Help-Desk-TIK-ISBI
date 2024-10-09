@@ -21,6 +21,7 @@ use App\Http\Controllers\ListJadwalController;
 use App\Http\Controllers\LokasiController;
 use App\Http\Controllers\PenempatanController;
 use App\Http\Controllers\PengadaanController;
+use App\Http\Controllers\TambahPengadaanController;
 use App\Http\Controllers\WallmountController;
 use App\Http\Controllers\WallmountPerangkatController;
 use Illuminate\Support\Facades\Route;
@@ -52,7 +53,6 @@ Route::middleware(['auth.all'])->group(function () {
     Route::get('/daftarfaq', [FormFAQController::class, 'menu'])->name('faq.index');
     // Route Users
     Route::get('/user', [InputUserController::class, 'index'])->name('user');
-
 });
 
 Route::middleware(['auth.admin'])->group(function () {
@@ -77,6 +77,9 @@ Route::middleware(['auth.admin'])->group(function () {
     Route::delete('/kategori/{kd_kategori}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
     Route::get('/penempatan', [PenempatanController::class, 'index'])->name('penempatan');
     Route::get('/pengadaan', [PengadaanController::class, 'index'])->name('pengadaan');
+    Route::get('/tambah-pengadaan', [TambahPengadaanController::class, 'index'])->name('tambah-pengadaan');
+    Route::post('/pengadaan', [TambahPengadaanController::class, 'store'])->name('pengadaan.store');
+
     Route::get('/departemen', [DepartemenController::class, 'index'])->name('departemen');
     Route::get('/departemen/tambah', [DepartemenController::class, 'create'])->name('departemen.create');
     Route::post('/departemen/tambah', [DepartemenController::class, 'store'])->name('departemen.store');
@@ -131,7 +134,6 @@ Route::middleware(['auth.admin'])->group(function () {
     Route::delete('/wallmount/{id}', [WallmountController::class, 'destroy'])->name('wallmount.destroy');
     Route::get('/wallmounts', [WallmountController::class, 'index'])->name('wallmounts.index');
     Route::get('/wallmount-qr/{id}', [WallmountPerangkatController::class, 'show'])->name('wallmount-qr.show');
-
 });
 
 // Route User login

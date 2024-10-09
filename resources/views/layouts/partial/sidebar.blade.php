@@ -18,7 +18,8 @@
                     <span>Maintenance</span>
                     <i class="fas fa-chevron-down ml-auto transition-transform transform rotate-chevron"></i>
                 </a>
-                <ul id="maintenance-dropdown" class="ml-6 space-y-2 overflow-hidden transition-all duration-300 max-h-0">
+                <ul id="maintenance-dropdown"
+                    class="ml-6 space-y-2 overflow-hidden transition-all duration-300 max-h-0">
                     <li>
                         <a href="{{ route('listjadwal') }}"
                             class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white">
@@ -101,11 +102,12 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('pengadaan') }}"
+                        <a href="{{ route('tambah-pengadaan') }}"
                             class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white">
                             <i class="fas fa-shopping-cart mr-3 text-sm"></i>
                             <span class="text-sm">Data Pengadaan</span>
                         </a>
+
                     </li>
                 </ul>
             </li>

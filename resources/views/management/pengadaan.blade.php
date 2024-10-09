@@ -4,9 +4,9 @@
 <div class="bg-gray-100 p-6 rounded-lg shadow-md max-w-[1475px] mx-auto px-8 mt-10">
     <div class="flex justify-between items-center mb-4 ">
         <h2 class="text-left text-xl font-semibold">Judul Konten</h2>
-        <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300">
-            Tambah
-        </button>
+        <div class="flex justify-between items-center mb-4">
+            <a href="{{ route('tambah-pengadaan') }}" class="bg-blue-500 text-white py-2 px-4 rounded">Tambah</a>
+        </div>
     </div>
     <hr class="mb-6">
     <div class="content">
