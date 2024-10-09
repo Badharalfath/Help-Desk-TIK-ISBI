@@ -23,6 +23,6 @@ class Barang extends Model
     // Relasi ke model Kategori
     public function kategori()
     {
-        return $this->belongsTo(Kategori::class, 'kd_kategori', 'kode');
+        return $this->belongsTo(Kategori::class, 'kd_kategori', 'kd_kategori');
     }
 }
