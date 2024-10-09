@@ -4,12 +4,10 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdatePengadaanTableAddTotalBiaya extends Migration
+class AddTotalBiayaPengadaanTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
@@ -20,11 +18,6 @@ class UpdatePengadaanTableAddTotalBiaya extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::table('pengadaan', function (Blueprint $table) {
@@ -33,5 +26,4 @@ class UpdatePengadaanTableAddTotalBiaya extends Migration
             }
         });
     }
-}
-
+};
