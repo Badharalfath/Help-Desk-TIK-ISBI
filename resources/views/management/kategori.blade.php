@@ -15,10 +15,14 @@
                 <a href="{{ route('kategori') }}" class="btn btn-secondary">Clear</a>
             </div>
         </form>
-        <div class="flex justify-between items-center mb-4">
-            <a href="{{ route('kategori.create') }}" class="bg-blue-500 text-white py-2 px-4 rounded">Tambah
-                Kategori</a>
+
+        <div class=" flex justify-end mb-4">
+            <a href="{{ route('kategori.create') }}"
+                class="text-gray-900 hover:text-white border border-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-900 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
+                Tambah Kategori
+            </a>
         </div>
+
     </div>
     <hr class="mb-6">
     <div class="content">

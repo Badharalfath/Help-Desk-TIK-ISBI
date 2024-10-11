@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container mx-auto p-6">
-        <h3 class="text-lg font-semibold">TRANSAKSI PENGADAAN</h3>
+        
         <div class="bg-white rounded-lg shadow-md p-6">
             @if ($errors->any())
                 <div class="bg-red-500 text-white p-3 rounded mb-4">

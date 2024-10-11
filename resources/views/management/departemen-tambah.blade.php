@@ -1,65 +1,51 @@
 @extends('layouts.homedash')
 
 @section('content')
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tambah Departemen</title>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-</head>
+<div class="bg-gray-100 rounded-lg shadow-md max-w-lg mx-auto p-4 px-8 mt-10">
+    <h2 class="text-left text-xl font-semibold mb-2 mt-5">Tambah Departemen</h2>
+    <hr class="mb-4">
 
-<body>
-
-    <main class="container mx-auto py-4">
-        <div class="flex flex-col md:flex-row justify-center mt-14 mb-[50px]">
-            <div class="w-full md:w-1/2">
-                <div class="bg-white p-6 rounded shadow-md">
-                    <h2 class="text-xl font-bold mb-4">Tambah Departemen</h2>
-
-                    @if ($errors->any())
-                        <div class="bg-red-500 text-white p-3 rounded mb-4">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-
-                    <form method="POST" action="{{ route('departemen.store') }}">
-                        @csrf
-                        <div class="mb-4">
-                            <label for="kode" class="block text-gray-700 font-bold mb-2">Kode Departemen</label>
-                            <input type="text" name="kode" id="kode" readonly
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                value="{{ $kodeOtomatis }}">
-                        </div>
-                        <div class="mb-4">
-                            <label for="nama_departemen" class="block text-gray-700 font-bold mb-2">Nama Departemen</label>
-                            <input type="text" name="nama_departemen" id="nama_departemen"
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                        </div>
-                        <div class="mb-4">
-                            <label for="keterangan" class="block text-gray-700 font-bold mb-2">Keterangan</label>
-                            <textarea name="keterangan" id="keterangan"
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
-                        </div>
-
-                        <button type="submit"
-                            class="w-full py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                            Tambah
-                        </button>
-                    </form>
-                </div>
-            </div>
+    @if ($errors->any())
+        <div class="bg-red-500 text-white p-3 rounded mb-4">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
         </div>
-    </main>
+    @endif
 
-</body>
+    <form method="POST" action="{{ route('departemen.store') }}" class="max-w-lg mx-auto p-4">
+        @csrf
 
-</html>
+        <!-- Kode Departemen (Otomatis) -->
+        <div class="mb-4">
+            <label for="kode" class="block text-sm font-medium text-gray-700">Kode Departemen</label>
+            <input type="text" name="kode" id="kode" value="{{ $kodeOtomatis }}"
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" readonly>
+        </div>
+
+        <!-- Nama Departemen -->
+        <div class="mb-4">
+            <label for="nama_departemen" class="block text-sm font-medium text-gray-700">Nama Departemen</label>
+            <input type="text" name="nama_departemen" id="nama_departemen"
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+        </div>
+
+        <!-- Keterangan -->
+        <div class="mb-4">
+            <label for="keterangan" class="block text-sm font-medium text-gray-700">Keterangan</label>
+            <textarea name="keterangan" id="keterangan"
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"></textarea>
+        </div>
+
+        <!-- Tombol Tambah -->
+        <div class="mt-6">
+            <button type="submit"
+                class="w-full bg-blue-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-600">Tambah</button>
+        </div>
+    </form>
+</div>
+
 @endsection

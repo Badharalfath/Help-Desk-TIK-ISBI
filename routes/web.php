@@ -78,6 +78,9 @@ Route::middleware(['auth.admin'])->group(function () {
     Route::get('/penempatan', [PenempatanController::class, 'index'])->name('penempatan');
     Route::get('/penempatan-tambah', [PenempatanController::class, 'create'])->name('penempatan-tambah');
     Route::post('/penempatan', [PenempatanController::class, 'store'])->name('penempatan.store');
+    Route::get('/penempatan/{kd_penempatan}/edit', [PenempatanController::class, 'edit'])->name('penempatan.edit');
+    Route::put('penempatan/{kd_penempatan}', [PenempatanController::class, 'update'])->name('penempatan.update');
+    Route::delete('/penempatan/{kd_penempatan}', [PenempatanController::class, 'destroy'])->name('penempatan.destroy');
     Route::get('/pengadaan', [PengadaanController::class, 'index'])->name('pengadaan');
     Route::get('/tambah-pengadaan', [TambahPengadaanController::class, 'index'])->name('tambah-pengadaan');
     Route::post('/pengadaan', [TambahPengadaanController::class, 'store'])->name('pengadaan.store');
@@ -87,6 +90,7 @@ Route::middleware(['auth.admin'])->group(function () {
     Route::get('/departemen/{kode}/edit', [DepartemenController::class, 'edit'])->name('departemen.edit');
     Route::put('/departemen/{kode}', [DepartemenController::class, 'update'])->name('departemen.update');
     Route::delete('/departemen/{kode}', [DepartemenController::class, 'destroy'])->name('departemen.destroy');
+    Route::get('/get-lokasi/{departemenId}', [PenempatanController::class, 'getLokasi']);
     Route::get('/lokasi', [LokasiController::class, 'index'])->name('lokasi');
     Route::get('/lokasi/create', [LokasiController::class, 'create'])->name('lokasi.create');
     Route::post('/lokasi', [LokasiController::class, 'store'])->name('lokasi.store');
