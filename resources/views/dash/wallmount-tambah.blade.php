@@ -1,8 +1,9 @@
 @extends('layouts.homedash')
 
 @section('content')
-<div class="container mx-auto p-4">
-    <h1 class="text-2xl font-bold mb-4">Tambah Wallmount</h1>
+<div class="bg-gray-100 rounded-lg shadow-md max-w-lg mx-auto p-4 px-8 mt-10">
+    <h2 class="text-left text-xl font-semibold mb-2 mt-5">Tambah Wallmount</h2>
+    <hr class="mb-4">
 
     @if ($errors->any())
         <div class="bg-red-500 text-white p-3 rounded mb-4">
@@ -44,8 +45,9 @@
             <input type="file" name="foto[]" class="border rounded w-full py-2 px-3" multiple>
         </div>
 
-        <div>
-            <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded">Simpan</button>
+        <div class="mt-6">
+            <button type="submit"
+                class="w-full bg-blue-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-600">Simpan</button>
         </div>
     </form>
 </div>

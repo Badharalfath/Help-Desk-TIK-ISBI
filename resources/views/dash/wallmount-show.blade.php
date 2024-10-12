@@ -1,8 +1,9 @@
 @extends('layouts.homedash')
 
 @section('content')
-<div class="container mx-auto p-4">
-    <h1 class="text-2xl font-bold mb-4">Detail Wallmount</h1>
+<div class="bg-gray-100 rounded-lg shadow-md max-w-lg mx-auto p-4 px-8 mt-10">
+    <h2 class="text-left text-xl font-semibold mb-2 mt-5">Detail Wallmount</h2>
+    <hr class="mb-4">
 
     <form>
         @csrf
@@ -58,9 +59,9 @@
                 <p class="text-gray-500">Tidak ada foto yang tersedia.</p>
             @endif
         </div>
-
-        <div>
-            <a href="{{ route('wallmount.index') }}" class="bg-gray-500 text-white py-2 px-4 rounded">Kembali</a>
+        
+        <div class="my-6">
+            <a href="{{ route('wallmount.index') }}" class="w-full bg-gray-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-gray-600">Kembali</a>
         </div>
     </form>
 </div>

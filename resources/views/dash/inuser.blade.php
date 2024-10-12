@@ -2,72 +2,72 @@
 
 @section('content')
     <!-- Content -->
-    <div class="container mx-auto mt-10">
-        <div class="bg-white shadow-md rounded-lg overflow-hidden">
-            <div class="bg-gray-800 p-6">
-                <h3 class="text-white text-lg font-semibold">Form FAQ</h3>
+    <div class="bg-gray-100 rounded-lg shadow-md max-w-lg mx-auto p-4 px-8 mt-10">
+        <h3 class="text-left text-xl font-semibold mb-2 mt-5">Input Pengguna</h3>
+        <hr class="mb-4">
+
+        <form id="userForm" action="{{ route('users.store') }}" method="POST" class="max-w-lg mx-auto p-4">
+            @csrf
+            <!-- Email -->
+            <div class="mb-4">
+                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                <input type="email" id="email" name="email" value="{{ old('email') }}"
+                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+                @error('email')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
             </div>
 
+            <!-- Nama -->
+            <div class="mb-4">
+                <label for="name" class="block text-sm font-medium text-gray-700">Nama</label>
+                <input type="text" id="name" name="name" value="{{ old('name') }}"
+                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+                @error('name')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+            </div>
 
-            <form id="userForm" action="{{ route('users.store') }}" method="POST" class="p-8">
-                @csrf
-                <div class="mb-4">
-                    <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email:</label>
-                    <input type="email"
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="email" name="email" value="{{ old('email') }}" required>
-                    @error('email')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                    @enderror
-                </div>
-                <div class="mb-4">
-                    <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Nama:</label>
-                    <input type="text"
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="name" name="name" value="{{ old('name') }}" required>
-                    @error('name')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                    @enderror
-                </div>
-                <div class="mb-4">
-                    <label for="role" class="block text-gray-700 text-sm font-bold mb-2">Role:</label>
-                    <select
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="role" name="role" required>
-                        <option value="">Pilih Role</option>
-                        <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
-                        <option value="kepala" {{ old('role') == 'kepala' ? 'selected' : '' }}>Kepala</option>
-                    </select>
-                    @error('role')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                    @enderror
-                </div>
-                <div class="mb-4">
-                    <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password:</label>
-                    <input type="password"
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="password" name="password" required>
-                    @error('password')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                    @enderror
-                </div>
-                <div class="mb-4">
-                    <label for="password_confirmation" class="block text-gray-700 text-sm font-bold mb-2">Confirm
-                        Password:</label>
-                    <input type="password"
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="password_confirmation" name="password_confirmation" required>
-                    @error('password_confirmation')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                    @enderror
-                </div>
+            <!-- Role -->
+            <div class="mb-4">
+                <label for="role" class="block text-sm font-medium text-gray-700">Role</label>
+                <select id="role" name="role"
+                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+                    <option value="">Pilih Role</option>
+                    <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                    <option value="kepala" {{ old('role') == 'kepala' ? 'selected' : '' }}>Kepala</option>
+                </select>
+                @error('role')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <!-- Password -->
+            <div class="mb-4">
+                <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                <input type="password" id="password" name="password"
+                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+                @error('password')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="mb-4">
+                <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+                <input type="password" id="password_confirmation" name="password_confirmation"
+                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+                @error('password_confirmation')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <!-- Submit Button -->
+            <div class="mt-6">
                 <button type="button" onclick="confirmData()"
-                    class="w-full py-2.5 px-5 me-2 mb-2 text-sm font-medium text-white focus:outline-none bg-gray-800 rounded-full border border-gray-200 hover:bg-gray-100 hover:text-gray-800 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                    Submit
-                </button>
-
-            </form>
-        </div>
+                    class="w-full bg-gray-800 text-white font-semibold py-2 px-4 rounded-md hover:bg-gray-600">Submit</button>
+            </div>
+        </form>
     </div>
 
     <!-- Modal for confirmation -->
@@ -87,36 +87,26 @@
 
     <script>
         function confirmData() {
-            // Ambil nilai dari input form
             var email = document.getElementById('email').value;
             var name = document.getElementById('name').value;
             var role = document.getElementById('role').value;
             var password = document.getElementById('password').value;
-
-            // Buat password sebagai bintang (*) sebanyak jumlah karakter password
             var maskedPassword = '*'.repeat(password.length);
 
-            // Isi nilai pada modal
             document.getElementById('confirmEmail').innerText = email;
             document.getElementById('confirmName').innerText = name;
             document.getElementById('confirmRole').innerText = role;
             document.getElementById('confirmPassword').innerText = maskedPassword;
 
-            // Tampilkan modal
             document.getElementById('confirmModal').classList.remove('hidden');
         }
 
         function closeModal() {
-            // Tutup modal
             document.getElementById('confirmModal').classList.add('hidden');
         }
 
         function submitForm() {
-            // Submit form
             document.getElementById('userForm').submit();
         }
     </script>
-    </body>
-
-    </html>
 @endsection
