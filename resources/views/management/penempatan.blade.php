@@ -16,7 +16,8 @@
                 <a href="{{ route('penempatan') }}" class="btn btn-secondary">Clear</a>
             </div>
         </form>
-        <div class=" flex justify-end mb-4">
+
+        <div class="flex justify-end mb-4">
             <a href="{{ route('penempatan-tambah') }}"
                 class="text-gray-900 hover:text-white border border-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-900 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
                 Tambah Penempatan
@@ -65,6 +66,11 @@
                 @endforeach
             </tbody>
         </table>
+
+        <!-- Pagination Links -->
+        <div class="mt-6 flex">
+            {{ $penempatan->links('pagination::tailwind') }}
+        </div>
     </div>
 </div>
 @endsection

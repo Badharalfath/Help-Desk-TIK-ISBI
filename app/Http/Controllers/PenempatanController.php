@@ -14,13 +14,11 @@ class PenempatanController extends Controller
     {
         $search = $request->input('search');
 
-        if ($search) {
-            $penempatan = Penempatan::where('nama_barang', 'LIKE', "%$search%")
-                ->orWhere('kd_barang', 'LIKE', "%$search%")
-                ->get();
-        } else {
-            $penempatan = Penempatan::all();
-        }
+        // Menggunakan query builder dengan paginate(10)
+        $penempatan = Penempatan::when($search, function ($query, $search) {
+            return $query->where('kd_barang', 'like', '%' . $search . '%')
+                         ->orWhere('nama_barang', 'like', '%' . $search . '%');
+        })->paginate(10); // Pagination dengan 10 item per halaman
 
         return view('management.penempatan', compact('penempatan'));
     }
@@ -31,6 +29,7 @@ class PenempatanController extends Controller
         $departemen = Departemen::all();
         $lokasi = Lokasi::all();
 
+        // Generate kode penempatan baru
         $lastPenempatan = Penempatan::orderBy('kd_penempatan', 'desc')->first();
         if ($lastPenempatan) {
             $lastNumber = intval(substr($lastPenempatan->kd_penempatan, 2));
