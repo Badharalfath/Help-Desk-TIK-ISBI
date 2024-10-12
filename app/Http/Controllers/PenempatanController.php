@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Barang; // Ensure you import the Barang model
+use App\Models\Barang;
 use App\Models\Departemen;
 use App\Models\Lokasi;
 use App\Models\Penempatan;
@@ -14,10 +14,9 @@ class PenempatanController extends Controller
     {
         $search = $request->input('search');
 
-        // Jika ada pencarian
         if ($search) {
             $penempatan = Penempatan::where('nama_barang', 'LIKE', "%$search%")
-                ->orWhere('kd_barang', 'LIKE', "%$search%") // Mencari juga berdasarkan kode barang
+                ->orWhere('kd_barang', 'LIKE', "%$search%")
                 ->get();
         } else {
             $penempatan = Penempatan::all();
@@ -26,17 +25,13 @@ class PenempatanController extends Controller
         return view('management.penempatan', compact('penempatan'));
     }
 
-
-    // PenempatanController.php
     public function create()
     {
-        $barang = Barang::all(); // Mengambil semua data barang
-        $departemen = Departemen::all(); // Mengambil semua data departemen
-        $lokasi = Lokasi::all(); // Mengambil semua data lokasi
-        // Mengambil nomor penempatan terakhir
-        $lastPenempatan = Penempatan::orderBy('kd_penempatan', 'desc')->first();
+        $barang = Barang::all();
+        $departemen = Departemen::all();
+        $lokasi = Lokasi::all();
 
-        // Mengambil nomor berikutnya
+        $lastPenempatan = Penempatan::orderBy('kd_penempatan', 'desc')->first();
         if ($lastPenempatan) {
             $lastNumber = intval(substr($lastPenempatan->kd_penempatan, 2));
             $newNumber = $lastNumber + 1;
@@ -45,17 +40,11 @@ class PenempatanController extends Controller
             $newKdPenempatan = 'PN001';
         }
 
-        // Mengambil data barang untuk dropdown
-        $barang = Barang::all();
-
         return view('management.penempatan-tambah', compact('newKdPenempatan', 'barang', 'lokasi', 'departemen'));
     }
 
-
-    // PenempatanController.php
     public function store(Request $request)
     {
-        // Validasi data
         $request->validate([
             'kd_penempatan' => 'required',
             'tgl_penempatan' => 'required|date',
@@ -63,10 +52,8 @@ class PenempatanController extends Controller
             'keterangan' => 'required',
         ]);
 
-        // Ambil data barang berdasarkan kd_barang
         $barang = Barang::where('kd_barang', $request->kd_barang)->first();
 
-        // Simpan data ke tabel penempatan
         Penempatan::create([
             'kd_penempatan' => $request->kd_penempatan,
             'tgl_penempatan' => $request->tgl_penempatan,
@@ -75,20 +62,26 @@ class PenempatanController extends Controller
             'keterangan' => $request->keterangan,
         ]);
 
-        return redirect()->route('penempatan')->with('success', 'Penempatan berhasil ditambahkan');
+        return redirect()->route('penempatan')->with('success', 'Penempatan berhasil ditambahkan.');
     }
 
     public function getLokasi($departemenId)
     {
         $lokasi = Lokasi::where('kode_departemen', $departemenId)->get();
-
         return response()->json($lokasi);
     }
 
     public function edit($kd_penempatan)
     {
-        $penempatan = Penempatan::findOrFail($kd_penempatan);
-        return view('penempatan.edit', compact('penempatan'));
+        $penempatan = Penempatan::where('kd_penempatan', $kd_penempatan)->first();
+
+        if (!$penempatan) {
+            return redirect()->route('penempatan')->with('error', 'Penempatan tidak ditemukan.');
+        }
+
+        $barang = Barang::all();
+
+        return view('management.penempatan-edit', compact('penempatan', 'barang'));
     }
 
     public function update(Request $request, $kd_penempatan)
@@ -108,9 +101,13 @@ class PenempatanController extends Controller
 
     public function destroy($kd_penempatan)
     {
-        $penempatan = Penempatan::findOrFail($kd_penempatan);
-        $penempatan->delete();
+        $penempatan = Penempatan::where('kd_penempatan', $kd_penempatan)->first();
 
-        return redirect()->route('penempatan')->with('success', 'Penempatan berhasil dihapus.');
+        if ($penempatan) {
+            $penempatan->delete();
+            return redirect()->route('penempatan')->with('success', 'Penempatan berhasil dihapus.');
+        }
+
+        return redirect()->route('penempatan')->with('error', 'Penempatan tidak ditemukan.');
     }
 }

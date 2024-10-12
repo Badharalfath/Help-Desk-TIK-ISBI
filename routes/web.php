@@ -75,12 +75,12 @@ Route::middleware(['auth.admin'])->group(function () {
     Route::get('/kategori/{kd_kategori}/edit', [KategoriController::class, 'edit'])->name('kategori.edit');
     Route::put('/kategori/{kd_kategori}', [KategoriController::class, 'update'])->name('kategori.update');
     Route::delete('/kategori/{kd_kategori}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
-    Route::get('/penempatan', [PenempatanController::class, 'index'])->name('penempatan');
+    Route::get('/penempatan', [PenempatanController::class, 'index'])->name('penempatan'); // Removed 'penempatan.index'
     Route::get('/penempatan-tambah', [PenempatanController::class, 'create'])->name('penempatan-tambah');
     Route::post('/penempatan', [PenempatanController::class, 'store'])->name('penempatan.store');
-    Route::get('/penempatan/{kd_penempatan}/edit', [PenempatanController::class, 'edit'])->name('penempatan.edit');
+    Route::get('penempatan/{kd_penempatan}/edit', [PenempatanController::class, 'edit'])->name('penempatan.edit');
     Route::put('penempatan/{kd_penempatan}', [PenempatanController::class, 'update'])->name('penempatan.update');
-    Route::delete('/penempatan/{kd_penempatan}', [PenempatanController::class, 'destroy'])->name('penempatan.destroy');
+    Route::delete('penempatan/{kd_penempatan}', [PenempatanController::class, 'destroy'])->name('penempatan.destroy');
     Route::get('/pengadaan', [PengadaanController::class, 'index'])->name('pengadaan');
     Route::get('/tambah-pengadaan', [TambahPengadaanController::class, 'index'])->name('tambah-pengadaan');
     Route::post('/pengadaan', [TambahPengadaanController::class, 'store'])->name('pengadaan.store');

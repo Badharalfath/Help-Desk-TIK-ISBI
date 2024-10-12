@@ -1,14 +1,13 @@
 @extends('layouts.homedash')
 
 @section('content')
-<div class="bg-gray-100 p-6 rounded-lg shadow-md max-w-[1475px] mx-auto mt-10">
-    <h2 class="text-left text-xl font-semibold mb-4">Edit Penempatan Barang</h2>
+<div class="bg-gray-100 rounded-lg shadow-md max-w-lg mx-auto p-4 px-8 mt-10">
+    <h2 class="text-left text-xl font-semibold mb-2 mt-5">Edit Penempatan Barang</h2>
     <hr class="mb-4">
 
     <form action="{{ route('penempatan.update', $penempatan->kd_penempatan) }}" method="POST" class="max-w-lg mx-auto p-4">
         @csrf
         @method('PUT')
-
         <!-- No. Penempatan (Readonly) -->
         <div class="mb-4">
             <label for="kd_penempatan" class="block text-sm font-medium text-gray-700">No. Penempatan</label>
