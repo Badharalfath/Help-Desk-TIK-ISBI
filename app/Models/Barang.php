@@ -10,6 +10,10 @@ class Barang extends Model
     use HasFactory;
 
     protected $table = 'barang';  // Nama tabel
+    protected $primaryKey = 'kd_barang'; // Set 'kd_barang' as the primary key
+    public $incrementing = false; // Disable auto-incrementing as 'kd_barang' is a string
+    protected $keyType = 'string'; // Define the primary key as a string
+
     protected $fillable = [
         'kd_barang',
         'nama_barang',

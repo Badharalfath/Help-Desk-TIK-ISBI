@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="bg-gray-100 rounded-lg shadow-md max-w-lg mx-auto p-4 px-8 mt-10">
-    <h2 class="text-left text-xl font-semibold mb-2 mt-5">Edit Penempatan Barang</h2>
+    <h2 class="text-left text-xl font-semibold mb-2 mt-5">Edit Penggunaan Barang</h2>
     <hr class="mb-4">
 
     <form action="{{ route('penempatan.update', $penempatan->kd_penempatan) }}" method="POST" class="max-w-lg mx-auto p-4">
@@ -10,7 +10,7 @@
         @method('PUT')
         <!-- No. Penempatan (Readonly) -->
         <div class="mb-4">
-            <label for="kd_penempatan" class="block text-sm font-medium text-gray-700">No. Penempatan</label>
+            <label for="kd_penempatan" class="block text-sm font-medium text-gray-700">No. Penggunaan</label>
             <input type="text" id="kd_penempatan" name="kd_penempatan" value="{{ $penempatan->kd_penempatan }}"
                 class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" readonly>
         </div>
@@ -45,7 +45,7 @@
 
         <!-- Tanggal Penempatan -->
         <div class="mb-4">
-            <label for="tgl_penempatan" class="block text-sm font-medium text-gray-700">Tanggal Penempatan</label>
+            <label for="tgl_penempatan" class="block text-sm font-medium text-gray-700">Tanggal Penggunaan</label>
             <input type="date" id="tgl_penempatan" name="tgl_penempatan" value="{{ $penempatan->tgl_penempatan }}"
                 class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
         </div>

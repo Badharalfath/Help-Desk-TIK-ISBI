@@ -17,7 +17,7 @@ class PenempatanController extends Controller
         // Menggunakan query builder dengan paginate(10)
         $penempatan = Penempatan::when($search, function ($query, $search) {
             return $query->where('kd_barang', 'like', '%' . $search . '%')
-                         ->orWhere('nama_barang', 'like', '%' . $search . '%');
+                ->orWhere('nama_barang', 'like', '%' . $search . '%');
         })->paginate(10); // Pagination dengan 10 item per halaman
 
         return view('management.penempatan', compact('penempatan'));
@@ -43,26 +43,59 @@ class PenempatanController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'kd_penempatan' => 'required',
-            'tgl_penempatan' => 'required|date',
-            'kd_barang' => 'required',
-            'keterangan' => 'required',
-        ]);
+{
+    $request->validate([
+        'kd_penempatan' => 'required',
+        'tgl_penempatan' => 'required|date',
+        'kd_barang' => 'required',
+        'jumlah' => 'required|integer|min:1',
+        'keterangan' => 'required',
+        'foto.*' => 'nullable|image|max:5012', // Validasi untuk multiple foto
+    ]);
 
-        $barang = Barang::where('kd_barang', $request->kd_barang)->first();
+    $barang = Barang::where('kd_barang', $request->kd_barang)->first();
 
-        Penempatan::create([
-            'kd_penempatan' => $request->kd_penempatan,
-            'tgl_penempatan' => $request->tgl_penempatan,
-            'kd_barang' => $request->kd_barang,
-            'nama_barang' => $barang->nama_barang,
-            'keterangan' => $request->keterangan,
-        ]);
-
-        return redirect()->route('penempatan')->with('success', 'Penempatan berhasil ditambahkan.');
+    if ($barang->jumlah < $request->jumlah) {
+        return redirect()->back()->withErrors(['error' => 'Jumlah barang tidak mencukupi.']);
     }
+
+    // Kurangi stok barang
+    $barang->jumlah -= $request->jumlah;
+    $barang->save();
+
+    // Handle multiple foto upload
+    $fotoNames = [];
+    if ($request->hasFile('foto')) {
+        foreach ($request->file('foto') as $foto) {
+            $originalFilename = $foto->getClientOriginalName();
+            $newFilename = rand(1000000000, 9999999999) . '_' . $originalFilename;
+
+            // Simpan file dengan nama baru di folder 'storage/app/public/penempatan'
+            $foto->storeAs('public/penempatan', $newFilename);
+
+            // Tambahkan nama file ke array
+            $fotoNames[] = $newFilename;
+        }
+    }
+
+    // Gabungkan nama-nama file yang di-upload menjadi satu string dipisahkan dengan koma
+    $fotoNamesString = implode(',', $fotoNames);
+
+    // Simpan data penempatan
+    Penempatan::create([
+        'kd_penempatan' => $request->kd_penempatan,
+        'tgl_penempatan' => $request->tgl_penempatan,
+        'kd_barang' => $request->kd_barang,
+        'nama_barang' => $barang->nama_barang,
+        'jumlah' => $request->jumlah,
+        'keterangan' => $request->keterangan,
+        'foto_penempatan' => $fotoNamesString, // Simpan nama-nama file foto di database
+    ]);
+
+    return redirect()->route('penempatan')->with('success', 'Penempatan berhasil ditambahkan.');
+}
+
+
 
     public function getLokasi($departemenId)
     {
@@ -99,14 +132,28 @@ class PenempatanController extends Controller
     }
 
     public function destroy($kd_penempatan)
-    {
-        $penempatan = Penempatan::where('kd_penempatan', $kd_penempatan)->first();
+{
+    // Ambil data penempatan yang akan dihapus
+    $penempatan = Penempatan::where('kd_penempatan', $kd_penempatan)->first();
 
-        if ($penempatan) {
-            $penempatan->delete();
-            return redirect()->route('penempatan')->with('success', 'Penempatan berhasil dihapus.');
+    if ($penempatan) {
+        // Cari barang yang digunakan dalam penempatan ini berdasarkan kd_barang
+        $barang = Barang::where('kd_barang', $penempatan->kd_barang)->first();
+
+        if ($barang) {
+            // Tambahkan kembali jumlah barang yang ditempatkan
+            $barang->jumlah += $penempatan->jumlah; // Tambah jumlah barang yang dikembalikan
+            $barang->save(); // Simpan perubahan pada stok barang
         }
 
-        return redirect()->route('penempatan')->with('error', 'Penempatan tidak ditemukan.');
+        // Hapus data penempatan
+        $penempatan->delete();
+
+        return redirect()->route('penempatan')->with('success', 'Penempatan berhasil dihapus dan stok barang dipulihkan.');
     }
+
+    return redirect()->route('penempatan')->with('error', 'Penempatan tidak ditemukan.');
+}
+
+
 }

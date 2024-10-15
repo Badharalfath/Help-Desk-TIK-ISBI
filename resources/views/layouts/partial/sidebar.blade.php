@@ -249,7 +249,7 @@
                         <a href="{{ route('penempatan') }}"
                             class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white">
                             <i class="fas fa-warehouse mr-3 text-sm"></i>
-                            <span class="text-sm">Data Penempatan</span>
+                            <span class="text-sm">Data Penggunaan</span>
                         </a>
                     </li>
                     <li>

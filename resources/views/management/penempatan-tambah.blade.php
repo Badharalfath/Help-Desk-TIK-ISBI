@@ -2,16 +2,27 @@
 
 @section('content')
     <div class="bg-gray-100 rounded-lg shadow-md max-w-lg mx-auto p-4 px-8 mt-10">
-        <h2 class="text-left text-xl font-semibold mb-2 mt-5">Tambah Penempatan Barang</h2>
+        <h2 class="text-left text-xl font-semibold mb-2 mt-5">Tambah Penggunaan Barang</h2>
         <hr class="mb-4">
 
+        <!-- Display validation errors -->
+        @if ($errors->any())
+            <div class="bg-red-500 text-white p-4 rounded mb-4">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <!-- penempatan-tambah.blade.php -->
-        <form action="{{ route('penempatan.store') }}" method="POST" class="max-w-lg mx-auto p-4">
+        <form action="{{ route('penempatan.store') }}" method="POST" enctype="multipart/form-data" class="max-w-lg mx-auto p-4">
             @csrf
 
             <!-- No. Penempatan (Otomatis) -->
             <div class="mb-4">
-                <label for="kd_penempatan" class="block text-sm font-medium text-gray-700">No. Penempatan</label>
+                <label for="kd_penempatan" class="block text-sm font-medium text-gray-700">No. Penggunaan</label>
                 <input type="text" id="kd_penempatan" name="kd_penempatan" value="{{ $newKdPenempatan }}"
                     class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" readonly>
             </div>
@@ -38,6 +49,13 @@
                 </select>
             </div>
 
+            <!-- Jumlah Barang -->
+            <div class="mb-4">
+                <label for="jumlah" class="block text-sm font-medium text-gray-700">Jumlah Barang</label>
+                <input type="number" id="jumlah" name="jumlah" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" min="1" required>
+                <small id="stock-info" class="text-red-500"></small>
+            </div>
+
             <div class="mb-4">
                 <label for="departemen" class="block text-sm font-medium text-gray-700">Departemen</label>
                 <select id="departemen" name="departemen"
@@ -62,7 +80,7 @@
 
             <!-- Tanggal Penempatan -->
             <div class="mb-4">
-                <label for="tgl_penempatan" class="block text-sm font-medium text-gray-700">Tanggal Penempatan</label>
+                <label for="tgl_penempatan" class="block text-sm font-medium text-gray-700">Tanggal Penggunaan</label>
                 <input type="date" id="tgl_penempatan" name="tgl_penempatan"
                     class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
             </div>
@@ -72,6 +90,13 @@
                 <label for="keterangan" class="block text-sm font-medium text-gray-700">Keterangan</label>
                 <input type="text" id="keterangan" name="keterangan"
                     class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+            </div>
+
+            <!-- Input for Multiple Foto -->
+            <div class="mb-4">
+                <label for="foto" class="block text-gray-700 font-bold mb-2">Upload Foto Barang</label>
+                <input type="file" name="foto[]" id="foto" multiple
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
             </div>
 
             <!-- Tombol Simpan -->
@@ -103,44 +128,64 @@
                 }
             });
 
-            document.addEventListener('DOMContentLoaded', function() {
-                const barangData = @json($barang); // Mengambil data barang dari controller
+            document.addEventListener('DOMContentLoaded', function () {
+        const barangData = @json($barang); // Load barang data from the server
 
-                const kodeBarangDropdown = document.getElementById('kd_barang');
-                const namaBarangDropdown = document.getElementById('nama_barang');
+        const kodeBarangDropdown = document.getElementById('kd_barang');
+        const namaBarangDropdown = document.getElementById('nama_barang');
+        const jumlahInput = document.getElementById('jumlah');
+        const stockInfo = document.getElementById('stock-info');
 
-                // Ketika Kode Barang dipilih
-                kodeBarangDropdown.addEventListener('change', function() {
-                    const selectedKode = kodeBarangDropdown.value;
+        // Function to update the stock info and set max quantity
+        function updateStockInfo() {
+            const selectedOption = kodeBarangDropdown.options[kodeBarangDropdown.selectedIndex];
+            const stock = selectedOption.getAttribute('data-stock');
+            if (stock) {
+                stockInfo.textContent = `Stok Tersedia: ${stock}`;
+                jumlahInput.max = stock;
+            } else {
+                stockInfo.textContent = '';
+                jumlahInput.max = '';
+            }
+        }
 
-                    if (selectedKode) {
-                        // Temukan barang berdasarkan kode
-                        const barang = barangData.find(item => item.kd_barang === selectedKode);
-                        if (barang) {
-                            // Set nama barang yang sesuai
-                            namaBarangDropdown.value = barang.nama_barang;
-                        }
-                    } else {
-                        namaBarangDropdown.value = ''; // Kosongkan jika tidak ada yang dipilih
-                    }
-                });
+        // Event listener for when "Kode Barang" is selected
+        kodeBarangDropdown.addEventListener('change', function () {
+            const selectedKode = kodeBarangDropdown.value;
 
-                // Ketika Nama Barang dipilih
-                namaBarangDropdown.addEventListener('change', function() {
-                    const selectedNama = namaBarangDropdown.value;
+            if (selectedKode) {
+                const barang = barangData.find(item => item.kd_barang === selectedKode);
+                if (barang) {
+                    // Automatically select the corresponding "Nama Barang"
+                    namaBarangDropdown.value = barang.nama_barang;
+                    updateStockInfo(); // Update stock info based on the selected kode barang
+                }
+            } else {
+                namaBarangDropdown.value = ''; // Clear the "Nama Barang" field if no kode selected
+                stockInfo.textContent = '';
+            }
+        });
 
-                    if (selectedNama) {
-                        // Temukan barang berdasarkan nama
-                        const barang = barangData.find(item => item.nama_barang === selectedNama);
-                        if (barang) {
-                            // Set kode barang yang sesuai
-                            kodeBarangDropdown.value = barang.kd_barang;
-                        }
-                    } else {
-                        kodeBarangDropdown.value = ''; // Kosongkan jika tidak ada yang dipilih
-                    }
-                });
-            });
+        // Event listener for when "Nama Barang" is selected
+        namaBarangDropdown.addEventListener('change', function () {
+            const selectedNama = namaBarangDropdown.value;
+
+            if (selectedNama) {
+                const barang = barangData.find(item => item.nama_barang === selectedNama);
+                if (barang) {
+                    // Automatically select the corresponding "Kode Barang"
+                    kodeBarangDropdown.value = barang.kd_barang;
+                    updateStockInfo(); // Update stock info based on the selected nama barang
+                }
+            } else {
+                kodeBarangDropdown.value = ''; // Clear the "Kode Barang" field if no nama selected
+                stockInfo.textContent = '';
+            }
+        });
+
+        // Initialize stock info if a "Kode Barang" is pre-selected (e.g., on form reload)
+        updateStockInfo();
+    });
         </script>
 
 
