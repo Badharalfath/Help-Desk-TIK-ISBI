@@ -253,10 +253,10 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('tambah-pengadaan') }}"
+                        <a href="{{ route('pengadaan') }}"
                             class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white">
                             <i class="fas fa-shopping-cart mr-3 text-sm"></i>
-                            <span class="text-sm">Data Pengadaan</span>
+                            <span class="text-sm">Data Transaksi</span>
                         </a>
                     </li>
                 </ul>

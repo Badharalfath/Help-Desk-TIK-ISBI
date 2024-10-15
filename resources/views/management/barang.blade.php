@@ -17,7 +17,7 @@
         <table class="table-auto w-full text-left whitespace-no-wrap">
             <thead>
                 <tr>
-                    <th class="px-4 py-2 border">Id</th>
+                    
                     <th class="px-4 py-2 border">Kode Barang</th>
                     <th class="px-4 py-2 border">Nama Barang</th>
                     <th class="px-4 py-2 border">Merek</th>
@@ -29,7 +29,7 @@
             <tbody>
                 @foreach ($barang as $item)
                 <tr class="bg-white border-b">
-                    <td class="px-4 py-2 border">{{ $item->id }}</td>
+
                     <td class="px-4 py-2 border">{{ $item->kd_barang }}</td>
                     <td class="px-4 py-2 border">{{ $item->nama_barang }}</td>
                     <td class="px-4 py-2 border">{{ $item->merek }}</td>

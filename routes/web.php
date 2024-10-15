@@ -82,6 +82,7 @@ Route::middleware(['auth.admin'])->group(function () {
     Route::put('penempatan/{kd_penempatan}', [PenempatanController::class, 'update'])->name('penempatan.update');
     Route::delete('penempatan/{kd_penempatan}', [PenempatanController::class, 'destroy'])->name('penempatan.destroy');
     Route::get('/pengadaan', [PengadaanController::class, 'index'])->name('pengadaan');
+    Route::delete('/pengadaan/{kd_transaksi}', [PengadaanController::class, 'destroy'])->name('transaksi.destroy');
     Route::get('/tambah-pengadaan', [TambahPengadaanController::class, 'index'])->name('tambah-pengadaan');
     Route::post('/pengadaan', [TambahPengadaanController::class, 'store'])->name('pengadaan.store');
     Route::get('/departemen', [DepartemenController::class, 'index'])->name('departemen');
