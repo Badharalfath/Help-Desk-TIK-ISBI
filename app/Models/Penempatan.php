@@ -11,11 +11,19 @@ class Penempatan extends Model
 
     protected $table = 'penempatan';
 
-    protected $primaryKey = 'kd_penempatan'; // Ensure this is set as the primary key
+    protected $primaryKey = 'kd_penempatan';
 
-    public $incrementing = false; // Ensure no auto-incrementing
+    public $incrementing = false;
 
-    protected $keyType = 'string'; // Since 'kd_penempatan' is not an integer
+    protected $keyType = 'string';
 
-    protected $fillable = ['kd_penempatan', 'tgl_penempatan', 'keterangan', 'kd_barang', 'nama_barang'];
+    protected $fillable = [
+        'kd_penempatan',
+        'tgl_penempatan',
+        'keterangan',
+        'kd_barang',
+        'nama_barang',
+        'jumlah', // Kolom untuk menyimpan jumlah barang yang ditempatkan
+        'foto_penempatan' // Kolom untuk menyimpan nama file foto
+    ];
 }

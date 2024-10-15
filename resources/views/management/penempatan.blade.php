@@ -52,6 +52,8 @@
                         <td class="py-2 px-4 border-b">{{ $p->tgl_penempatan }}</td>
                         <td class="py-2 px-4 border-b">{{ $p->keterangan }}</td>
                         <td class="py-2 px-4 border-b text-right">
+                            <button onclick="openModal('{{ $p->kd_penempatan }}')"
+                                class="bg-blue-500 text-white py-2 px-4 rounded">Detail</button>
                             <a href="{{ route('penempatan.edit', $p->kd_penempatan) }}"
                                 class="bg-yellow-500 text-white py-2 px-4 rounded">Edit</a>
                             <form action="{{ route('penempatan.destroy', $p->kd_penempatan) }}" method="POST"
@@ -73,4 +75,33 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div id="modal-detail" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+    <div class="bg-white p-6 rounded-lg shadow-lg max-w-2xl w-full">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-semibold">Detail Penggunaan</h2>
+            <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700">&times;</button>
+        </div>
+        <div id="modal-content" class="overflow-y-auto max-h-[500px]">
+            <!-- Content from AJAX will be inserted here -->
+        </div>
+    </div>
+</div>
+
+<script>
+    function openModal(kd_penempatan) {
+        document.getElementById('modal-detail').classList.remove('hidden');
+        fetch(`/penempatan/${kd_penempatan}`)
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('modal-content').innerHTML = html;
+            });
+    }
+
+    function closeModal() {
+        document.getElementById('modal-detail').classList.add('hidden');
+    }
+</script>
+
 @endsection

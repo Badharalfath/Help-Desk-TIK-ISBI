@@ -91,6 +91,7 @@ Route::middleware(['auth.admin'])->group(function () {
     Route::put('/departemen/{kode}', [DepartemenController::class, 'update'])->name('departemen.update');
     Route::delete('/departemen/{kode}', [DepartemenController::class, 'destroy'])->name('departemen.destroy');
     Route::get('/get-lokasi/{departemenId}', [PenempatanController::class, 'getLokasi']);
+    Route::get('/penempatan/{kd_penempatan}', [PenempatanController::class, 'show'])->name('penempatan.show');
     Route::get('/lokasi', [LokasiController::class, 'index'])->name('lokasi');
     Route::get('/lokasi/create', [LokasiController::class, 'create'])->name('lokasi.create');
     Route::post('/lokasi', [LokasiController::class, 'store'])->name('lokasi.store');

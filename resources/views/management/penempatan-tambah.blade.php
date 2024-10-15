@@ -17,7 +17,7 @@
         @endif
 
         <!-- penempatan-tambah.blade.php -->
-        <form action="{{ route('penempatan.store') }}" method="POST" enctype="multipart/form-data" class="max-w-lg mx-auto p-4">
+        <form method="POST" action="{{ route('penempatan.store') }}" enctype="multipart/form-data"class="max-w-lg mx-auto p-4">
             @csrf
 
             <!-- No. Penempatan (Otomatis) -->
@@ -92,9 +92,8 @@
                     class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
             </div>
 
-            <!-- Input for Multiple Foto -->
             <div class="mb-4">
-                <label for="foto" class="block text-gray-700 font-bold mb-2">Upload Foto Barang</label>
+                <label for="foto" class="block text-gray-700 font-bold mb-2">Upload Foto</label>
                 <input type="file" name="foto[]" id="foto" multiple
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
             </div>
