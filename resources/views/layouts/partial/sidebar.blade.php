@@ -67,7 +67,8 @@
 
             <!-- Dropdown Manajemen Asset -->
             @php
-                $assetRoutes = ['barang', 'departemen', 'kategori', 'lokasi', 'penempatan', 'tambah-pengadaan'];
+                $assetRoutes = ['barang', 'departemen', 'kategori', 'lokasi', 'penempatan', 'pengadaan', 'tambah-pengadaan',
+                                ''];
                 $isAssetOpen = Route::is($assetRoutes);
             @endphp
 
@@ -79,25 +80,11 @@
                     <i class="fas fa-chevron-down ml-auto transition-transform transform rotate-chevron {{ $isAssetOpen ? 'rotate-180' : '' }}"></i>
                 </a>
                 <ul id="asset-dropdown" class="ml-6 space-y-2 overflow-hidden transition-all duration-300 {{ $isAssetOpen ? 'max-h-full' : 'max-h-0' }}">
-                    <li>
-                        <a href="{{ route('barang') }}"
-                            class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white">
-                            <i class="fas fa-box mr-3 text-sm"></i>
-                            <span class="text-sm">Data Barang</span>
-                        </a>
-                    </li>
-                    <li>
+                <li>
                         <a href="{{ route('departemen') }}"
                             class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white">
                             <i class="fas fa-building mr-3 text-sm"></i>
                             <span class="text-sm">Data Departemen</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('kategori') }}"
-                            class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white">
-                            <i class="fas fa-tags mr-3 text-sm"></i>
-                            <span class="text-sm">Data Kategori</span>
                         </a>
                     </li>
                     <li>
@@ -108,10 +95,17 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('penempatan') }}"
+                        <a href="{{ route('kategori') }}"
                             class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white">
-                            <i class="fas fa-warehouse mr-3 text-sm"></i>
-                            <span class="text-sm">Data Penggunaan</span>
+                            <i class="fas fa-tags mr-3 text-sm"></i>
+                            <span class="text-sm">Data Kategori</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('barang') }}"
+                            class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white">
+                            <i class="fas fa-box mr-3 text-sm"></i>
+                            <span class="text-sm">Data Barang</span>
                         </a>
                     </li>
                     <li>
@@ -119,6 +113,13 @@
                             class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white">
                             <i class="fas fa-shopping-cart mr-3 text-sm"></i>
                             <span class="text-sm">Data Transaksi</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('penempatan') }}"
+                            class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white">
+                            <i class="fas fa-warehouse mr-3 text-sm"></i>
+                            <span class="text-sm">Data Penggunaan</span>
                         </a>
                     </li>
                 </ul>
