@@ -36,7 +36,7 @@
                     <td class="px-4 py-2 border">{{ $item->kd_kategori }}</td>
                     <td class="px-4 py-2 border">{{ $item->jumlah }}</td>
                     <td class="px-4 py-2 border">
-                        <a href="#" class="text-blue-500 hover:underline" onclick="showImage('{{ asset($item->foto) }}')">{{ $item->foto }}</a>
+                        <a href="#" class="text-blue-500 hover:underline" onclick="showImage('{{ asset('storage/fotos/' . $item->foto) }}')">{{ $item->foto }}</a>
                     </td>
                 </tr>
                 @endforeach

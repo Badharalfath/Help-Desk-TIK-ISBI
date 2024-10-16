@@ -43,15 +43,31 @@ class TambahPengadaanController extends Controller
         $request->validate([
             'tgl_transaksi' => 'required|date',
             'keterangan' => 'nullable|string|max:255',
-            'nota' => 'nullable|file|mimes:jpg,jpeg,png,pdf',
+            'nota' => 'nullable|image|mimes:jpg,jpeg,png|max:5012', // Validasi untuk file gambar
             'nama_barang.*' => 'required|string',
             'kategori.*' => 'required|exists:kategori,kd_kategori',
             'jumlah.*' => 'required|integer|min:1',
-            'foto.*' => 'nullable|image|mimes:jpg,jpeg,png',
+            'foto.*' => 'nullable|image|mimes:jpg,jpeg,png|max:5012', // Validasi file foto
         ]);
 
-        // Simpan file nota jika ada
-        $notaPath = $request->file('nota') ? $request->file('nota')->store('nota') : null;
+        // Simpan file nota jika ada dengan format nama "nama asli lalu random number"
+        $notaPath = null;
+        if ($request->hasFile('nota')) {
+            // Dapatkan nama file asli
+            $originalFilename = $request->file('nota')->getClientOriginalName();
+        
+            // Buat nama file baru dengan angka acak
+            $newFilename = rand(1000000000, 9999999999) . '_' . $originalFilename;
+        
+            // Simpan file dengan nama baru di folder 'fotos'
+            $notaPath = $request->file('nota')->storeAs('public/fotos', $newFilename);
+        
+            // Simpan hanya nama file ke database
+            $notaPath = $newFilename;
+        } else {
+            $notaPath = null;
+        }
+        
 
         // Generate kode transaksi otomatis
         $lastTransaksi = Transaksi::orderBy('kd_transaksi', 'desc')->first();
@@ -63,7 +79,27 @@ class TambahPengadaanController extends Controller
 
         // Simpan data barang ke tabel barang
         foreach ($request->nama_barang as $index => $nama_barang) {
-            $fotoPath = isset($request->file('foto')[$index]) ? $request->file('foto')[$index]->store('foto_barang') : null;
+            $fotoPath = null;
+
+            // Cek apakah ada foto yang diupload
+            if (isset($request->file('foto')[$index])) {
+                $foto = $request->file('foto')[$index];
+            
+                // Dapatkan nama file asli
+                $originalFilename = $foto->getClientOriginalName();
+            
+                // Buat nama file baru dengan angka acak
+                $newFilename = rand(1000000000, 9999999999) . '_' . $originalFilename;
+            
+                // Simpan file dengan nama baru di folder 'fotos'
+                $foto->storeAs('public/fotos', $newFilename);
+            
+                // Simpan hanya nama file ke database
+                $fotoPath = $newFilename;
+            } else {
+                $fotoPath = null;
+            }
+            
 
             // Simpan barang
             $barang = Barang::create([
@@ -89,10 +125,11 @@ class TambahPengadaanController extends Controller
             'kd_transaksi' => $nextKodeTransaksi,
             'tgl_transaksi' => $request->tgl_transaksi,
             'keterangan' => $request->keterangan,
-            'nota' => $notaPath,
+            'nota' => $notaPath, // Simpan file nota dengan nama yang baru
             'kd_barang' => $firstKdBarang,  // Simpan kode barang pertama di transaksi
         ]);
 
         return redirect()->route('pengadaan')->with('success', 'Transaksi berhasil ditambahkan.');
     }
+
 }

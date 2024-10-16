@@ -34,7 +34,7 @@
 
                 <!-- Upload Nota -->
                 <div class="mb-4">
-                    <label for="nota" class="block text-gray-700">Kwitansi / Nota</label>
+                    <label for="nota" class="block text-gray-700">Nota (opsional)</label>
                     <input type="file" class="w-full px-4 py-2 border rounded-lg" id="nota" name="nota">
                 </div>
 

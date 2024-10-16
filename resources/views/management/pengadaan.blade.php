@@ -4,9 +4,10 @@
     <div class="bg-gray-100 p-6 rounded-lg shadow-md max-w-[1475px] mx-auto px-8 mt-10">
         <div class="flex justify-between items-center mb-4 ">
             <h2 class="text-left text-xl font-semibold">Data Transaksi</h2>
-            <div class="flex justify-between items-center mb-4">
-                <a href="{{ route('tambah-pengadaan') }}" class="bg-blue-500 text-white py-2 px-4 rounded">Tambah</a>
-            </div>
+            <a href="{{ route('tambah-pengadaan') }}"
+                class="text-gray-900 hover:text-white border border-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-900 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
+                Tambah
+            </a>
         </div>
         <hr class="mb-6">
 
@@ -45,11 +46,11 @@
                             <td class="px-6 py-4 border-b border-gray-300 text-sm">
                                 @if ($item->nota)
                                     <a href="javascript:void(0)" class="text-blue-500 hover:underline"
-                                        onclick="showNota('{{ asset('storage/' . $item->nota) }}')">{{ basename($item->nota) }}</a>
+                                        onclick="showNota('{{ asset('storage/fotos/' . $item->nota) }}')">{{ basename($item->nota) }}</a>
                                 @else
                                     <span class="text-gray-500">Transaksi tidak terdapat nota</span>
                                 @endif
-                            </td>
+                            </td>                            
                             <td class="px-6 py-4 border-b border-gray-300 text-sm">
                                 <form action="{{ route('transaksi.destroy', $item->kd_transaksi) }}" method="POST" class="inline-block">
                                     @csrf
@@ -79,7 +80,7 @@
             document.getElementById('notaImage').src = notaUrl;
             document.getElementById('notaModal').classList.remove('hidden');
         }
-
+    
         function closeNota() {
             document.getElementById('notaModal').classList.add('hidden');
         }

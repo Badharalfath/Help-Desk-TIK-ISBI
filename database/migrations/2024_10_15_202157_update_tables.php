@@ -18,16 +18,17 @@ class UpdateTables extends Migration
 
         // Membuat tabel transaksi
         Schema::create('transaksi', function (Blueprint $table) {
-            $table->id('kd_transaksi'); // Kolom kode transaksi
+            $table->string('kd_transaksi', 10)->primary(); // Kolom kode transaksi
             $table->date('tgl_transaksi'); // Kolom tanggal transaksi
             $table->string('keterangan')->nullable(); // Kolom keterangan, opsional
             $table->string('nota')->nullable(); // Kolom nota, opsional
-            $table->unsignedBigInteger('kd_barang'); // Foreign key dari tabel barang
+            $table->string('kd_barang', 6); // Foreign key dari tabel barang, tipe varchar(6)
             $table->timestamps(); // Menambahkan created_at dan updated_at
-
+        
             // Menambahkan foreign key ke kolom kd_barang
-            $table->foreign('kd_barang')->references('id')->on('barang')->onDelete('cascade');
+            $table->foreign('kd_barang')->references('kd_barang')->on('barang')->onDelete('cascade');
         });
+        
     }
 
     /**
