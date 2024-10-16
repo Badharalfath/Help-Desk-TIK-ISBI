@@ -71,7 +71,7 @@ class PenempatanController extends Controller
                 $newFilename = rand(1000000000, 9999999999) . '_' . $originalFilename;
 
                 // Simpan file dengan nama baru di folder 'storage/app/public/penempatan'
-                $foto->storeAs('public/penempatan', $newFilename);
+                $foto->storeAs('public/fotos', $newFilename);
 
                 // Tambahkan nama file ke array
                 $fotoNames[] = $newFilename;
