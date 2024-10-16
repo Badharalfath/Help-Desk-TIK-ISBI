@@ -69,7 +69,7 @@
         <div id="notaModal" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center hidden">
             <div class="bg-white p-6 rounded-lg shadow-lg max-w-xl w-full">
                 <h3 class="text-xl font-semibold mb-4">Nota</h3>
-                <img id="notaImage" src="" alt="Nota" class="w-full h-auto mb-4">
+                <img id="notaImage" src="" alt="Nota" class="w-full h-auto mb-4" style="max-width: 90vw; max-height: 80vh;">
                 <button onclick="closeNota()" class="bg-blue-500 text-white px-4 py-2 rounded">Tutup</button>
             </div>
         </div>
