@@ -300,13 +300,11 @@
                             <label for="kegiatan" class="text-lg font-bold text-gray-800">Kegiatan Maintenance</label>
                             <textarea id="kegiatan" name="kegiatan" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="4" readonly>${jadwal.kegiatan}</textarea>
                         </div>` : ''}
-                        <div class="my-4">
-                            <label for="jam_selesai" class="text-lg font-bold text-gray-800">Jam Selesai</label>
-                            <input type="text" id="jam_selesai" name="jam_selesai"
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                value="${jadwal.jam_selesai}" readonly>
-                        </div>
-
+                        ${jadwal.jam_selesai ? `
+                                <div class="my-4">
+                                    <label for="jam_selesai" class="text-lg font-bold text-gray-800">Jam Selesai</label>
+                                    <input type="text" id="jam_selesai" name="jam_selesai" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="${jadwal.jam_selesai}" readonly>
+                                </div>` : ''}
                     </li>`;
             });
 
