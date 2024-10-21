@@ -282,6 +282,10 @@
                             <label for="deskripsi" class="text-lg font-bold text-gray-800">Deskripsi Maintenance</label>
                             <textarea id="deskripsi" name="deskripsi" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="4" readonly>${jadwal.deskripsi}</textarea>
                         </div>
+                        <div class="my-4">
+                            <label for="pic" class="text-lg font-bold text-gray-800">Person In Charge</label>
+                            <input type="pic" id="pic" name="pic" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="4" value="${jadwal.pic}" readonly>
+                        </div>
                         ${jadwal.wallmount ? `
                                 <div class="my-4">
                                     <label for="wallmount" class="text-lg font-bold text-gray-800">Wallmount</label>
