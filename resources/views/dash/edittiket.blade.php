@@ -97,9 +97,9 @@
                 <hr class="w-48 h-1 mx-auto my-2 bg-gray-100 border-0 rounded dark:bg-gray-700 mb-6">
 
                 <div class="mb-4 flex justify-around">
-                    <div class="relative" style="{{ $ticket->permission_status == 'approved' ? 'display: none;' : '' }}">
-                        <input type="radio" name="permission_status" id="permission_rejected" value="rejected"
-                            class="hidden peer" {{ $ticket->permission_status == 'rejected' ? 'checked' : '' }}
+                    <div class="relative" style="{{ $ticket->status == 'approved' ? 'display: none;' : '' }}">
+                        <input type="radio" name="status" id="permission_rejected" value="rejected"
+                            class="hidden peer" {{ $ticket->status == 'rejected' ? 'checked' : '' }}
                             onclick="toggleFields()">
                         <label for="permission_rejected"
                             class="flex items-center gap-4 p-4 rounded-xl bg-white bg-opacity-90 backdrop-blur-2xl shadow-xl hover:bg-opacity-75 peer-checked:bg-red-400 peer-checked:text-white cursor-pointer transition">
@@ -110,8 +110,8 @@
                     </div>
 
                     <div class="relative">
-                        <input type="radio" name="permission_status" id="permission_approved" value="approved"
-                            class="hidden peer" {{ $ticket->permission_status == 'approved' ? 'checked' : '' }}
+                        <input type="radio" name="status" id="permission_approved" value="approved"
+                            class="hidden peer" {{ $ticket->status == 'approved' ? 'checked' : '' }}
                             onclick="toggleFields()">
                         <label for="permission_approved"
                             class="flex items-center gap-4 p-4 rounded-xl bg-white bg-opacity-90 backdrop-blur-2xl shadow-xl hover:bg-opacity-75 peer-checked:bg-green-300 peer-checked:text-white cursor-pointer transition">
@@ -125,31 +125,21 @@
 
 
                 <div class="mb-4" id="reject_reason_container"
-                    style="display: {{ $ticket->permission_status == 'rejected' ? 'block' : 'none' }};">
+                    style="display: {{ $ticket->status == 'rejected' ? 'block' : 'none' }};">
                     <input type="text" name="reject_reason" placeholder="Reject Reason"
                         value="{{ $ticket->reject_reason }}" class="w-full p-2 border border-gray-300 rounded">
                 </div>
 
                 <div id="status_container"
-                    style="display: {{ $ticket->permission_status == 'approved' ? 'block' : 'none' }};">
+                    style="display: {{ $ticket->status == 'approved' ? 'block' : 'none' }};">
                     <h2 class="text-base font-semibold text-center mb-4">Status</h2>
                     <hr class="w-48 h-1 mx-auto my-2 bg-gray-100 border-0 rounded dark:bg-gray-700">
 
                     <div class="mb-4 flex justify-around">
-                        <div class="relative">
-                            <input type="radio" name="progress_status" id="progress_unsolved" value="unsolved"
-                                class="hidden peer" {{ $ticket->progress_status == 'unsolved' ? 'checked' : '' }}>
-                            <label for="progress_unsolved"
-                                class="flex items-center gap-4 p-4 rounded-xl bg-white bg-opacity-90 backdrop-blur-2xl shadow-xl hover:bg-opacity-75 peer-checked:bg-gray-600 peer-checked:text-white cursor-pointer transition">
-                                <div>
-                                    <h1 class="text-base text-center">Unsolved</h1>
-                                </div>
-                            </label>
-                        </div>
 
                         <div class="relative">
-                            <input type="radio" name="progress_status" id="progress_ongoing" value="ongoing"
-                                class="hidden peer" {{ $ticket->progress_status == 'ongoing' ? 'checked' : '' }}>
+                            <input type="radio" name="progress" id="progress_ongoing" value="ongoing"
+                                class="hidden peer" {{ $ticket->progress == 'ongoing' ? 'checked' : '' }}>
                             <label for="progress_ongoing"
                                 class="flex items-center gap-4 p-4 rounded-xl bg-white bg-opacity-90 backdrop-blur-2xl shadow-xl hover:bg-opacity-75 peer-checked:bg-gray-600 peer-checked:text-white cursor-pointer transition">
                                 <div>
@@ -159,8 +149,8 @@
                         </div>
 
                         <div class="relative">
-                            <input type="radio" name="progress_status" id="progress_solved" value="solved"
-                                class="hidden peer" {{ $ticket->progress_status == 'solved' ? 'checked' : '' }}>
+                            <input type="radio" name="progress" id="progress_solved" value="solved"
+                                class="hidden peer" {{ $ticket->progress == 'solved' ? 'checked' : '' }}>
                             <label for="progress_solved"
                                 class="flex items-center gap-4 p-4 rounded-xl bg-white bg-opacity-90 backdrop-blur-2xl shadow-xl hover:bg-opacity-75 peer-checked:bg-gray-600 peer-checked:text-white cursor-pointer transition">
                                 <div>

@@ -1,7 +1,9 @@
 @extends('layouts.homedash')
 
 @section('content')
+
     <div class="bg-gray-100 p-6 rounded-lg shadow-md max-w-[1475px] mx-auto px-8 mt-10">
+        
         <div class="flex justify-between items-center mb-4 ">
             <h2 class="text-left text-xl font-semibold">Data Transaksi</h2>
             <a href="{{ route('tambah-pengadaan') }}"
@@ -13,6 +15,16 @@
 
         <!-- Tabel Transaksi -->
         <div class="overflow-x-auto">
+            <form method="GET" action="{{ route('pengadaan') }}" class="mb-4">
+                <div class="flex items-center space-x-4">
+                    <input type="text" name="search" value="{{ request('search') }}"
+                        placeholder="Cari berdasarkan kode transaksi atau nama barang" class="px-4 py-2 border rounded w-full" />
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+                        Cari
+                    </button>
+                    <a href="{{ route('pengadaan') }}" class="btn btn-secondary">Clear</a>
+                </div>
+            </form>
         @if (session('success'))
             <div class="bg-green-500 text-white p-4 rounded mb-4">{{ session('success') }}</div>
         @endif

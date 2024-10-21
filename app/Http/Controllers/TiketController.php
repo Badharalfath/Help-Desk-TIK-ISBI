@@ -15,8 +15,8 @@ class TiketController extends Controller
         // Ambil data dari filter dan search jika ada
         $tanggal = $request->input('tanggal');
         $kategori = $request->input('kategori');
-        $permission_status = $request->input('permission_status');
-        $progress_status = $request->input('progress_status');
+        $status = $request->input('status');
+        $progress = $request->input('progress');
         $search = $request->input('search'); // Ambil input search
 
         // Inisialisasi query tiket
@@ -33,26 +33,26 @@ class TiketController extends Controller
         }
 
         // Filter berdasarkan permission status
-        if ($permission_status) {
-            $query->where('permission_status', $permission_status);
+        if ($status) {
+            $query->where('status', $status);
         }
 
         // Filter berdasarkan progress status
-        if ($progress_status) {
-            $query->where('progress_status', $progress_status);
+        if ($progress) {
+            $query->where('progress', $progress);
         }
 
-        // Filter berdasarkan search di kolom yang relevan (judul, name, permission_status, progress_status, dan email)
+        // Filter berdasarkan search di kolom yang relevan (judul, name, status, progress, dan email)
         if ($search) {
             $query->where(function ($query) use ($search) {
                 $query->where('judul', 'like', '%' . $search . '%')
                     ->orWhere('name', 'like', '%' . $search . '%')
-                    ->orWhere('permission_status', 'like', '%' . $search . '%')
-                    ->orWhere('progress_status', 'like', '%' . $search . '%')
+                    ->orWhere('status', 'like', '%' . $search . '%')
+                    ->orWhere('progress', 'like', '%' . $search . '%')
                     ->orWhere('email', 'like', '%' . $search . '%');
             });
         }
-        
+
         // Paginate hasil query menjadi 10 data per halaman
         $tickets = $query->paginate(10);
 

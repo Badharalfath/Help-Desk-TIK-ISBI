@@ -61,34 +61,34 @@
 
                         <!-- Filter by Permission Status -->
                         <div>
-                            <label for="permission_status" class="block text-sm font-medium text-gray-700">Permission
+                            <label for="status" class="block text-sm font-medium text-gray-700">Permission
                                 Status</label>
-                            <select name="permission_status" id="permission_status"
+                            <select name="status" id="status"
                                 class="border-gray-300 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2">
                                 <option value="">Semua Status</option>
-                                <option value="approved" {{ request('permission_status') == 'approved' ? 'selected' : '' }}>
+                                <option value="approved" {{ request('status') == 'approved' ? 'selected' : '' }}>
                                     Approved</option>
-                                <option value="rejected" {{ request('permission_status') == 'rejected' ? 'selected' : '' }}>
+                                <option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>
                                     Rejected</option>
-                                <option value="pending" {{ request('permission_status') == 'pending' ? 'selected' : '' }}>
+                                <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>
                                     Pending</option>
                             </select>
                         </div>
 
                         <!-- Filter by Progress Status -->
                         <div>
-                            <label for="progress_status" class="block text-sm font-medium text-gray-700">Progress
+                            <label for="progress" class="block text-sm font-medium text-gray-700">Progress
                                 Status</label>
-                            <select name="progress_status" id="progress_status"
+                            <select name="progress" id="progress"
                                 class="border-gray-300 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2">
                                 <option value="">Semua Status</option>
-                                <option value="solved" {{ request('progress_status') == 'solved' ? 'selected' : '' }}>
+                                <option value="solved" {{ request('progress') == 'solved' ? 'selected' : '' }}>
                                     Solved</option>
-                                <option value="ongoing" {{ request('progress_status') == 'ongoing' ? 'selected' : '' }}>On
+                                <option value="ongoing" {{ request('progress') == 'ongoing' ? 'selected' : '' }}>On
                                     Going</option>
-                                <option value="unsolved" {{ request('progress_status') == 'unsolved' ? 'selected' : '' }}>
+                                <option value="unsolved" {{ request('progress') == 'unsolved' ? 'selected' : '' }}>
                                     Unsolved</option>
-                                <option value="spam" {{ request('progress_status') == 'spam' ? 'selected' : '' }}>Spam
+                                <option value="spam" {{ request('progress') == 'spam' ? 'selected' : '' }}>Spam
                                 </option>
                             </select>
 
@@ -178,13 +178,13 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">
-                                            @if ($ticket->permission_status == 'approved')
+                                            @if ($ticket->status == 'approved')
                                                 <span
                                                     class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-green-500">Approved</span>
-                                            @elseif($ticket->permission_status == 'rejected')
+                                            @elseif($ticket->status == 'rejected')
                                                 <span
                                                     class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-red-500">Rejected</span>
-                                            @elseif($ticket->permission_status == 'pending')
+                                            @elseif($ticket->status == 'pending')
                                                 <span
                                                     class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-gray-500">Pending</span>
                                             @endif
@@ -197,17 +197,17 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">
-                                            @if ($ticket->progress_status == 'solved')
+                                            @if ($ticket->progress == 'solved')
                                                 <span
                                                     class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-green-500">Solved</span>
-                                            @elseif($ticket->progress_status == 'unsolved')
+                                            @elseif($ticket->progress == 'unsolved')
                                                 <span
                                                     class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-red-500">Unsolved</span>
-                                            @elseif($ticket->progress_status == 'ongoing')
+                                            @elseif($ticket->progress == 'ongoing')
                                                 <span
                                                     class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-yellow-500">On
                                                     Going</span>
-                                            @elseif($ticket->progress_status == 'spam')
+                                            @elseif($ticket->progress == 'spam')
                                                 <span
                                                     class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-gray-500">Spam</span>
                                             @endif
