@@ -1,7 +1,7 @@
 <header class="bg-white fixed top-0 left-0 w-full z-50 shadow-lg backdrop-blur-md">
     <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
         <a href="{{ route('home') }}" class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
-            <span class="ml-3 text-xl">HELP DESK</span>
+            <span class="ml-3 text-xl">UPT TIK</span>
         </a>
         <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center space-x-4">
             <!-- Tentang TIK Dropdown -->

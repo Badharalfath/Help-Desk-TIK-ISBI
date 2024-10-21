@@ -53,10 +53,6 @@
                                 <td class="border-b px-4 py-2">{{ $ticketStatuses->pending }}</td>
                             </tr>
                             <tr>
-                                <td class="border-b px-4 py-2">Unsolved</td>
-                                <td class="border-b px-4 py-2">{{ $ticketStatuses->unsolved }}</td>
-                            </tr>
-                            <tr>
                                 <td class="border-b px-4 py-2">Ongoing</td>
                                 <td class="border-b px-4 py-2">{{ $ticketStatuses->ongoing }}</td>
                             </tr>
@@ -182,9 +178,9 @@
                 const pieChart = new Chart(ctxPie, {
                     type: 'pie',
                     data: {
-                        labels: ['Pending', 'Unsolved', 'Ongoing', 'Solved', 'Spam'],
+                        labels: ['Pending', 'Ongoing', 'Solved', 'Spam'],
                         datasets: [{
-                            data: [ticketStatuses.pending, ticketStatuses.unsolved, ticketStatuses.ongoing,
+                            data: [ticketStatuses.pending, ticketStatuses.ongoing,
                             ticketStatuses.solved, ticketStatuses.spam
                             ],
                             backgroundColor: ['#9CA3AF', '#6B7280', '#FBBF24',
@@ -215,10 +211,10 @@
                 const barChart = new Chart(ctxBar, {
                     type: 'bar',
                     data: {
-                        labels: ['Pending', 'Unsolved', 'Ongoing', 'Solved', 'Spam'],
+                        labels: ['Pending', 'Ongoing', 'Solved', 'Spam'],
                         datasets: [{
                             label: 'Ticket Status Count',
-                            data: [ticketStatuses.pending, ticketStatuses.unsolved, ticketStatuses.ongoing,
+                            data: [ticketStatuses.pending, ticketStatuses.ongoing,
                             ticketStatuses.solved, ticketStatuses.spam
                             ],
                             backgroundColor: ['#9CA3AF', '#6B7280', '#FBBF24',

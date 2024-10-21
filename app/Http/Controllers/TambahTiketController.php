@@ -58,8 +58,8 @@ class TambahTiketController extends Controller
             'lokasi' => $request->kategori === 'Jaringan' ? $request->lokasi : null,
             'foto_keluhan' => $fotoNamesString,  // Simpan string nama-nama file foto
             'tanggal' => now(),
-            'permission_status' => 'pending',
-            'progress_status' => 'pending',
+            'status' => 'pending',
+            'status' => 'pending',
         ]);
 
         // Kirim email notifikasi ke admin

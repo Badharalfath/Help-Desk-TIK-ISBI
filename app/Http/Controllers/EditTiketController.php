@@ -36,8 +36,8 @@ class EditTiketController extends Controller
             'name' => 'required|string|max:255',
             'judul' => 'required|string|max:255',
             'keluhan' => 'required|string',
-            'permission_status' => 'required|string|in:approved,rejected',
-            'progress_status' => 'nullable|string|in:unsolved,ongoing,solved',
+            'status' => 'required|string|in:approved,rejected',
+            'status' => 'nullable|string|in:unsolved,ongoing,solved',
             'reject_reason' => 'nullable|string|max:255',
         ]);
 
@@ -50,16 +50,16 @@ class EditTiketController extends Controller
         $ticket->judul = $request->input('judul');
         $ticket->keluhan = $request->input('keluhan');
         $ticket->keluhan = $request->input('keluhan');
-        $ticket->permission_status = $request->input('permission_status');
-        $ticket->progress_status = $request->input('progress_status');
+        $ticket->status = $request->input('status');
+        $ticket->status = $request->input('status');
         $ticket->reject_reason = $request->input('reject_reason');
 
-        // Jika permission_status adalah rejected, progress_status di-set otomatis ke 'spam'
-        if ($ticket->permission_status === 'rejected') {
-            $ticket->progress_status = 'spam';
+        // Jika status adalah rejected, status di-set otomatis ke 'spam'
+        if ($ticket->status === 'rejected') {
+            $ticket->status = 'spam';
         } else {
-            // Jika permission_status bukan rejected, progress_status mengikuti input user
-            $ticket->progress_status = $request->input('progress_status');
+            // Jika status bukan rejected, status mengikuti input user
+            $ticket->status = $request->input('status');
         }
 
         $ticket->save();

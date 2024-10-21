@@ -20,8 +20,8 @@ class Ticket extends Model
         'lokasi',
         'tanggal',
         'foto_keluhan',
-        'permission_status',
-        'progress_status',
+        'status',
+        'progress',
         'reject_reason',
     ];
 
@@ -29,5 +29,5 @@ class Ticket extends Model
     protected $casts = [
         'tanggal' => 'date',
     ];
-    
+
 }

@@ -12,11 +12,11 @@ class DashboardController extends Controller
         // Query to get ticket status counts including "pending" (null)
         $ticketStatuses = DB::table('tickets')
             ->selectRaw('
-                SUM(CASE WHEN progress_status = "unsolved" THEN 1 ELSE 0 END) as unsolved,
-                SUM(CASE WHEN progress_status = "ongoing" THEN 1 ELSE 0 END) as ongoing,
-                SUM(CASE WHEN progress_status = "solved" THEN 1 ELSE 0 END) as solved,
-                SUM(CASE WHEN progress_status = "pending" THEN 1 ELSE 0 END) as pending,
-                SUM(CASE WHEN progress_status = "spam" THEN 1 ELSE 0 END) as spam
+                SUM(CASE WHEN progress = "unsolved" THEN 1 ELSE 0 END) as unsolved,
+                SUM(CASE WHEN progress = "ongoing" THEN 1 ELSE 0 END) as ongoing,
+                SUM(CASE WHEN progress = "solved" THEN 1 ELSE 0 END) as solved,
+                SUM(CASE WHEN progress = "pending" THEN 1 ELSE 0 END) as pending,
+                SUM(CASE WHEN progress = "spam" THEN 1 ELSE 0 END) as spam
             ')
             ->first();
 
