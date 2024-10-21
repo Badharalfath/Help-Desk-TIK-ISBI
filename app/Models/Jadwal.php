@@ -15,12 +15,14 @@ class Jadwal extends Model
         'tanggal',
         'jam_mulai',
         'jam_berakhir',
+        'jam_selesai',
         'kategori',
         'wallmount_id',
         'deskripsi',
         'pic',
         'foto',
         'foto_kedua',
+        'kegiatan', // Tambahkan kolom kegiatan
     ];
 
     public function wallmount()

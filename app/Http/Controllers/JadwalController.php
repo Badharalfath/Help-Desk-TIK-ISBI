@@ -77,37 +77,45 @@ class JadwalController extends Controller
 
     public function updateFotoKedua(Request $request, $id)
     {
+        // Validasi input
         $request->validate([
-            'foto_kedua.*' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:5012', // Mengubah validasi menjadi array
+            'foto_kedua.*' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:5012', // Validasi untuk foto kedua
+            'kegiatan' => 'required|string|max:255', // Validasi untuk kolom kegiatan
+            'jam_selesai' => 'required', // Validasi jam_selesai
         ]);
 
+        // Cari jadwal berdasarkan ID
         $jadwal = Jadwal::find($id);
         if (!$jadwal) {
             return redirect()->back()->with('error', 'Jadwal tidak ditemukan!');
         }
 
+        // Proses upload foto kedua
         $fotoKeduaNames = [];
         if ($request->hasFile('foto_kedua')) {
             foreach ($request->file('foto_kedua') as $fotoKedua) {
-                // Dapatkan nama file asli
                 $originalFilename = $fotoKedua->getClientOriginalName();
-
-                // Buat nama file baru
                 $newFilename = rand(1000000000, 9999999999) . '_' . $originalFilename;
-
-                // Simpan file dengan nama baru
                 $fotoKedua->storeAs('public/fotos', $newFilename);
-
-                // Tambahkan nama file ke array
                 $fotoKeduaNames[] = $newFilename;
             }
 
-            // Simpan nama file sebagai string yang dipisahkan koma
-            $jadwal->update(['foto_kedua' => implode(',', $fotoKeduaNames)]);
+            // Update kolom foto kedua dan kegiatan
+            $jadwal->update([
+                'foto_kedua' => implode(',', $fotoKeduaNames),
+                'kegiatan' => $request->input('kegiatan'), // Simpan kegiatan ke database
+                'jam_selesai' => $request->input('jam_selesai')?? Carbon::now()->format('H:i:s'), // Simpan jam_selesai ke database
+            ]);
+        } else {
+            // Jika tidak ada foto kedua yang diunggah, hanya update kegiatan
+            $jadwal->update([
+                'kegiatan' => $request->input('kegiatan'), // Simpan kegiatan ke database
+            ]);
         }
 
-        return redirect()->route('jadwal')->with('success', 'Foto kedua berhasil diunggah!');
+        return redirect()->route('jadwal')->with('success', 'Foto kedua dan kegiatan berhasil diunggah!');
     }
+
 
 
     public function editFotoKedua($id)
