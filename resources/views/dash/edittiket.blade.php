@@ -92,8 +92,8 @@
                 </div>
 
 
-
-                <h2 class="text-base font-semibold text-center mb-2 mt-2">Permission</h2>
+                <!-- Bagan Status -->
+                <h2 class="text-base font-semibold text-center mb-2 mt-2">Status</h2>
                 <hr class="w-48 h-1 mx-auto my-2 bg-gray-100 border-0 rounded dark:bg-gray-700 mb-6">
 
                 <div class="mb-4 flex justify-around">
@@ -123,7 +123,7 @@
                 </div>
 
 
-
+                <!-- Bagan Progress -->
                 <div class="mb-4" id="reject_reason_container"
                     style="display: {{ $ticket->status == 'rejected' ? 'block' : 'none' }};">
                     <input type="text" name="reject_reason" placeholder="Reject Reason"
@@ -132,7 +132,7 @@
 
                 <div id="status_container"
                     style="display: {{ $ticket->status == 'approved' ? 'block' : 'none' }};">
-                    <h2 class="text-base font-semibold text-center mb-4">Status</h2>
+                    <h2 class="text-base font-semibold text-center mb-4">Progress</h2>
                     <hr class="w-48 h-1 mx-auto my-2 bg-gray-100 border-0 rounded dark:bg-gray-700">
 
                     <div class="mb-4 flex justify-around">

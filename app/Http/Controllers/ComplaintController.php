@@ -8,12 +8,17 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ComplaintSubmitted;
 use App\Models\User;
+use App\Models\KategoriLayanan; // Model untuk kategori_layanan
+use App\Models\KategoriStatus; // Model untuk kategori_status
 
 class ComplaintController extends Controller
 {
     public function showForm()
     {
-        return view('landing.complaint');
+        // Ambil semua data kategori layanan
+        $kategoriLayanan = KategoriLayanan::all();
+
+        return view('landing.complaint', compact('kategoriLayanan'));
     }
 
     public function submitForm(Request $request)
@@ -24,11 +29,23 @@ class ComplaintController extends Controller
             'name' => 'required|string|max:255',
             'judul' => 'required|string|max:255',
             'keluhan' => 'required|string',
-            'kategori' => 'required|string',
+            'kd_layanan' => 'required|string', // Input ini akan digunakan untuk mencari kd_layanan
             'foto.*' => 'nullable|image|max:5012', // Validasi setiap file foto
             'g-recaptcha-response' => 'required|captcha',
-            'lokasi' => $request->kategori === 'Jaringan' ? 'required|string|max:255' : 'nullable|string',
+            'lokasi' => $request->kategori_layanan === 'Jaringan' ? 'required|string|max:255' : 'nullable|string',
         ]);
+
+        // Cari kd_layanan berdasarkan input kategori_layanan
+        $layanan = KategoriLayanan::where('kd_layanan', $request->kd_layanan)->first();
+        if (!$layanan) {
+            return redirect()->back()->withErrors(['kategori_layanan' => 'Kategori layanan tidak ditemukan.']);
+        }
+
+        // Cari kd_status default (misalnya pending) dari tabel kategori_status
+        $status = KategoriStatus::where('nama_status', 'pending')->first();
+        if (!$status) {
+            return redirect()->back()->withErrors(['kd_status' => 'Status default tidak ditemukan.']);
+        }
 
         // Handle upload multiple foto keluhan
         $fotoNames = [];
@@ -48,18 +65,17 @@ class ComplaintController extends Controller
         // Gabungkan nama-nama file yang di-upload menjadi satu string dipisahkan dengan koma
         $fotoNamesString = implode(',', $fotoNames);
 
-        // Simpan data keluhan ke database
+       // Simpan data keluhan ke database
         $complaint = Ticket::create([
             'email' => $request->email,
             'name' => $request->name,
             'judul' => $request->judul,
             'keluhan' => $request->keluhan,
-            'kategori' => $request->kategori,
-            'lokasi' => $request->kategori === 'Jaringan' ? $request->lokasi : null,
+            'kd_layanan' => $layanan->kd_layanan, // Masukkan kd_layanan dari tabel kategori_layanan
+            'lokasi' => $request->kategori_layanan === 'Jaringan' ? $request->lokasi : null,
             'foto_keluhan' => $fotoNamesString,  // Simpan string nama-nama file foto
             'tanggal' => now(),
-            'permission_status' => 'pending',
-            'progress_status' => 'pending',
+            'kd_status' => $status->kd_status, // Masukkan kd_status dari tabel kategori_status
         ]);
 
         // Kirim email notifikasi ke admin

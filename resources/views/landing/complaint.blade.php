@@ -59,12 +59,12 @@
 
                         <!-- Dropdown Kategori Laporan -->
                         <div class="mb-4">
-                            <label for="kategori" class="block text-gray-700 font-bold mb-2">Kategori Laporan</label>
-                            <select name="kategori" id="kategori"
+                            <label for="kd_layanan" class="block text-gray-700 font-bold mb-2">Kategori Layanan</label>
+                            <select name="kd_layanan" id="kd_layanan"
                                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                <option value="Aplikasi">Aplikasi</option>
-                                <option value="Email/Website">Email/Website</option>
-                                <option value="Jaringan">Jaringan/Internet</option>
+                                @foreach($kategoriLayanan as $kategori)
+                                    <option value="{{ $kategori->kd_layanan }}">{{ $kategori->nama_layanan }}</option>
+                                @endforeach
                             </select>
                         </div>
 

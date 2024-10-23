@@ -23,6 +23,14 @@ class CreateKategoriLayananTable extends Migration
             // Timestamps untuk created_at dan updated_at
             $table->timestamps();
         });
+
+        // Insert default values ke tabel 'kategori_layanan'
+        DB::table('kategori_layanan')->insert([
+            ['kd_layanan' => 'LY001', 'nama_layanan' => 'Jaringan/Internet'],
+            ['kd_layanan' => 'LY002', 'nama_layanan' => 'Aplikasi'],
+            ['kd_layanan' => 'LY003', 'nama_layanan' => 'Email'],
+            ['kd_layanan' => 'LY004', 'nama_layanan' => 'Wallmount'],
+        ]);
     }
 
     /**
