@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\DB; // Tambahkan ini
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -12,13 +12,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('status', function (Blueprint $table) {
-            $table->string('kd_status', 5)->primary(); // Ubah limit menjadi 5
+        // Buat tabel 'kategori_status'
+        Schema::create('kategori_status', function (Blueprint $table) {
+            $table->string('kd_status', 5)->primary();
             $table->string('nama_status', 50);
         });
 
-        // Insert default values
-        DB::table('status')->insert([
+        // Insert default values ke tabel 'kategori_status'
+        DB::table('kategori_status')->insert([
             ['kd_status' => 'ST001', 'nama_status' => 'pending'],
             ['kd_status' => 'ST002', 'nama_status' => 'rejected'],
             ['kd_status' => 'ST003', 'nama_status' => 'approved']
@@ -30,6 +31,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('status');
+        // Hapus tabel 'kategori_status' jika rollback
+        Schema::dropIfExists('kategori_status');
     }
 };

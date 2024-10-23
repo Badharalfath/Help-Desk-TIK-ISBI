@@ -16,7 +16,8 @@ class Ticket extends Model
         'name',
         'judul',
         'keluhan',
-        'kategori',
+        'kd_layanan', // Tambahkan ini untuk relasi ke kategori_layanan
+        'kd_status', // Tambahkan kd_status untuk relasi ke KategoriStatus
         'lokasi',
         'tanggal',
         'foto_keluhan',
@@ -29,5 +30,11 @@ class Ticket extends Model
     protected $casts = [
         'tanggal' => 'date',
     ];
+
+    public function kategoriStatus()
+    {
+        return $this->belongsTo(KategoriStatus::class, 'kd_status', 'kd_status');
+    }
+
 
 }

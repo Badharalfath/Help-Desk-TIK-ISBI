@@ -26,4 +26,10 @@ class KategoriLayanan extends Model
             $model->kd_layanan = 'LY' . str_pad($maxId + 1, 3, '0', STR_PAD_LEFT);
         });
     }
+
+    public function kategoriLayanan()
+    {
+        return $this->belongsTo(KategoriLayanan::class, 'kd_layanan', 'kd_layanan');
+    }
+
 }

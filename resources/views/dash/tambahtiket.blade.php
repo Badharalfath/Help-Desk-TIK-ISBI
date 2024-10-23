@@ -33,7 +33,7 @@
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
             </div>
 
-            <!-- Dropdown Kategori Laporan -->
+            <!-- Dropdown Kategori Laporan -->  
             <div class="mb-4">
                 <label for="kd_layanan" class="block text-gray-700 font-bold mb-2">Kategori Layanan</label>
                 <select name="kd_layanan" id="kd_layanan"

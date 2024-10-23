@@ -14,7 +14,11 @@ class TambahTiketController extends Controller
 {
     public function showForm()
     {
-        return view('dash.tambahtiket');
+
+        // Ambil semua data kategori layanan
+        $kategoriLayanan = KategoriLayanan::all();
+
+        return view('dash.tambahtiket', compact('kategoriLayanan'));
     }
 
     public function submitForm(Request $request)
@@ -32,7 +36,7 @@ class TambahTiketController extends Controller
         ]);
 
         // Cari kd_layanan berdasarkan input kategori_layanan
-        $layanan = KategoriLayanan::where('nama_layanan', $request->kategori_layanan)->first();
+        $layanan = KategoriLayanan::where('kd_layanan', $request->kd_layanan)->first();
         if (!$layanan) {
             return redirect()->back()->withErrors(['kategori_layanan' => 'Kategori layanan tidak ditemukan.']);
         }
