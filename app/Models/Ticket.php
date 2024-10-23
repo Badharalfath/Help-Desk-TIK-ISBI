@@ -36,5 +36,9 @@ class Ticket extends Model
         return $this->belongsTo(KategoriStatus::class, 'kd_status', 'kd_status');
     }
 
+    public function kategoriProgres()
+    {
+        return $this->belongsTo(KategoriProgres::class, 'progress', 'kd_progres');
+    }
 
 }
