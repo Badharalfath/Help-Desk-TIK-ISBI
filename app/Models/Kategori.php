@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Kategori extends Model
 {
-    protected $table = 'kategori';
+    protected $table = 'kategori_aset';
     public $incrementing = false;
     protected $primaryKey = 'kd_kategori'; // Atur primary key sesuai kolom yang benar
     protected $fillable = ['kd_kategori', 'nama_kategori', 'qty_barang'];

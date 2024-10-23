@@ -16,13 +16,13 @@ class Jadwal extends Model
         'jam_mulai',
         'jam_berakhir',
         'jam_selesai',
-        'kategori',
+        'kd_layanan', // Ubah kategori menjadi kd_layanan sebagai foreign key
         'wallmount_id',
         'deskripsi',
         'pic',
         'foto',
         'foto_kedua',
-        'kegiatan', // Tambahkan kolom kegiatan
+        'kegiatan',
     ];
 
     public function wallmount()
@@ -35,4 +35,9 @@ class Jadwal extends Model
         return $this->belongsTo(Perangkat::class, 'perangkat_id');
     }
 
+    // Relasi ke tabel kategori_layanan
+    public function layanan()
+    {
+        return $this->belongsTo(KategoriLayanan::class, 'kd_layanan', 'kd_layanan');
+    }
 }

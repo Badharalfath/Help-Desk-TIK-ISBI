@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Ticket;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ComplaintSubmitted;
 use App\Models\User;
+use App\Models\KategoriLayanan; // Model untuk kategori_layanan
+use App\Models\KategoriStatus; // Model untuk kategori_status
 
 class TambahTiketController extends Controller
 {
@@ -24,11 +25,23 @@ class TambahTiketController extends Controller
             'name' => 'required|string|max:255',
             'judul' => 'required|string|max:255',
             'keluhan' => 'required|string',
-            'kategori' => 'required|string',
+            'kd_layanan' => 'required|string', // Input ini akan digunakan untuk mencari kd_layanan
             'foto.*' => 'nullable|image|max:5012', // Validasi setiap file foto
             'g-recaptcha-response' => 'required|captcha',
-            'lokasi' => $request->kategori === 'Jaringan' ? 'required|string|max:255' : 'nullable|string',
+            'lokasi' => $request->kategori_layanan === 'Jaringan' ? 'required|string|max:255' : 'nullable|string',
         ]);
+
+        // Cari kd_layanan berdasarkan input kategori_layanan
+        $layanan = KategoriLayanan::where('nama_layanan', $request->kategori_layanan)->first();
+        if (!$layanan) {
+            return redirect()->back()->withErrors(['kategori_layanan' => 'Kategori layanan tidak ditemukan.']);
+        }
+
+        // Cari kd_status default (misalnya pending) dari tabel kategori_status
+        $status = KategoriStatus::where('nama_status', 'pending')->first();
+        if (!$status) {
+            return redirect()->back()->withErrors(['kd_status' => 'Status default tidak ditemukan.']);
+        }
 
         // Handle upload multiple foto keluhan
         $fotoNames = [];
@@ -54,12 +67,11 @@ class TambahTiketController extends Controller
             'name' => $request->name,
             'judul' => $request->judul,
             'keluhan' => $request->keluhan,
-            'kategori' => $request->kategori,
-            'lokasi' => $request->kategori === 'Jaringan' ? $request->lokasi : null,
+            'kd_layanan' => $layanan->kd_layanan, // Masukkan kd_layanan dari tabel kategori_layanan
+            'lokasi' => $request->kategori_layanan === 'Jaringan' ? $request->lokasi : null,
             'foto_keluhan' => $fotoNamesString,  // Simpan string nama-nama file foto
             'tanggal' => now(),
-            'status' => 'pending',
-            'status' => 'pending',
+            'kd_status' => $status->kd_status, // Masukkan kd_status dari tabel kategori_status
         ]);
 
         // Kirim email notifikasi ke admin
@@ -70,7 +82,4 @@ class TambahTiketController extends Controller
 
         return redirect()->route('tiket')->with('success', 'Your complaint has been submitted successfully!');
     }
-
-
-
 }
