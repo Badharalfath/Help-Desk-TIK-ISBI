@@ -16,15 +16,16 @@ class Ticket extends Model
         'name',
         'judul',
         'keluhan',
-        'kd_layanan', // Tambahkan ini untuk relasi ke kategori_layanan
-        'kd_status', // Tambahkan kd_status untuk relasi ke KategoriStatus
+        'kd_layanan',
+        'kd_status',   // Relasi ke KategoriStatus
+        'kd_progres',  // Relasi ke KategoriProgres
         'lokasi',
         'tanggal',
         'foto_keluhan',
         'status',
-        'progress',
         'reject_reason',
     ];
+
 
     // Jika Anda ingin menetapkan atribut tanggal secara otomatis
     protected $casts = [
@@ -38,7 +39,6 @@ class Ticket extends Model
 
     public function kategoriProgres()
     {
-        return $this->belongsTo(KategoriProgres::class, 'progress', 'kd_progres');
+        return $this->belongsTo(KategoriProgres::class, 'kd_progres', 'kd_progres');
     }
-
 }

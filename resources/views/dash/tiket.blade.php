@@ -5,17 +5,17 @@
         use Illuminate\Support\Str;
     @endphp
     <div class="container mx-auto ">
-        <!-- Tabel Default (Semua Tiket) -->
-        @if (session('success'))
-            <div class="bg-green-500 text-white p-3 rounded mb-4">
-                {{ session('success') }}
-            </div>
-        @endif
+
 
         <div class="container mx-auto py-10 px-6"> <!-- Tambahkan 'px-6' untuk padding pada sisi horizontal -->
             <div class="flex justify-between items-center mb-">
                 <h2 class="text-2xl font-bold mb-5">Daftar Tiket</h2>
-
+                <!-- Tabel Default (Semua Tiket) -->
+                @if (session('success'))
+                    <div class="bg-green-500 text-white p-3 rounded mb-4">
+                        {{ session('success') }}
+                    </div>
+                @endif
                 <!-- Button tambah user -->
                 <div class=" flex justify-end mb-4">
                     <a href="{{ route('tickets.generatePdf') }}"
@@ -131,13 +131,13 @@
                                     Kategori</th>
                                 <th
                                     class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Permission Status</th>
+                                    Status</th>
                                 <th
                                     class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Alasan Ditolak</th>
                                 <th
                                     class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Status Progress</th>
+                                    Progress</th>
                                 @if ($isInput)
                                     <th
                                         class="px-6 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">

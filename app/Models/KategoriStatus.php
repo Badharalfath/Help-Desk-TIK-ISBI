@@ -24,4 +24,9 @@ class KategoriStatus extends Model
             $model->kd_status = 'ST' . str_pad($maxId + 1, 3, '0', STR_PAD_LEFT);
         });
     }
+
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class, 'kd_status', 'kd_status');
+    }
 }

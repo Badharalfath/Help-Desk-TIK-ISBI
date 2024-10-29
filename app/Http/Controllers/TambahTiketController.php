@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Ticket;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ComplaintSubmitted;
+use App\Mail\TicketStatusNotification;
 use App\Models\User;
 use App\Models\KategoriLayanan; // Model untuk kategori_layanan
 use App\Models\KategoriStatus; // Model untuk kategori_status
@@ -77,6 +78,12 @@ class TambahTiketController extends Controller
             'tanggal' => now(),
             'kd_status' => $status->kd_status, // Masukkan kd_status dari tabel kategori_status
         ]);
+
+        // Include status in the email notification
+        $complaint->status_name = $status->nama_status;
+
+        // Send initial email notification to user
+        Mail::to($complaint->email)->send(new TicketStatusNotification($complaint));
 
         // Kirim email notifikasi ke admin
         $emailAdmin = User::where('role', 'admin')->first();

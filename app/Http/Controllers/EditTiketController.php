@@ -6,6 +6,7 @@ use App\Models\Ticket;
 use Illuminate\Http\Request;
 use App\Models\KategoriProgres; // Model untuk kategori_layanan
 use App\Models\KategoriStatus; // Model untuk kategori_status
+use Illuminate\Support\Facades\Mail;
 
 
 class EditTiketController extends Controller
@@ -38,7 +39,6 @@ class EditTiketController extends Controller
 
     public function update(Request $request, $id)
     {
-
         // Validasi data
         $request->validate([
             'email' => 'required|email',
@@ -46,36 +46,40 @@ class EditTiketController extends Controller
             'judul' => 'required|string|max:255',
             'keluhan' => 'required|string',
             'kd_status' => 'required|exists:kategori_status,kd_status',
-            'kd_progres' => 'required|exists:kategori_progres,kd_progres',
+            'kd_progres' => 'required|exists:kategori_progres,kd_progres', // Pastikan validasi ini ada
             'reject_reason' => 'nullable|string|max:255',
         ]);
 
         // Temukan tiket berdasarkan ID
         $ticket = Ticket::findOrFail($id);
+        $oldProgress = $ticket->kd_progres;
 
-        // Update tiket
-        $ticket->email = $request->input('email');
-        $ticket->name = $request->input('name');
-        $ticket->judul = $request->input('judul');
-        $ticket->keluhan = $request->input('keluhan');
-        $ticket->keluhan = $request->input('keluhan');
-        $ticket->reject_reason = $request->input('reject_reason');
-        $ticket->kd_status = $request->input('kd_status');
-        $ticket->kd_progres = $request->input('kd_progres');
+        // Update data berdasarkan input
+        $ticket->update([
+            'email' => $request->input('email'),
+            'name' => $request->input('name'),
+            'judul' => $request->input('judul'),
+            'keluhan' => $request->input('keluhan'),
+            'kd_status' => $request->input('kd_status'),
+            'kd_progres' => $request->input('kd_progres'), // Pastikan nilai ini tersimpan
+            'reject_reason' => $request->input('reject_reason'),
+        ]);
 
-        // Jika status adalah rejected, status di-set otomatis ke 'spam'
-        if ($ticket->status === 'rejected') {
-            $ticket->status = 'spam';
-        } else {
-            // Jika status bukan rejected, status mengikuti input user
-            $ticket->status = $request->input('status');
+        // Kirim email notifikasi jika kd_progres berubah
+        if ($oldProgress !== $request->input('kd_progres')) {
+            // Panggil fungsi kirim email
+            $this->sendProgressUpdateEmail($ticket);
         }
 
-        $ticket->save();
-
-        // Redirect dengan pesan sukses
         return redirect()->route('tiket')->with('success', 'Ticket updated successfully!');
     }
+
+    // Fungsi untuk mengirim email notifikasi perubahan progres
+    protected function sendProgressUpdateEmail($ticket)
+    {
+        Mail::to($ticket->email)->send(new \App\Mail\ProgressUpdated($ticket));
+    }
+
 
     public function destroy($id)
     {
@@ -83,6 +87,4 @@ class EditTiketController extends Controller
         $ticket->delete();
         return redirect()->route('tiket')->with('success', 'Ticket deleted successfully');
     }
-
 }
-

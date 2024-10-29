@@ -16,7 +16,7 @@ class DummyUsersSeeder extends Seeder
         $userData = [
             [
                 'name' => 'mi',
-                'email' => 'rafly2027@gmail.com',
+                'email' => 'rigendhathor@gmail.com',
                 'role' => 'admin',
                 'password' => Hash::make('123456')
             ]

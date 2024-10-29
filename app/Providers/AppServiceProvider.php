@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
 use App\Observers\BarangObserver;
 use App\Models\Barang; // Tambahkan model Barang
+use App\Models\Ticket;
+use App\Observers\TicketObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Ticket::observe(TicketObserver::class);
         // Daftarkan observer untuk model Barang
         Barang::observe(BarangObserver::class);
 
