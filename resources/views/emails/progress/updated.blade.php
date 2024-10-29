@@ -1,10 +1,10 @@
 @component('mail::message')
-# Progress Update
+# Pemberitahuan Proses
 
-Dear {{ $ticket->name }},
+Halo {{ $ticket->name }},
 
-The progress of your ticket titled "{{ $ticket->judul }}" has been updated to "{{ $ticket->kategoriProgres->nama_progres }}".
+Proses pada tiket anda dengan judul "{{ $ticket->judul }}" telah dinajutkan pada tahap "{{ $ticket->kategoriProgres->nama_progres }}".
 
-Thanks,<br>
+Terimakasih,<br>
 {{ config('app.name') }}
 @endcomponent
