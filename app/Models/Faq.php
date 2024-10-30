@@ -9,9 +9,21 @@ class Faq extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'kd_faq'; // Primary key diatur ke kd_faq
+    public $incrementing = false; // Karena kd_faq bukan integer dan harus diisi manual
+
     protected $fillable = [
-        'bidang_permasalahan',
-        'nama_masalah',
-        'deskripsi_penyelesaian_masalah',
+        'kd_faq',
+        'kd_layanan',
+        'pertanyaan', // Nama kolom pertanyaan di tabel `faqs`
+        'penyelesaian', // Nama kolom penyelesaian di tabel `faqs`
     ];
+
+    /**
+     * Relasi ke model KategoriLayanan
+     */
+    public function kategoriLayanan()
+    {
+        return $this->belongsTo(KategoriLayanan::class, 'kd_layanan', 'kd_layanan');
+    }
 }
