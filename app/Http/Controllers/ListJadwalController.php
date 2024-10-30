@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Jadwal;
+use App\Models\KategoriProgres;
 use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
 
@@ -37,13 +38,15 @@ class ListJadwalController extends Controller
                     ->orWhere('deskripsi', 'like', '%' . $search . '%')
                     ->orWhere('status', 'like', '%' . $search . '%');
             });
-    }
+        }
 
+        // Ambil data progress dari kategori_progres
+        $kategoriProgres = KategoriProgres::all();
 
         $jadwals = $jadwals->paginate(10);
 
         // Kirim variabel ke view
-        return view('dash.listjadwal', compact('jadwals'));
+        return view('dash.listjadwal', compact('jadwals', 'kategoriProgres'));
     }
 
 
@@ -68,7 +71,7 @@ class ListJadwalController extends Controller
     public function updateStatus(Request $request, $id)
     {
         $request->validate([
-            'status' => 'required|in:Pending,Ongoing,Completed',
+            'kd_progres' => 'required|exists:kategori_progres,kd_progres',
         ]);
 
         $jadwal = Jadwal::find($id);
@@ -76,9 +79,10 @@ class ListJadwalController extends Controller
             return redirect()->back()->with('error', 'Jadwal tidak ditemukan.');
         }
 
-        $jadwal->status = $request->input('status');
+        $jadwal->kd_progres = $request->input('kd_progres');
         $jadwal->save();
 
-        return redirect()->route('listjadwal')->with('success', 'Status berhasil diubah.');
+        return redirect()->route('listjadwal')->with('success', 'Progress berhasil diubah.');
     }
+
 }
