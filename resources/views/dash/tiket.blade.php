@@ -8,14 +8,16 @@
 
 
         <div class="container mx-auto py-10 px-6"> <!-- Tambahkan 'px-6' untuk padding pada sisi horizontal -->
+            <!-- Tabel Default (Semua Tiket) -->
+            @if (session('success'))
+                <div class="bg-green-500 text-white p-3 rounded mb-4">
+                    {{ session('success') }}
+                </div>
+            @endif
             <div class="flex justify-between items-center mb-">
+
                 <h2 class="text-2xl font-bold mb-5">Daftar Tiket</h2>
-                <!-- Tabel Default (Semua Tiket) -->
-                @if (session('success'))
-                    <div class="bg-green-500 text-white p-3 rounded mb-4">
-                        {{ session('success') }}
-                    </div>
-                @endif
+
                 <!-- Button tambah user -->
                 <div class=" flex justify-end mb-4">
                     <a href="{{ route('tickets.generatePdf') }}"

@@ -92,23 +92,36 @@
                 </div>
 
 
-                <!-- Bagan status -->
+                <!-- Bagan Status -->
                 <label for="status">Status</label>
                 <div class="mb-4 flex justify-around">
-                    <div class="relative">
-                        <select name="kd_status" id="status_select"
-                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                            @foreach ($kategoriStatus as $status)
-                                <option value="{{ $status->kd_status }}"
-                                    {{ $ticket->kd_status == $status->kd_status ? 'selected' : '' }}>
-                                    {{ $status->nama_status }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
+                    <!-- Tombol Reject -->
+                    <label class="relative flex items-center cursor-pointer">
+                        <input type="radio" name="kd_status" value="ST002" id="status_reject"
+                            {{ $ticket->kd_status == 'ST002' ? 'checked' : '' }} class="hidden"
+                            onchange="updateStatusStyles()">
+                        <span id="reject_button"
+                            class="px-4 py-2 border border-red-500 rounded-md
+                   {{ $ticket->kd_status == 'ST002' ? 'bg-red-500 text-white' : 'text-red-500' }}
+                   hover:bg-red-500 hover:text-white transition">
+                            Reject
+                        </span>
+                    </label>
+                    <!-- Tombol Approved -->
+                    <label class="relative flex items-center cursor-pointer">
+                        <input type="radio" name="kd_status" value="ST001" id="status_approved"
+                            {{ $ticket->kd_status == 'ST001' ? 'checked' : '' }} class="hidden"
+                            onchange="updateStatusStyles()">
+                        <span id="approved_button"
+                            class="px-4 py-2 border border-green-500 rounded-md
+                   {{ $ticket->kd_status == 'ST001' ? 'bg-green-500 text-white' : 'text-green-500' }}
+                   hover:bg-green-500 hover:text-white transition">
+                            Approved
+                        </span>
+                    </label>
                 </div>
 
-                {{-- Bagian untuk input reject reason --}}
+                <!-- Bagian untuk input Reject Reason -->
                 <div id="reject_reason_container" style="{{ $ticket->kd_status == 'ST002' ? '' : 'display: none;' }}">
                     <label for="reject_reason" class="block text-sm font-medium text-gray-700">Reject Reason</label>
                     <input type="text" name="reject_reason" id="reject_reason"
@@ -116,50 +129,126 @@
                         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 </div>
 
-                <!-- Bagan progress -->
-                <label for="kd_progres">Progress:</label>
-                <select name="kd_progres" id="kd_progres" class="form-control">
-                    @foreach ($kategoriProgres as $progres)
-                        <option value="{{ $progres->kd_progres }}"
-                            {{ $ticket->kd_progres == $progres->kd_progres ? 'selected' : '' }}>
-                            {{ $progres->nama_progres }}
-                        </option>
-                    @endforeach
-                </select>
-
+                <!-- Bagan Progress -->
+<label for="kd_progres">Progress</label>
+<div class="mb-4 flex justify-around">
+    <!-- Tombol Pending -->
+    <label class="relative flex items-center cursor-pointer">
+        <input type="radio" name="kd_progres" value="PG001" id="progress_pending"
+            {{ $ticket->kd_progres == 'PG001' ? 'checked' : '' }}
+            class="hidden" onchange="updateProgressStyles()">
+        <span id="pending_button"
+            class="px-4 py-2 border border-gray-500 rounded-md
+                   {{ $ticket->kd_progres == 'PG001' ? 'bg-gray-500 text-white' : 'text-gray-500' }}
+                   hover:bg-gray-500 hover:text-white transition">
+            Pending
+        </span>
+    </label>
+    <!-- Tombol Ongoing -->
+    <label class="relative flex items-center cursor-pointer">
+        <input type="radio" name="kd_progres" value="PG002" id="progress_ongoing"
+            {{ $ticket->kd_progres == 'PG002' ? 'checked' : '' }}
+            class="hidden" onchange="updateProgressStyles()">
+        <span id="ongoing_button"
+            class="px-4 py-2 border border-orange-500 rounded-md
+                   {{ $ticket->kd_progres == 'PG002' ? 'bg-orange-500 text-white' : 'text-orange-500' }}
+                   hover:bg-orange-500 hover:text-white transition">
+            Ongoing
+        </span>
+    </label>
+    <!-- Tombol Complete -->
+    <label class="relative flex items-center cursor-pointer">
+        <input type="radio" name="kd_progres" value="PG003" id="progress_complete"
+            {{ $ticket->kd_progres == 'PG003' ? 'checked' : '' }}
+            class="hidden" onchange="updateProgressStyles()">
+        <span id="complete_button"
+            class="px-4 py-2 border border-blue-500 rounded-md
+                   {{ $ticket->kd_progres == 'PG003' ? 'bg-blue-500 text-white' : 'text-blue-500' }}
+                   hover:bg-blue-500 hover:text-white transition">
+            Complete
+        </span>
+    </label>
+</div>
 
                 <button type="submit" class="w-full bg-gray-800 text-white px-4 py-2 rounded">Save</button>
             </form>
         </div>
     </div>
 
+
+    <script>
+        function updateStatusStyles() {
+            const isRejectSelected = document.getElementById('status_reject').checked;
+            const rejectButton = document.getElementById('reject_button');
+            const approvedButton = document.getElementById('approved_button');
+
+            if (isRejectSelected) {
+                rejectButton.classList.add('bg-red-500', 'text-white');
+                rejectButton.classList.remove('text-red-500');
+                approvedButton.classList.remove('bg-green-500', 'text-white');
+                approvedButton.classList.add('text-green-500');
+            } else {
+                approvedButton.classList.add('bg-green-500', 'text-white');
+                approvedButton.classList.remove('text-green-500');
+                rejectButton.classList.remove('bg-red-500', 'text-white');
+                rejectButton.classList.add('text-red-500');
+            }
+
+            toggleRejectReason();
+        }
+
+        function updateProgressStyles() {
+        const pendingButton = document.getElementById('pending_button');
+        const ongoingButton = document.getElementById('ongoing_button');
+        const completeButton = document.getElementById('complete_button');
+
+        pendingButton.classList.toggle('bg-gray-500', document.getElementById('progress_pending').checked);
+        pendingButton.classList.toggle('text-white', document.getElementById('progress_pending').checked);
+        pendingButton.classList.toggle('text-gray-500', !document.getElementById('progress_pending').checked);
+
+        ongoingButton.classList.toggle('bg-orange-500', document.getElementById('progress_ongoing').checked);
+        ongoingButton.classList.toggle('text-white', document.getElementById('progress_ongoing').checked);
+        ongoingButton.classList.toggle('text-orange-500', !document.getElementById('progress_ongoing').checked);
+
+        completeButton.classList.toggle('bg-blue-500', document.getElementById('progress_complete').checked);
+        completeButton.classList.toggle('text-white', document.getElementById('progress_complete').checked);
+        completeButton.classList.toggle('text-blue-500', !document.getElementById('progress_complete').checked);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        updateProgressStyles();
+
+
+
+            document.querySelectorAll('input[name="kd_status"]').forEach(radio => {
+                radio.addEventListener('change', updateStatusStyles);
+            });
+
+            document.querySelectorAll('input[name="kd_progres"]').forEach(radio => {
+            radio.addEventListener('change', updateProgressStyles);
+        });
+    });
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            var statusSelect = document.getElementById('status_select');
-            var rejectReasonContainer = document.getElementById('reject_reason_container');
-
-            // Fungsi untuk menampilkan atau menyembunyikan reject reason
             function toggleRejectReason() {
-                var selectedValue = statusSelect.value;
+                const selectedStatus = document.querySelector('input[name="kd_status"]:checked').value;
+                const rejectReasonContainer = document.getElementById('reject_reason_container');
 
-                // Cek apakah status terpilih adalah rejected (ST002)
-                if (selectedValue === 'ST002') {
+                if (selectedStatus === 'ST002') {
                     rejectReasonContainer.style.display = 'block';
                 } else {
                     rejectReasonContainer.style.display = 'none';
                 }
             }
 
-            // Panggil fungsi saat halaman dimuat
             toggleRejectReason();
 
-            // Tambahkan event listener untuk memonitor perubahan pada select status
-            statusSelect.addEventListener('change', function() {
-                toggleRejectReason();
+            document.querySelectorAll('input[name="kd_status"]').forEach(radio => {
+                radio.addEventListener('change', toggleRejectReason);
             });
         });
     </script>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const images = document.querySelectorAll('#carousel-images > div');
