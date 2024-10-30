@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Jadwal;
 use App\Models\Wallmount;
 use App\Models\Perangkat;
+use App\Models\KategoriLayanan;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -14,12 +15,13 @@ class JadwalController extends Controller
 {
     public function index(Request $request)
     {
-        $jadwals = Jadwal::with(['wallmount', 'perangkat'])->get();
+        $jadwals = Jadwal::with(['wallmount', 'perangkat', 'layanan'])->get();
         $wallmounts = Wallmount::all();
+        $kategoriLayanans = KategoriLayanan::all();
 
         $isInput = Auth::user()->role == 'admin';
 
-        return view('dash.jadwal', compact('jadwals', 'isInput', 'wallmounts'));
+        return view('dash.jadwal', compact('jadwals', 'isInput', 'wallmounts', 'kategoriLayanans'));
     }
 
     public function getPerangkatByWallmount($id)
@@ -36,7 +38,7 @@ class JadwalController extends Controller
             'tanggal' => 'required|date',
             'jam_mulai' => 'required|date_format:H:i',
             'jam_berakhir' => 'required|date_format:H:i|after:jam_mulai',
-            'kategori' => 'required|string',
+            'kd_layanan' => 'required|exists:kategori_layanan,kd_layanan',
             'wallmount_id' => 'nullable|exists:wallmount,id', // validasi jika kategori wallmount
             'deskripsi' => 'required|string',
             'pic' => 'required|string|max:255',
@@ -65,7 +67,7 @@ class JadwalController extends Controller
             'tanggal' => $request->input('tanggal'),
             'jam_mulai' => $request->input('jam_mulai'),
             'jam_berakhir' => $request->input('jam_berakhir'),
-            'kategori' => $request->input('kategori'),
+            'kd_layanan' => $request->input('kd_layanan'),
             'wallmount_id' => $request->input('wallmount_id'),
             'deskripsi' => $request->input('deskripsi'),
             'pic' => $request->input('pic'),

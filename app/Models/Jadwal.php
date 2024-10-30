@@ -16,7 +16,7 @@ class Jadwal extends Model
         'jam_mulai',
         'jam_berakhir',
         'jam_selesai',
-        'kd_layanan', // Ubah kategori menjadi kd_layanan sebagai foreign key
+        'kd_layanan', 
         'wallmount_id',
         'deskripsi',
         'pic',
