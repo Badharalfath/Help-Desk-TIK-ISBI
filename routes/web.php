@@ -106,7 +106,7 @@ Route::middleware(['auth.admin'])->group(function () {
     Route::get('/formfaq', [FormFAQController::class, 'index'])->name('formfaq.index');
     Route::get('/faq/{id}', [FormFAQController::class, 'show'])->name('faq.show');
     Route::post('/formfaq', [FormFAQController::class, 'store'])->name('formfaq.store');
-    Route::get('/faq/{id}/edit', [FormFAQController::class, 'edit'])->name('faq.edit');
+    Route::get('/faq/{kd_faq}/edit', [FormFAQController::class, 'edit'])->name('faq.edit');
     Route::put('/faq/{id}', [FormFAQController::class, 'update'])->name('faq.update');
     Route::delete('/faq/{id}', [FormFAQController::class, 'destroy'])->name('faq.destroy');
 

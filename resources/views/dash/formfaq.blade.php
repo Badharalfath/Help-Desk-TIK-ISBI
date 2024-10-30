@@ -9,38 +9,29 @@
         <form action="{{ route('formfaq.store') }}" method="POST" class="max-w-lg mx-auto p-4">
             @csrf
 
-            <!-- Bidang Permasalahan -->
+            <!-- Dropdown for Kategori Layanan -->
             <div class="mb-4">
-                <label for="bidang_permasalahan" class="block text-sm font-medium text-gray-700">Bidang Permasalahan</label>
-
-                <div class="flex space-x-4">
-                    <!-- First input field -->
-                    <input type="text" id="bidang_permasalahan" name="bidang_permasalahan"
-                        class="mt-1 block w-1/2 border border-gray-300 rounded-md shadow-sm p-2" required>
-
-                    <!-- Second dropdown field -->
-                    <select id="dropdown_bidang_permasalahan" name="dropdown_bidang_permasalahan"
-                        class="mt-1 block w-1/2 border border-gray-300 rounded-md shadow-sm p-2"
-                        onchange="setBidangPermasalahanValue()">
-                        <option value="">Pilih Bidang Permasalahan</option>
-                        @foreach ($bidangPermasalahanOptions as $option)
-                            <option value="{{ $option }}">{{ $option }}</option>
-                        @endforeach
-                    </select>
-                </div>
+                <label for="kd_layanan" class="block text-sm font-medium text-gray-700">Kategori Layanan</label>
+                <select id="kd_layanan" name="kd_layanan"
+                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+                    <option value="">Pilih Kategori Layanan</option>
+                    @foreach ($kdLayananOptions as $option)
+                        <option value="{{ $option->kd_layanan }}">{{ $option->nama_layanan }}</option>
+                    @endforeach
+                </select>
             </div>
 
-            <!-- Nama Masalah -->
+            <!-- Pertanyaan -->
             <div class="mb-4">
-                <label for="nama_masalah" class="block text-sm font-medium text-gray-700">Nama Masalah</label>
-                <input type="text" id="nama_masalah" name="nama_masalah"
+                <label for="pertanyaan" class="block text-sm font-medium text-gray-700">Pertanyaan</label>
+                <input type="text" id="pertanyaan" name="pertanyaan"
                     class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
             </div>
 
-            <!-- Deskripsi Penyelesaian Masalah -->
+            <!-- Penyelesaian -->
             <div class="mb-4">
-                <label for="deskripsi_penyelesaian_masalah" class="block text-sm font-medium text-gray-700">Deskripsi Penyelesaian Masalah</label>
-                <textarea id="deskripsi_penyelesaian_masalah" name="deskripsi_penyelesaian_masalah" rows="4"
+                <label for="penyelesaian" class="block text-sm font-medium text-gray-700">Penyelesaian</label>
+                <textarea id="penyelesaian" name="penyelesaian" rows="4"
                     class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required></textarea>
             </div>
 
@@ -50,14 +41,5 @@
                     class="w-full bg-blue-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-600">Submit</button>
             </div>
         </form>
-
-        <script>
-            // This function sets the value of the first input field to the selected value from the dropdown
-            function setBidangPermasalahanValue() {
-                const dropdown = document.getElementById('dropdown_bidang_permasalahan');
-                const selectedValue = dropdown.options[dropdown.selectedIndex].value;
-                document.getElementById('bidang_permasalahan').value = selectedValue;
-            }
-        </script>
     </div>
 @endsection

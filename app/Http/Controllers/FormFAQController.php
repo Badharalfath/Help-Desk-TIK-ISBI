@@ -4,112 +4,107 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Faq;
+use App\Models\KategoriLayanan;
 
 class FormFAQController extends Controller
 {
     // Menampilkan form untuk menambahkan FAQ
     public function index()
     {
-        // Fetch distinct bidang_permasalahan values from the faqs table
-        $bidangPermasalahanOptions = Faq::distinct()->pluck('bidang_permasalahan');
-
-        // Pass them to the formfaq view
-        return view('dash.formfaq', compact('bidangPermasalahanOptions'));
-
-       
+        $kdLayananOptions = KategoriLayanan::select('kd_layanan', 'nama_layanan')->get();
+        return view('dash.formfaq', compact('kdLayananOptions'));
     }
 
     // Menampilkan detail FAQ berdasarkan ID (untuk keperluan AJAX)
     public function show($id)
     {
-        $faq = Faq::findOrFail($id);
-        return response()->json($faq);
+        $faq = Faq::with('kategoriLayanan')->findOrFail($id);
+        return response()->json([
+            'kd_faq' => $faq->kd_faq,
+            'nama_layanan' => $faq->kategoriLayanan->nama_layanan ?? null,
+            'pertanyaan' => $faq->pertanyaan,
+            'penyelesaian' => $faq->penyelesaian,
+        ]);
     }
 
-    // Menampilkan FAQ berdasarkan kategori 'it' dan 'apps'
+    // Menampilkan FAQ berdasarkan kategori
     public function menu(Request $request)
     {
-        // Get unique bidang_permasalahan from the faqs table
-        $categories = Faq::select('bidang_permasalahan')->distinct()->get();
-
-        // Fetch all FAQs, will be filtered by JavaScript later
-        $allFaqs = Faq::all();
-
-
-        // Ambil input search
+        $categories = Faq::select('kd_layanan')->distinct()->get();
         $search = $request->input('search');
 
-        // Fetch all FAQs, filtered by search if input is provided
-        $allFaqs = Faq::when($search, function($query, $search) {
-            return $query->where('nama_masalah', 'like', '%' . $search . '%');
+        // Memuat data relasi dengan kategori layanan
+        $allFaqs = Faq::with('kategoriLayanan')->when($search, function ($query, $search) {
+            return $query->where('pertanyaan', 'like', '%' . $search . '%');
         })->get();
 
         return view('dash.daftarfaq', compact('allFaqs', 'categories'));
     }
 
 
-    // Menyimpan FAQ baru ke dalam database
     public function store(Request $request)
     {
-        // Validasi input form
         $request->validate([
-            'bidang_permasalahan' => 'required|string|max:255',
-            'nama_masalah' => 'required|string|max:255',
-            'deskripsi_penyelesaian_masalah' => 'required|string',
+            'kd_layanan' => 'required|string|max:10',
+            'pertanyaan' => 'required|string|max:255',
+            'penyelesaian' => 'required|string',
         ]);
 
-        // Simpan data FAQ ke database
+        $lastFaq = Faq::orderBy('kd_faq', 'desc')->first();
+        if ($lastFaq) {
+            $lastNumber = intval(substr($lastFaq->kd_faq, 2));
+            $newNumber = str_pad($lastNumber + 1, 3, '0', STR_PAD_LEFT);
+        } else {
+            $newNumber = '001';
+        }
+        $newKdFaq = 'FA' . $newNumber;
+
         Faq::create([
-            'bidang_permasalahan' => $request->bidang_permasalahan,
-            'nama_masalah' => $request->nama_masalah,
-            'deskripsi_penyelesaian_masalah' => $request->deskripsi_penyelesaian_masalah,
+            'kd_faq' => $newKdFaq,
+            'kd_layanan' => $request->kd_layanan,
+            'pertanyaan' => $request->pertanyaan,
+            'penyelesaian' => $request->penyelesaian,
         ]);
 
-        // Redirect kembali dengan pesan sukses
         return redirect()->route('faq.index')->with('success', 'FAQ berhasil ditambahkan.');
     }
 
     // Menampilkan form untuk mengedit FAQ yang sudah ada
-    public function edit($id)
+    public function edit($kd_faq)
     {
-        $faq = Faq::findOrFail($id);
-        return view('dash.editfaq', compact('faq'));
-    }
+        $faq = Faq::where('kd_faq', $kd_faq)->firstOrFail();
 
+        // Ambil opsi layanan dari database untuk digunakan dalam select dropdown
+        $layananOptions = KategoriLayanan::select('kd_layanan', 'nama_layanan')->get();
+
+        return view('dash.editfaq', compact('faq', 'layananOptions'));
+    }
     // Memproses update data FAQ
     public function update(Request $request, $id)
     {
-        // Validasi input form
         $request->validate([
-            'bidang_permasalahan' => 'required|string|max:255',
-            'nama_masalah' => 'required|string|max:255',
-            'deskripsi_penyelesaian_masalah' => 'required|string',
+            'kd_layanan' => 'required|exists:kategori_layanan,kd_layanan',
+            'pertanyaan' => 'required|string|max:255',
+            'penyelesaian' => 'required|string',
         ]);
 
-        // Cari FAQ yang akan diupdate
         $faq = Faq::findOrFail($id);
 
-        // Update data FAQ
         $faq->update([
-            'bidang_permasalahan' => $request->bidang_permasalahan,
-            'nama_masalah' => $request->nama_masalah,
-            'deskripsi_penyelesaian_masalah' => $request->deskripsi_penyelesaian_masalah,
+            'kd_layanan' => $request->kd_layanan,
+            'pertanyaan' => $request->pertanyaan,
+            'penyelesaian' => $request->penyelesaian,
         ]);
 
-        // Redirect kembali dengan pesan sukses
         return redirect()->route('faq.index')->with('success', 'FAQ berhasil diperbarui.');
     }
 
     // Menghapus FAQ
     public function destroy($id)
     {
-        // Cari FAQ yang akan dihapus
         $faq = Faq::findOrFail($id);
-
-        // Hapus FAQ dari database
         $faq->delete();
 
-        // Redirect kembali dengan pesan sukses
         return redirect()->route('faq.index')->with('success', 'FAQ berhasil dihapus.');
     }
 }
