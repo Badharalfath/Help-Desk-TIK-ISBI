@@ -32,6 +32,11 @@ class Ticket extends Model
         'tanggal' => 'date',
     ];
 
+
+    public function kategoriLayanan()
+    {
+        return $this->belongsTo(KategoriLayanan::class, 'kd_layanan', 'kd_layanan');
+    }
     public function kategoriStatus()
     {
         return $this->belongsTo(KategoriStatus::class, 'kd_status', 'kd_status');

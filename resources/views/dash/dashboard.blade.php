@@ -75,7 +75,7 @@
                     <!-- Pie Chart Section kedua -->
                     <div class="bg-white shadow rounded-lg h-[280px] p-6 flex items-center justify-center">
                         <div class="flex items-center justify-between w-full">
-                            <canvas id="pieChart"></canvas>
+                            <canvas id="pieChart" style="max-width: 100%; max-height: 200px;""></canvas>
                         </div>
                     </div>
 
@@ -118,7 +118,7 @@
                     <!-- Pie Chart Section kedua -->
                     <div class="bg-white shadow rounded-lg p-6 max-h-[250px] flex items-center justify-center">
                         <div class="flex items-center justify-between w-full">
-                            <canvas id="pieChart2"></canvas>
+                            <canvas id="pieChart2" style="max-width: 100%; max-height: 200px;"></canvas>
                         </div>
                     </div>
 
@@ -256,9 +256,9 @@
                     const schedulePieChart = new Chart(schedulePieCtx, {
                         type: 'pie',
                         data: {
-                            labels: ['Completed', 'In Progress', 'Pending'],
+                            labels: ['Completed', 'On Going', 'Pending'],
                             datasets: [{
-                                data: [scheduleData.completed, scheduleData.in_progress, scheduleData.pending],
+                                data: [scheduleData.completed, scheduleData.ongoing, scheduleData.pending],
                                 backgroundColor: ['#4CAF50', '#FF8000', '#FFCC00'],
                             }]
                         }
@@ -269,10 +269,10 @@
                     const scheduleBarChart = new Chart(scheduleBarCtx, {
                         type: 'bar',
                         data: {
-                            labels: ['Completed', 'In Progress', 'Pending'],
+                            labels: ['Completed', 'On Going', 'Pending'],
                             datasets: [{
                                 label: 'Jumlah Jadwal',
-                                data: [scheduleData.completed, scheduleData.in_progress, scheduleData.pending],
+                                data: [scheduleData.completed, scheduleData.ongoing, scheduleData.pending],
                                 backgroundColor: ['#4CAF50', '#FF8000', '#FFCC00'],
                             }]
                         },

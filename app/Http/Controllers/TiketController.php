@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Ticket;
+use App\Models\KategoriLayanan;
+use App\Models\KategoriStatus;
+use App\Models\KategoriProgres;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
@@ -12,61 +15,78 @@ class TiketController extends Controller
 {
     public function index(Request $request)
     {
-        // Ambil data dari filter dan search jika ada
+        // Retrieve filter and search inputs
         $tanggal = $request->input('tanggal');
-        $kategori = $request->input('kategori');
-        $status = $request->input('status');
-        $progress = $request->input('progress');
-        $search = $request->input('search'); // Ambil input search
+        $kategori = $request->input('kategori');   // Now used as kd_layanan
+        $status = $request->input('status');       // Now used as kd_status
+        $progress = $request->input('progress');   // Now used as kd_progres
+        $search = $request->input('search');
 
-        // Inisialisasi query tiket
-        $query = Ticket::query();
+        // Initialize the ticket query with eager loading
+        $query = Ticket::with(['kategoriLayanan', 'kategoriStatus', 'kategoriProgres']);
 
-        // Filter berdasarkan tanggal
+        // Apply filters based on the request parameters
+
+        // Filter by date
         if ($tanggal) {
             $query->whereDate('tanggal', $tanggal);
         }
 
-        // Filter berdasarkan kategori
+        // Filter by kategori (kd_layanan)
         if ($kategori) {
-            $query->where('kategori', $kategori);
+            $query->where('kd_layanan', $kategori);
         }
 
-        // Filter berdasarkan permission status
+        // Filter by status (kd_status)
         if ($status) {
-            $query->where('status', $status);
+            $query->where('kd_status', $status);
         }
 
-        // Filter berdasarkan progress status
+        // Filter by progress (kd_progres)
         if ($progress) {
-            $query->where('progress', $progress);
+            $query->where('kd_progres', $progress);
         }
 
-        // Filter berdasarkan search di kolom yang relevan (judul, name, status, progress, dan email)
+        // Apply search filter across relevant fields (judul, name, status, email, etc.)
         if ($search) {
             $query->where(function ($query) use ($search) {
                 $query->where('judul', 'like', '%' . $search . '%')
                     ->orWhere('name', 'like', '%' . $search . '%')
                     ->orWhere('status', 'like', '%' . $search . '%')
-                    ->orWhere('progress', 'like', '%' . $search . '%')
-                    ->orWhere('email', 'like', '%' . $search . '%');
+                    ->orWhere('email', 'like', '%' . $search . '%')
+                    ->orWhereHas('kategoriLayanan', function ($q) use ($search) {
+                        $q->where('nama_layanan', 'like', '%' . $search . '%');
+                    })
+                    ->orWhereHas('kategoriStatus', function ($q) use ($search) {
+                        $q->where('nama_status', 'like', '%' . $search . '%');
+                    })
+                    ->orWhereHas('kategoriProgres', function ($q) use ($search) {
+                        $q->where('nama_progres', 'like', '%' . $search . '%');
+                    });
             });
         }
 
-        // Paginate hasil query menjadi 10 data per halaman
+        // Paginate the filtered query results
         $tickets = $query->paginate(10);
 
-        // Cek apakah user memiliki peran admin
+        // Retrieve filter options for dropdowns
+        $kategoriLayanan = KategoriLayanan::all();
+        $kategoriStatus = KategoriStatus::all();
+        $kategoriProgres = KategoriProgres::all();
+
+        // Check if the user has an admin role for the `isInput` variable
         $isInput = Auth::user()->role == 'admin';
 
-        // Kirim data tiket ke view
+        // Return the view with all necessary data
         return view('dash.tiket', [
             'tickets' => $tickets,
             'isInput' => $isInput,
-            'filters' => $request->all(), // Mengirimkan data filter agar form tetap terisi
+            'filters' => $request->all(),  // Preserve filter inputs in the form
+            'kategoriLayanan' => $kategoriLayanan,
+            'kategoriStatus' => $kategoriStatus,
+            'kategoriProgres' => $kategoriProgres,
         ]);
     }
-
 
 
     public function generatePdf()

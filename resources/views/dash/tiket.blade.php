@@ -33,222 +33,218 @@
             </div>
 
             <!-- Filter Form -->
-            <div class="mb-6">
-                <form method="GET" action="{{ route('tiket') }}" id="filterForm">
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                        <!-- Filter by Date -->
-                        <div>
-                            <label for="tanggal" class="block text-sm font-medium text-gray-700">Tanggal</label>
-                            <input type="date" name="tanggal" id="tanggal" value="{{ request('tanggal') }}"
-                                class="border-gray-300 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2">
-                        </div>
+            <form method="GET" action="{{ route('tiket') }}" id="filterForm">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
 
-
-
-                        <!-- Filter by Kategori -->
-                        <div>
-                            <label for="kategori" class="block text-sm font-medium text-gray-700">Kategori</label>
-                            <select name="kategori" id="kategori"
-                                class="border-gray-300 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2">
-                                <option value="">Semua Kategori</option>
-                                <option value="Jaringan" {{ request('kategori') == 'Jaringan' ? 'selected' : '' }}>Jaringan
+                    <!-- Filter by Layanan (previously Kategori) -->
+                    <div>
+                        <label for="kd_layanan" class="block text-sm font-medium text-gray-700">Layanan</label>
+                        <select name="kategori" id="kd_layanan"
+                            class="border-gray-300 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2">
+                            <option value="">Semua Layanan</option>
+                            @foreach ($kategoriLayanan as $layanan)
+                                <option value="{{ $layanan->kd_layanan }}"
+                                    {{ request('kategori') == $layanan->kd_layanan ? 'selected' : '' }}>
+                                    {{ $layanan->nama_layanan }}
                                 </option>
-                                <option value="Aplikasi" {{ request('kategori') == 'Aplikasi' ? 'selected' : '' }}>Aplikasi
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Filter by Status -->
+                    <div>
+                        <label for="kd_status" class="block text-sm font-medium text-gray-700">Status</label>
+                        <select name="status" id="kd_status"
+                            class="border-gray-300 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2">
+                            <option value="">Semua Status</option>
+                            @foreach ($kategoriStatus as $status)
+                                <option value="{{ $status->kd_status }}"
+                                    {{ request('status') == $status->kd_status ? 'selected' : '' }}>
+                                    {{ $status->nama_status }}
                                 </option>
-                                <option value="Email/Website"
-                                    {{ request('kategori') == 'Email/Website' ? 'selected' : '' }}>
-                                    Email/Website</option>
-                            </select>
-                        </div>
+                            @endforeach
+                        </select>
+                    </div>
 
-                        <!-- Filter by Permission Status -->
-                        <div>
-                            <label for="status" class="block text-sm font-medium text-gray-700">Permission
-                                Status</label>
-                            <select name="status" id="status"
-                                class="border-gray-300 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2">
-                                <option value="">Semua Status</option>
-                                <option value="approved" {{ request('status') == 'approved' ? 'selected' : '' }}>
-                                    Approved</option>
-                                <option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>
-                                    Rejected</option>
-                                <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>
-                                    Pending</option>
-                            </select>
-                        </div>
-
-                        <!-- Filter by Progress Status -->
-                        <div>
-                            <label for="progress" class="block text-sm font-medium text-gray-700">Progress
-                                Status</label>
-                            <select name="progress" id="progress"
-                                class="border-gray-300 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2">
-                                <option value="">Semua Status</option>
-                                <option value="solved" {{ request('progress') == 'solved' ? 'selected' : '' }}>
-                                    Solved</option>
-                                <option value="ongoing" {{ request('progress') == 'ongoing' ? 'selected' : '' }}>On
-                                    Going</option>
-                                <option value="unsolved" {{ request('progress') == 'unsolved' ? 'selected' : '' }}>
-                                    Unsolved</option>
-                                <option value="spam" {{ request('progress') == 'spam' ? 'selected' : '' }}>Spam
+                    <!-- Filter by Progress -->
+                    <div>
+                        <label for="kd_progres" class="block text-sm font-medium text-gray-700">Progress</label>
+                        <select name="progress" id="kd_progres"
+                            class="border-gray-300 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2">
+                            <option value="">Semua Progress</option>
+                            @foreach ($kategoriProgres as $progres)
+                                <option value="{{ $progres->kd_progres }}"
+                                    {{ request('progress') == $progres->kd_progres ? 'selected' : '' }}>
+                                    {{ $progres->nama_progres }}
                                 </option>
-                            </select>
+                            @endforeach
+                        </select>
+                    </div>
 
-                        </div>
-                        <!-- Search Input -->
-                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari Data......"
-                            class="border-gray-300 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-[250px] p-2" />
-
-                        <!-- Tambahkan button Clear -->
-                        <a href="{{ route('tiket') }}" class="btn btn-secondary">Clear</a>
+                    <!-- Search Input -->
+                    <div>
+                        <label for="search" class="block text-sm font-medium text-gray-700">Cari</label>
+                        <input type="text" name="search" id="search" value="{{ request('search') }}"
+                            placeholder="Cari Data..."
+                            class="border-gray-300 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2" />
                     </div>
 
 
 
-                </form>
+                    <!-- Clear Button -->
+                    <div>
+                        <a href="{{ route('tiket') }}" class="btn btn-secondary">Clear</a>
+                    </div>
+                </div>
+            </form>
 
-                <!-- Tabel Tiket -->
-                <div class="flex justify-center items-center bg-cover bg-center rounded-xl mt-[-20px]"
-                    style="background-image: url('/path-to-background-image');">
-                    <table class="min-w-full divide-y divide-gray-200 mt-[30px] ">
-                        <thead>
+
+            <!-- Tabel Tiket -->
+            <div class="flex justify-center items-center bg-cover bg-center rounded-xl mt-[-20px]"
+                style="background-image: url('/path-to-background-image');">
+                <table class="min-w-full divide-y divide-gray-200 mt-[30px] ">
+                    <thead>
+                        <tr>
+                            <th
+                                class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                ID</th>
+                            <th
+                                class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Date</th>
+                            <th
+                                class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Email</th>
+                            <th
+                                class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Nama</th>
+                            <th
+                                class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Judul Keluhan</th>
+                            <th
+                                class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Kategori</th>
+                            <th
+                                class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Status</th>
+                            <th
+                                class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Alasan Ditolak</th>
+                            <th
+                                class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                progres</th>
+                            @if ($isInput)
+                                <th
+                                    class="px-6 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Action</th>
+                            @endif
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        @foreach ($tickets as $ticket)
                             <tr>
-                                <th
-                                    class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    ID</th>
-                                <th
-                                    class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Date</th>
-                                <th
-                                    class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Email</th>
-                                <th
-                                    class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Nama</th>
-                                <th
-                                    class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Judul Keluhan</th>
-                                <th
-                                    class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Kategori</th>
-                                <th
-                                    class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Status</th>
-                                <th
-                                    class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Alasan Ditolak</th>
-                                <th
-                                    class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Progress</th>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">{{ $ticket->id }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">
+                                        @if ($ticket->tanggal)
+                                            {{ \Carbon\Carbon::parse($ticket->tanggal)->format('d/m/Y') }}
+                                        @else
+                                            {{ 'Tanggal tidak tersedia' }}
+                                        @endif
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">{{ $ticket->email }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900" title="{{ $ticket->name }}">
+                                        {{ \Illuminate\Support\Str::limit($ticket->name, 10) }}
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900" title="{{ $ticket->judul }}">
+                                        {{ \Illuminate\Support\Str::limit($ticket->judul, 10) }}
+                                    </div>
+                                </td>
+                                <!-- Kategori Column -->
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">
+                                        {{ $ticket->kategoriLayanan->nama_layanan ?? 'N/A' }}</div>
+                                </td>
+                                <!-- Status Column -->
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">
+                                        @if ($ticket->kategoriStatus)
+                                            <span
+                                                class="text-white text-bold text-center inline-block w-20 h-6 rounded-full {{ $ticket->kategoriStatus->nama_status == 'approved' ? 'bg-green-500' : ($ticket->kategoriStatus->nama_status == 'rejected' ? 'bg-red-500' : 'bg-gray-500') }}">
+                                                {{ ucfirst($ticket->kategoriStatus->nama_status) }}
+                                            </span>
+                                        @else
+                                            N/A
+                                        @endif
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900" title="{{ $ticket->reject_reason }}">
+                                        {{ \Illuminate\Support\Str::limit($ticket->reject_reason, 10) }}
+                                    </div>
+                                </td>
+                                <!-- progres Column -->
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">
+                                        @if ($ticket->kategoriProgres)
+                                            <span
+                                                class="text-white text-bold text-center inline-block w-20 h-6 rounded-full
+                    {{ $ticket->kategoriProgres->nama_progres == 'pending'
+                        ? 'bg-gray-500'
+                        : ($ticket->kategoriProgres->nama_progres == 'on going'
+                            ? 'bg-orange-500'
+                            : ($ticket->kategoriProgres->nama_progres == 'complete'
+                                ? 'bg-green-500'
+                                : 'bg-gray-500')) }}">
+                                                {{ ucfirst($ticket->kategoriProgres->nama_progres) }}
+                                            </span>
+                                        @else
+                                            N/A
+                                        @endif
+                                    </div>
+                                </td>
+
+
                                 @if ($isInput)
-                                    <th
-                                        class="px-6 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Action</th>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        <a href="{{ route('tickets.edit', $ticket->id) }}"
+                                            class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                        <!-- Tombol Hapus -->
+                                        <form action="{{ route('tickets.destroy', $ticket->id) }}" method="POST"
+                                            class="inline-block"
+                                            onsubmit="return confirm('Apakah Anda yakin ingin menghapus tiket ini?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                class="text-red-600 hover:text-red-900 ml-4">Hapus</button>
+                                        </form>
+                                    </td>
                                 @endif
                             </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
-                            @foreach ($tickets as $ticket)
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">{{ $ticket->id }}</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">
-                                            @if ($ticket->tanggal)
-                                                {{ \Carbon\Carbon::parse($ticket->tanggal)->format('d/m/Y') }}
-                                            @else
-                                                {{ 'Tanggal tidak tersedia' }}
-                                            @endif
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">{{ $ticket->email }}</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900" title="{{ $ticket->name }}">
-                                            {{ \Illuminate\Support\Str::limit($ticket->name, 10) }}
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900" title="{{ $ticket->judul }}">
-                                            {{ \Illuminate\Support\Str::limit($ticket->judul, 10) }}
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">{{ $ticket->kategori }}</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">
-                                            @if ($ticket->status == 'approved')
-                                                <span
-                                                    class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-green-500">Approved</span>
-                                            @elseif($ticket->status == 'rejected')
-                                                <span
-                                                    class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-red-500">Rejected</span>
-                                            @elseif($ticket->status == 'pending')
-                                                <span
-                                                    class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-gray-500">Pending</span>
-                                            @endif
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900" title="{{ $ticket->reject_reason }}">
-                                            {{ \Illuminate\Support\Str::limit($ticket->reject_reason, 10) }}
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">
-                                            @if ($ticket->progress == 'solved')
-                                                <span
-                                                    class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-green-500">Solved</span>
-                                            @elseif($ticket->progress == 'unsolved')
-                                                <span
-                                                    class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-red-500">Unsolved</span>
-                                            @elseif($ticket->progress == 'ongoing')
-                                                <span
-                                                    class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-yellow-500">On
-                                                    Going</span>
-                                            @elseif($ticket->progress == 'spam')
-                                                <span
-                                                    class="text-white text-bold text-center inline-block w-20 h-6 rounded-full bg-gray-500">Spam</span>
-                                            @endif
-                                        </div>
-                                    </td>
-
-                                    @if ($isInput)
-                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <a href="{{ route('tickets.edit', $ticket->id) }}"
-                                                class="text-indigo-600 hover:text-indigo-900">Edit</a>
-                                            <!-- Tombol Hapus -->
-                                            <form action="{{ route('tickets.destroy', $ticket->id) }}" method="POST"
-                                                class="inline-block"
-                                                onsubmit="return confirm('Apakah Anda yakin ingin menghapus tiket ini?');">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit"
-                                                    class="text-red-600 hover:text-red-900 ml-4">Hapus</button>
-                                            </form>
-                                        </td>
-                                    @endif
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                        @endforeach
+                    </tbody>
+                </table>
 
 
-                    <script>
-                        // Listen for changes on any filter field and submit the form automatically
-                        document.querySelectorAll('#filterForm select, #filterForm input[type="date"]').forEach(function(element) {
-                            element.addEventListener('change', function() {
-                                document.getElementById('filterForm').submit();
-                            });
+                <script>
+                    // Listen for changes on any filter field and submit the form automatically
+                    document.querySelectorAll('#filterForm select, #filterForm input[type="date"]').forEach(function(element) {
+                        element.addEventListener('change', function() {
+                            document.getElementById('filterForm').submit();
                         });
-                    </script>
-                </div>
-                <!-- Pagination Links -->
-                <div class="mt-6 ">
-                    {{ $tickets->links() }}
-                </div>
+                    });
+                </script>
             </div>
-        @endsection
+            <!-- Pagination Links -->
+            <div class="mt-6 ">
+                {{ $tickets->links() }}
+            </div>
+        </div>
+    @endsection
