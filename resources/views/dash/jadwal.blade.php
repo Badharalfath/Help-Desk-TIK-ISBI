@@ -78,15 +78,15 @@
                         {{ $isInput ? 'required' : 'disabled' }}>
                 </div>
 
+                <!-- Dropdown Kategori -->
                 <div class="mb-4">
-                    <label for="kategori" class="block text-gray-700 font-bold mb-2">Kategori</label>
-                    <select id="kategori" name="kategori"
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        onchange="showWallmountOptions(this)" required>
-                        <option value="" disabled selected>-</option>
-                        <option value="Aplikasi & Website">Aplikasi & Website</option>
-                        <option value="Internet & Jaringan">Internet & Jaringan</option>
-                        <option value="Wallmount">Wallmount</option>
+                    <label for="kd_layanan" class="block text-gray-700 font-bold mb-2">Pilih Kategori</label>
+                    <select id="kd_layanan" name="kd_layanan" onchange="toggleWallmountSection(this.value)"
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="" disabled selected>Pilih Kategori</option>
+                        @foreach ($kategoriLayanans as $layanan)
+                            <option value="{{ $layanan->kd_layanan }}">{{ $layanan->nama_layanan }}</option>
+                        @endforeach
                     </select>
                 </div>
 
@@ -97,8 +97,7 @@
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                         <option value="" disabled selected>Pilih Wallmount</option>
                         @foreach ($wallmounts as $wallmount)
-                            <option value="{{ $wallmount->id }}">{{ $wallmount->nama }} (lokasi :
-                                {{ $wallmount->lokasi }})
+                            <option value="{{ $wallmount->id }}">{{ $wallmount->nama }} (lokasi: {{ $wallmount->lokasi }})
                             </option>
                         @endforeach
                     </select>
@@ -146,54 +145,70 @@
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js'></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        // Ensure jadwals data is passed correctly to JavaScript
         const jadwals = @json($jadwals);
+
+        // Mapping of kd_layanan to specific names (no longer used for colors)
+        const layananDetails = {
+            "LY001": { name: "Jaringan/Internet" },
+            "LY002": { name: "Aplikasi" },
+            "LY003": { name: "Email" },
+            "LY004": { name: "Wallmount" }
+        };
+
+        // Mapping for kd_progres to background colors
+        const progresColors = {
+            "PG001": "#909190", // Pending - Gray
+            "PG002": "#b07e53", // On going - Orange
+            "PG003": "#67bf79"  // Complete - Green
+        };
+
         const calendarEl = document.getElementById('calendar');
 
-        // Fungsi untuk menentukan warna berdasarkan kategori
-        function getCategoryColor(kategori) {
-            switch (kategori) {
-                case 'Aplikasi & Website':
-                    return '#FF9800'; // Oranye
-                case 'Internet & Jaringan':
-                    return '#2196F3'; // Biru
-                case 'Wallmount':
-                    return '#4f8f4d'; // Hijau
-                default:
-                    return '#9E9E9E'; // Abu-abu untuk kategori lain
+        // Function to get background color based on kd_progres
+        function getProgressColor(kd_progres) {
+            if (kd_progres === "PG001" || kd_progres === null) {
+                return progresColors["PG001"]; // Use Pending color for both null and PG001
             }
+            return progresColors[kd_progres] || "#909190"; // Default to gray if not found
         }
 
+        // Initialize FullCalendar with events
         const calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth',
-            events: jadwals.map(jadwal => ({
-                title: jadwal.kategori,
-                start: jadwal.tanggal,
-                backgroundColor: getCategoryColor(jadwal.kategori),
-                borderColor: getCategoryColor(jadwal.kategori),
-                textColor: '#ffffff',
-                extendedProps: {
-                    id: jadwal.id,
-                    kegiatan: jadwal.kegiatan,
-                    jam_mulai: jadwal.jam_mulai,
-                    jam_berakhir: jadwal.jam_berakhir,
-                    deskripsi: jadwal.deskripsi,
-                    foto: jadwal.foto,
-                    foto_kedua: jadwal
-                        .foto_kedua // Pastikan ini sesuai dengan field di database
-                }
-            })),
+            events: jadwals.map(jadwal => {
+                const name = layananDetails[jadwal.kd_layanan]?.name || "Unknown"; // Get service name
+                const bgColor = getProgressColor(jadwal.kd_progres); // Get color based on progress
+
+                return {
+                    title: name,                 // Display the correct service name
+                    start: jadwal.tanggal,       // Start date of event
+                    backgroundColor: bgColor,    // Background color based on progress
+                    borderColor: bgColor,
+                    textColor: '#ffffff',
+                    extendedProps: {
+                        id: jadwal.id,
+                        kegiatan: jadwal.kegiatan,
+                        jam_mulai: jadwal.jam_mulai,
+                        jam_berakhir: jadwal.jam_berakhir,
+                        deskripsi: jadwal.deskripsi,
+                        foto: jadwal.foto,
+                        foto_kedua: jadwal.foto_kedua
+                    }
+                };
+            }),
             @if ($isInput)
-                                                        dateClick: function (info) {
-                    showMaintenanceDetails(info.dateStr);
+                dateClick: function (info) {
+                    showMaintenanceDetails(info.dateStr); // Open detail view on date click
                 },
                 eventClick: function (info) {
-                    showMaintenanceDetails(info.event.startStr);
+                    showMaintenanceDetails(info.event.startStr); // Show details on event click
                 },
             @endif
-            });
-
-    calendar.render();
         });
+
+        calendar.render();
+    });
 
     function showMaintenanceDetails(date) {
         const jadwals = @json($jadwals);
@@ -282,6 +297,13 @@
                             <label for="deskripsi" class="text-lg font-bold text-gray-800">Deskripsi Maintenance</label>
                             <textarea id="deskripsi" name="deskripsi" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="4" readonly>${jadwal.deskripsi}</textarea>
                         </div>
+                        ${jadwal.layanan ? `
+                            <div class="my-4">
+                                <label for="kategori" class="text-lg font-bold text-gray-800">Kategori</label>
+                                <input type="text" id="kategori" name="kategori"
+                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    value="${jadwal.layanan.nama_layanan}" readonly>
+                            </div>` : ''}
                         <div class="my-4">
                             <label for="pic" class="text-lg font-bold text-gray-800">Person In Charge</label>
                             <input type="pic" id="pic" name="pic" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="4" value="${jadwal.pic}" readonly>
@@ -355,6 +377,17 @@
         Array.from(items).forEach((item, index) => {
             item.classList.toggle('hidden', index !== currentIndex);
         });
+    }
+
+    function toggleWallmountSection(kdLayanan) {
+        const wallmountSection = document.getElementById('wallmount-section');
+
+        // Tampilkan atau sembunyikan section berdasarkan kode layanan
+        if (kdLayanan === 'LY004') {
+            wallmountSection.classList.remove('hidden'); // Tampilkan
+        } else {
+            wallmountSection.classList.add('hidden'); // Sembunyikan
+        }
     }
 </script>
 
