@@ -44,10 +44,10 @@
                 <th>Email</th>
                 <th>Nama</th>
                 <th>Judul Keluhan</th>
-                <th>Kategori</th> <!-- Kolom kategori -->
-                <th>Permission Status</th>
+                <th>Layanan</th> <!-- Kolom kategori -->
+                <th>Status</th>
                 <th>Alasan Ditolak</th>
-                <th>Status Progress</th>
+                <th>Progres</th>
             </tr>
         </thead>
         <tbody>

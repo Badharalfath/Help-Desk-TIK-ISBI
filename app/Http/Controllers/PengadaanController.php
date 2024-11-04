@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Transaksi;
 use App\Models\Barang;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PengadaanController extends Controller
 {
@@ -19,10 +20,10 @@ class PengadaanController extends Controller
 
         // Jika ada pencarian, tambahkan kondisi pencarian pada query
         if ($search) {
-            $query->where(function($q) use ($search) {
+            $query->where(function ($q) use ($search) {
                 $q->where('transaksi.kd_transaksi', 'like', "%{$search}%")
-                  ->orWhere('transaksi.keterangan', 'like', "%{$search}%")
-                  ->orWhere('barang.nama_barang', 'like', "%{$search}%");
+                    ->orWhere('transaksi.keterangan', 'like', "%{$search}%")
+                    ->orWhere('barang.nama_barang', 'like', "%{$search}%");
             });
         }
 
@@ -44,5 +45,19 @@ class PengadaanController extends Controller
 
         // Redirect dengan pesan sukses
         return redirect()->route('pengadaan')->with('Sukses', 'Data Transaksi berhasil dihapus.');
+    }
+    
+
+    public function generatePDF()
+    {
+        $transaksi = Transaksi::join('barang', 'transaksi.kd_barang', '=', 'barang.kd_barang')
+            ->select('transaksi.*', 'barang.nama_barang')
+            ->get();
+
+        $kopSuratPath = storage_path('app/public/KOP_SURAT_TIK_BARU[1].pdf');
+
+        $pdf = Pdf::loadView('management.transaksiPDF', compact('transaksi', 'kopSuratPath'));
+
+        return $pdf->download('Bukti_Serah_Terima_Aset.pdf');
     }
 }

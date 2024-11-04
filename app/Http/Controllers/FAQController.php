@@ -7,14 +7,25 @@ use Illuminate\Http\Request;
 
 class FAQController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // Ambil semua data FAQ dan kelompokkan berdasarkan 'bidang_permasalahan'
-        $faqsByCategory = Faq::all()->groupBy('bidang_permasalahan');
+        $search = $request->input('search');
 
-        // Kirim data yang sudah dikelompokkan ke blade view
+        // Ambil data FAQ dengan kategori layanan yang bukan 'Wallmount', dan filter berdasarkan search query jika ada
+        $faqsByCategory = Faq::with('kategoriLayanan')
+            ->whereHas('kategoriLayanan', function ($query) {
+                $query->where('nama_layanan', '!=', 'Wallmount');
+            })
+            ->when($search, function ($query) use ($search) {
+                $query->where('pertanyaan', 'like', '%' . $search . '%');
+            })
+            ->get()
+            ->groupBy('kd_layanan');
+    
         return view('landing.faq', [
             'faqsByCategory' => $faqsByCategory,
         ]);
     }
+    
+    
 }
