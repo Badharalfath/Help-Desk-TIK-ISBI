@@ -15,33 +15,37 @@
     </div>
 
     <!-- Filter Form -->
-    <form id="filterForm" action="{{ route('listjadwal') }}" method="GET" class="mb-5 flex space-x-4 mt-5">
-        <!-- Filter by Kategori -->
-        <select name="kategori"
+<form id="filterForm" action="{{ route('listjadwal') }}" method="GET" class="mb-5 flex space-x-4 mt-5">
+    <!-- Filter by Layanan -->
+    <select name="kategori"
             class="border-gray-300 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-[250px] p-2"
             onchange="document.getElementById('filterForm').submit()">
-            <option value="">Pilih Kategori</option>
-            <option value="Aplikasi & Website" {{ request('kategori') == 'Aplikasi & Website' ? 'selected' : '' }}>
-                Aplikasi & Website</option>
-            <option value="Internet & Jaringan" {{ request('kategori') == 'Internet & Jaringan' ? 'selected' : '' }}>
-                Internet & Jaringan</option>
-        </select>
+        <option value="">Pilih Layanan</option>
+        @foreach($kategoriLayanan as $layanan)
+            <option value="{{ $layanan->kd_layanan }}" {{ request('kategori') == $layanan->kd_layanan ? 'selected' : '' }}>
+                {{ $layanan->nama_layanan }}
+            </option>
+        @endforeach
+    </select>
 
-        <!-- Filter by Status -->
-        <select name="status"
+    <!-- Filter by Status -->
+    <select name="status"
             class="border-gray-300 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-[250px] p-2"
             onchange="document.getElementById('filterForm').submit()">
-            <option value="">Pilih Status</option>
-            <option value="Pending" {{ request('status') == 'Pending' ? 'selected' : '' }}>Pending</option>
-            <option value="Ongoing" {{ request('status') == 'Ongoing' ? 'selected' : '' }}>Ongoing</option>
-            <option value="Completed" {{ request('status') == 'Completed' ? 'selected' : '' }}>Completed</option>
-        </select>
+        <option value="">Pilih Status</option>
+        @foreach($kategoriProgres as $progres)
+            <option value="{{ $progres->kd_progres }}" {{ request('status') == $progres->kd_progres ? 'selected' : '' }}>
+                {{ $progres->nama_progres }}
+            </option>
+        @endforeach
+    </select>
 
-        <!-- Search Input -->
-        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari Deskripsi......"
-            class="border-gray-300 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-[250px] p-2" />
-        <a href="{{ route('listjadwal') }}" class="btn btn-secondary">Clear</a>
-    </form>
+    <!-- Search Input -->
+    <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari Deskripsi......"
+           class="border-gray-300 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-[250px] p-2" />
+    <a href="{{ route('listjadwal') }}" class="btn btn-secondary">Clear</a>
+</form>
+
 
     <table class="min-w-full divide-y divide-gray-200 mt-6">
         <thead class="bg-gray-50">
@@ -61,7 +65,7 @@
                     <td class="px-6 py-4 whitespace-nowrap">
                         {{ \Carbon\Carbon::parse($jadwal->tanggal)->format('d/m/Y') }}
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap">{{ $jadwal->kategori }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">{{ $jadwal->kategoriLayanan->nama_layanan ?? 'N/A' }}</td>
 
                     <td class="px-6 py-4 whitespace-nowrap">
                         {{ \Illuminate\Support\Str::limit($jadwal->deskripsi, 20) }}

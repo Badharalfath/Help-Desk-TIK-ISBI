@@ -46,4 +46,15 @@ class Jadwal extends Model
         return $this->belongsTo(KategoriProgres::class, 'kd_progres', 'kd_progres');
     }
 
+    // In Jadwal.php model
+
+    public function kategoriLayanan()
+    {
+        return $this->belongsTo(KategoriLayanan::class, 'kd_layanan', 'kd_layanan');
+    }
+
+    public function kategoriProgres()
+    {
+        return $this->belongsTo(KategoriProgres::class, 'kd_progres', 'kd_progres');
+    }
 }
