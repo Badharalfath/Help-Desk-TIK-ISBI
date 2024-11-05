@@ -134,29 +134,30 @@
                 <!-- Grid ketiga -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 ">
                     <!-- Div Card besar 2x2 (Table) -->
-                    <div class="md:col-span-2 bg-white shadow rounded-lg p-6 h-full max-h-[525px] overflow-auto">
+<div class="md:col-span-2 bg-white shadow rounded-lg p-6 h-full max-h-[525px] overflow-auto">
+    <table class="min-w-full text-left text-gray-700">
+        <thead>
+            <tr>
+                <th class="border-b px-4 py-2">No.</th>
+                <th class="border-b px-4 py-2">Tanggal</th>
+                <th class="border-b px-4 py-2">Kategori</th>
+                <th class="border-b px-4 py-2">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($schedules as $schedule)
+                <tr>
+                    <td class="border-b px-4 py-2">{{ $loop->iteration }}</td>
+                    <td class="border-b px-4 py-2">{{ $schedule->tanggal }}</td>
+                    <td class="border-b px-4 py-2">{{ $schedule->kategori }}</td>
+                    <td class="border-b px-4 py-2">{{ $schedule->status }}</td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
 
-                        <table class="min-w-full text-left text-gray-700">
-                            <thead>
-                                <tr>
-                                    <th class="border-b px-4 py-2">Tanggal</th>
-                                    <th class="border-b px-4 py-2">Kegiatan</th>
-                                    <th class="border-b px-4 py-2">Kategori</th>
-                                    <th class="border-b px-4 py-2">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($schedules as $schedule)
-                                    <tr>
-                                        <td class="border-b px-4 py-2">{{ $schedule->tanggal }}</td>
-                                        <td class="border-b px-4 py-2">{{ $schedule->kegiatan }}</td>
-                                        <td class="border-b px-4 py-2">{{ $schedule->kd_layanan }}</td>
-                                        <td class="border-b px-4 py-2">{{ $schedule->kd_progres }}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+
 
                     <!-- Container for Pie and Bar Charts -->
                     <div class="md:col-span-1 grid grid-rows-2 gap-6">

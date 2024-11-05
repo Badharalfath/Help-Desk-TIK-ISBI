@@ -18,7 +18,7 @@ class DashboardController extends Controller
                 SUM(CASE WHEN kd_status = "ST002" THEN 1 ELSE 0 END) as rejected,
                 SUM(CASE WHEN kd_status = "ST001" THEN 1 ELSE 0 END) as spam
             ')
-            ->first(); // first() returns a single object
+            ->first();
 
         // Query to get ticket counts by category
         $ticketCategories = DB::table('tickets')
@@ -27,12 +27,19 @@ class DashboardController extends Controller
                 SUM(CASE WHEN kd_layanan = "LY002" THEN 1 ELSE 0 END) as aplikasi,
                 SUM(CASE WHEN kd_layanan = "LY003" THEN 1 ELSE 0 END) as email
             ')
-            ->first(); // first() returns a single object
+            ->first();
 
-        // Query to get all schedule data for the table
+        // Query to get all schedule data for the table with kategori_layanan and kategori_progres joins
         $schedules = DB::table('jadwal')
-            ->select('tanggal', 'kegiatan', 'kd_layanan', 'kd_progres')
-            ->get(); // get() returns a collection of records
+            ->join('kategori_layanan', 'jadwal.kd_layanan', '=', 'kategori_layanan.kd_layanan')
+            ->join('kategori_progres', 'jadwal.kd_progres', '=', 'kategori_progres.kd_progres')
+            ->select(
+                'jadwal.tanggal',
+                'jadwal.kegiatan',
+                'kategori_layanan.nama_layanan as kategori',
+                'kategori_progres.nama_progres as status'
+            )
+            ->get();
 
         // Query to get counts of schedules by status
         $scheduleData = DB::table('jadwal')
@@ -41,14 +48,14 @@ class DashboardController extends Controller
                 SUM(CASE WHEN kd_progres = "PG002" THEN 1 ELSE 0 END) as ongoing,
                 SUM(CASE WHEN kd_progres = "PG003" THEN 1 ELSE 0 END) as completed
             ')
-            ->first(); // first() returns a single object
+            ->first();
 
         // Pass data to the view
         return view('dash.dashboard', [
-            'ticketStatuses' => $ticketStatuses,   // object with counts
-            'ticketCategories' => $ticketCategories, // object with category counts
-            'schedules' => $schedules, // collection of schedules
-            'scheduleData' => $scheduleData  // object with schedule status counts
+            'ticketStatuses' => $ticketStatuses,
+            'ticketCategories' => $ticketCategories,
+            'schedules' => $schedules,
+            'scheduleData' => $scheduleData
         ]);
     }
 }
