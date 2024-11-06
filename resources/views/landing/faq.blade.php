@@ -27,7 +27,8 @@
 
                         @foreach ($faqs as $faq)
                             @php
-                                $uniqueId = Str::slug($namaLayanan) . '-' . $faq->id;
+                                // Create a unique ID for each FAQ item based on the loop index, category, and faq ID
+                                $uniqueId = Str::slug($namaLayanan) . '-' . $category . '-' . $faq->id . '-' . $loop->index;
                             @endphp
                             <div class="py-4" id="faq-{{ $uniqueId }}">
                                 <button type="button"
@@ -63,11 +64,11 @@
 
         <script>
             function toggleFaq(faqId) {
-                // Ambil elemen jawaban dan ikon sesuai faqId
+                // Select answer and icon elements for the clicked FAQ
                 const answer = document.getElementById("answer-" + faqId);
                 const icon = document.getElementById(faqId + '-icon');
 
-                // Tutup semua elemen jawaban dan reset ikon
+                // Close other FAQ answers
                 document.querySelectorAll("[id^='answer-']").forEach(ans => {
                     if (ans !== answer) {
                         ans.classList.add('hidden');
@@ -80,7 +81,7 @@
                     }
                 });
 
-                // Toggle jawaban yang dipilih dan rotasi ikon
+                // Toggle the selected FAQ's answer and rotate the icon
                 answer.classList.toggle('hidden');
                 icon.classList.toggle('rotate-180');
             }
@@ -90,7 +91,7 @@
                 const faqItems = document.querySelectorAll("#faqContainer div[id^='faq-']");
                 let firstMatch = null;
 
-                // Tutup semua FAQ terlebih dahulu
+                // Close all FAQ items
                 faqItems.forEach(faq => {
                     const answer = faq.querySelector("[id^='answer-']");
                     const icon = faq.querySelector("svg[id$='-icon']");
@@ -98,7 +99,7 @@
                     icon.classList.remove('rotate-180');
                 });
 
-                // Buka semua FAQ yang cocok dengan pencarian
+                // Open and highlight matching FAQ items
                 faqItems.forEach(faq => {
                     const questionText = faq.querySelector("span").textContent.toLowerCase();
 
@@ -106,16 +107,16 @@
                         const answer = faq.querySelector("[id^='answer-']");
                         const icon = faq.querySelector("svg[id$='-icon']");
 
-                        answer.classList.remove('hidden'); // Buka FAQ
-                        icon.classList.add('rotate-180'); // Putar ikon
+                        answer.classList.remove('hidden'); // Open FAQ
+                        icon.classList.add('rotate-180'); // Rotate icon
 
                         if (!firstMatch) {
-                            firstMatch = faq; // Simpan elemen pertama yang cocok untuk scroll
+                            firstMatch = faq; // Save first matching FAQ for scrolling
                         }
                     }
                 });
 
-                // Scroll ke FAQ pertama yang cocok
+                // Scroll to the first matching FAQ
                 if (firstMatch) {
                     firstMatch.scrollIntoView({
                         behavior: "smooth",

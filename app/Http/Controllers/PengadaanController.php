@@ -48,24 +48,20 @@ class PengadaanController extends Controller
     }
 
 
-    public function generatePDF()
+    public function generatePDF(Request $request)
     {
+        $recipientName = $request->input('recipient_name');
         $transaksi = Transaksi::join('barang', 'transaksi.kd_barang', '=', 'barang.kd_barang')
             ->select('barang.nama_barang', 'transaksi.keterangan', 'barang.jumlah')
             ->get();
 
-        // Ambil path gambar di storage dan konversi ke base64
+        // Get the logo image as base64
         $logoPath = public_path('storage/images/logoISBI.png');
-        if (file_exists($logoPath)) {
-            $logoData = base64_encode(file_get_contents($logoPath));
-            $logoBase64 = 'data:image/png;base64,' . $logoData;
-        } else {
-            $logoBase64 = null; // Jika gambar tidak ditemukan, beri nilai null
-        }
+        $logoBase64 = file_exists($logoPath) ? 'data:image/png;base64,' . base64_encode(file_get_contents($logoPath)) : null;
 
-        $pdf = Pdf::loadView('management.transaksiPDF', compact('transaksi', 'logoBase64'))
+        $pdf = Pdf::loadView('management.transaksiPDF', compact('transaksi', 'logoBase64', 'recipientName'))
             ->setPaper('a4', 'portrait');
 
-        return $pdf->download('Bukti_Serah_Terima_Aset.pdf');
+        return $pdf->stream('Bukti_Serah_Terima_Aset.pdf');
     }
 }

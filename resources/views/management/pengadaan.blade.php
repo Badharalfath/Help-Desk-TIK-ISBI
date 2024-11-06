@@ -5,16 +5,18 @@
     <div class="bg-gray-100 p-6 rounded-lg shadow-md max-w-[1475px] mx-auto px-8 mt-10">
         <div class="flex justify-between items-center mb-4 ">
             <h2 class="text-left text-xl font-semibold">Data Transaksi</h2>
-            <a href="{{ route('generate-pdf') }}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+            <!-- Trigger the modal -->
+            <button onclick="openRecipientModal()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
                 Generate PDF
-            </a>
+            </button>
             <a href="{{ route('tambah-pengadaan') }}"
                 class="text-gray-900 hover:text-white border border-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-900 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
                 Tambah
             </a>
-           
-
         </div>
+
+
+
         <hr class="mb-6">
 
         <!-- Tabel Transaksi -->
@@ -95,6 +97,23 @@
                     @endforeach
                 </tbody>
             </table>
+
+            <!-- Recipient Modal -->
+            <div id="recipientModal"
+                class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center hidden">
+                <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
+                    <h3 class="text-xl font-semibold mb-4">Masukkan Nama Penerima</h3>
+                    <input type="text" id="recipientName" placeholder="Nama Penerima"
+                        class="w-full p-3 border border-gray-300 rounded mb-4">
+                    <div class="flex justify-end">
+                        <!-- Move Generate PDF button inside modal -->
+                        <button onclick="generatePdf()" class="bg-blue-500 text-white px-4 py-2 rounded mr-2">Generate
+                            PDF</button>
+                        <button onclick="closeRecipientModal()"
+                            class="bg-gray-500 text-white px-4 py-2 rounded">Batal</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Modal Pop-up Box for Detail -->
@@ -131,6 +150,26 @@
 
             function closeDetail() {
                 document.getElementById('detailModal').classList.add('hidden');
+            }
+
+
+            function openRecipientModal() {
+                document.getElementById('recipientModal').classList.remove('hidden');
+            }
+
+            function closeRecipientModal() {
+                document.getElementById('recipientModal').classList.add('hidden');
+            }
+
+            function generatePdf() {
+                const recipientName = document.getElementById('recipientName').value;
+                if (recipientName) {
+                    // Trigger direct download with recipient name
+                    window.location.href = `{{ route('generate-pdf') }}?recipient_name=${encodeURIComponent(recipientName)}`;
+                    closeRecipientModal();
+                } else {
+                    alert('Silakan masukkan nama penerima.');
+                }
             }
         </script>
     </div>
