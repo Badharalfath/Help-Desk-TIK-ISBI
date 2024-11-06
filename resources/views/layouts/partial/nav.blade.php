@@ -70,23 +70,7 @@
             <div class="relative group flex items-center">
                 <a href="{{ route('maintenance') }}"
                     class="py-2.5 px-5 font-medium uppercase text-gray-800 hover:text-blue-500 border-b-2 border-transparent hover:border-blue-500">Maintenance</a>
-                <svg class="ml-1 w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                </svg>
-                <div class="absolute hidden group-hover:block bg-white shadow-lg py-2 mt-1 w-48 left-0 top-10">
-                    <!-- Button untuk List Maintenance -->
-                    <a href="{{ route('maintenance') }}" id="scroll-list"
-                        class="block px-4 py-2 text-gray-800 hover:bg-gray-100 text-sm cursor-pointer">List
-                        Maintenance</a>
-
-                    <!-- Button untuk Jadwal Maintenance -->
-                    <a href="{{ route('maintenance') }}" id="scroll-jadwal"
-                        class="block px-4 py-2 text-gray-800 hover:bg-gray-100 text-sm cursor-pointer">Jadwal
-                        Maintenance</a>
-
-
-                </div>
+            
             </div>
 
             <!-- FAQ Dropdown -->
