@@ -7,7 +7,7 @@ use App\Models\Departemen;
 use App\Models\Lokasi;
 use App\Models\Penempatan;
 use Illuminate\Http\Request;
-
+use Barryvdh\DomPDF\Facade\Pdf;
 class PenempatanController extends Controller
 {
     public function index(Request $request)
@@ -171,8 +171,32 @@ class PenempatanController extends Controller
     }
 
     public function show($kd_penempatan)
+    {
+        $penempatan = Penempatan::findOrFail($kd_penempatan);
+        return view('management.penempatan-detail', compact('penempatan'));
+    }
+
+
+
+    public function generatePDF(Request $request)
 {
-    $penempatan = Penempatan::findOrFail($kd_penempatan);
-    return view('management.penempatan-detail', compact('penempatan'));
+    $recipientName = $request->input('recipient_name');
+
+    // Retrieve data for penempatan (adjust the query as per your database structure)
+    $penempatan = Penempatan::join('barang', 'penempatan.kd_barang', '=', 'barang.kd_barang')
+        ->select('penempatan.kd_penempatan', 'barang.kd_barang', 'barang.nama_barang', 'penempatan.tgl_penempatan', 'penempatan.keterangan')
+        ->get();
+
+    // Get the logo image as base64
+    $logoPath = public_path('storage/images/logoISBI.png'); // Ensure this path is correct
+    $logoBase64 = file_exists($logoPath) ? 'data:image/png;base64,' . base64_encode(file_get_contents($logoPath)) : null;
+
+    // Load the view and pass data
+    $pdf = Pdf::loadView('management.penempatanPDF', compact('penempatan', 'logoBase64', 'recipientName'))
+        ->setPaper('a4', 'portrait');
+
+    // Stream the generated PDF
+    return $pdf->stream('Bukti_Serah_Terima_Penempatan.pdf');
 }
+
 }

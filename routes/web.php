@@ -81,6 +81,7 @@ Route::middleware(['auth.admin'])->group(function () {
     Route::get('penempatan/{kd_penempatan}/edit', [PenempatanController::class, 'edit'])->name('penempatan.edit');
     Route::put('penempatan/{kd_penempatan}', [PenempatanController::class, 'update'])->name('penempatan.update');
     Route::delete('penempatan/{kd_penempatan}', [PenempatanController::class, 'destroy'])->name('penempatan.destroy');
+    Route::get('/penempatan/generate-pdf', [PenempatanController::class, 'generatePdf'])->name('penempatan.generate-pdf');
     Route::get('/pengadaan', [PengadaanController::class, 'index'])->name('pengadaan');
     Route::delete('/pengadaan/{kd_transaksi}', [PengadaanController::class, 'destroy'])->name('transaksi.destroy');
     Route::get('/generate-pdf', [PengadaanController::class, 'generatePDF'])->name('generate-pdf');

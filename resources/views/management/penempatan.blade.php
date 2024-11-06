@@ -5,24 +5,16 @@
     <div class="flex justify-between items-center mb-4">
         <h2 class="text-left text-xl font-semibold">Daftar Penggunaan</h2>
 
-        <!-- Search Form -->
-        <form method="GET" action="{{ route('penempatan') }}" class="mb-4">
-            <div class="flex items-center space-x-4">
-                <input type="text" name="search" value="{{ request('search') }}"
-                    placeholder="Cari berdasarkan nama atau kode barang" class="px-4 py-2 border rounded w-full" />
-                <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
-                    Cari
-                </button>
-                <a href="{{ route('penempatan') }}" class="btn btn-secondary">Clear</a>
-            </div>
-        </form>
+        <!-- Tombol Generate PDF -->
+        <button onclick="openRecipientModal()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+            Generate PDF
+        </button>
 
-        <div class="flex justify-end mb-4">
-            <a href="{{ route('penempatan-tambah') }}"
-                class="text-gray-900 hover:text-white border border-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-900 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
-                Tambah Penggunaan
-            </a>
-        </div>
+        <!-- Tombol Tambah Penggunaan -->
+        <a href="{{ route('penempatan-tambah') }}"
+            class="text-gray-900 hover:text-white border border-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-900 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
+            Tambah Penggunaan
+        </a>
     </div>
 
     <hr class="mb-6">
@@ -61,16 +53,12 @@
                         <td class="py-2 px-4 border-b">{{ $p->tgl_penempatan }}</td>
                         <td class="py-2 px-4 border-b">{{ $p->keterangan }}</td>
                         <td class="py-2 px-4 border-b text-right">
-                            <button onclick="openModal('{{ $p->kd_penempatan }}')"
-                                class="bg-blue-500 text-white py-2 px-4 rounded">Detail</button>
-                            <a href="{{ route('penempatan.edit', $p->kd_penempatan) }}"
-                                class="bg-yellow-500 text-white py-2 px-4 rounded">Edit</a>
-                            <form action="{{ route('penempatan.destroy', $p->kd_penempatan) }}" method="POST"
-                                class="inline-block">
+                            <button onclick="openModal('{{ $p->kd_penempatan }}')" class="bg-blue-500 text-white py-2 px-4 rounded">Detail</button>
+                            <a href="{{ route('penempatan.edit', $p->kd_penempatan) }}" class="bg-yellow-500 text-white py-2 px-4 rounded">Edit</a>
+                            <form action="{{ route('penempatan.destroy', $p->kd_penempatan) }}" method="POST" class="inline-block">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="bg-red-500 text-white py-2 px-4 rounded"
-                                    onclick="return confirm('Yakin ingin menghapus penempatan ini?')">Hapus</button>
+                                <button type="submit" class="bg-red-500 text-white py-2 px-4 rounded" onclick="return confirm('Yakin ingin menghapus penempatan ini?')">Hapus</button>
                             </form>
                         </td>
                     </tr>
@@ -85,7 +73,7 @@
     </div>
 </div>
 
-<!-- Modal -->
+<!-- Modal for Detail View -->
 <div id="modal-detail" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
     <div class="bg-white p-6 rounded-lg shadow-lg max-w-2xl w-full">
         <div class="flex justify-between items-center mb-4">
@@ -94,6 +82,18 @@
         </div>
         <div id="modal-content" class="overflow-y-auto max-h-[500px]">
             <!-- Content from AJAX will be inserted here -->
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Recipient Name (PDF Generation) -->
+<div id="recipientModal" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center hidden">
+    <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
+        <h3 class="text-xl font-semibold mb-4">Masukkan Nama Penerima</h3>
+        <input type="text" id="recipientName" placeholder="Nama Penerima" class="w-full p-3 border border-gray-300 rounded mb-4">
+        <div class="flex justify-end">
+            <button onclick="generatePdf()" class="bg-blue-500 text-white px-4 py-2 rounded mr-2">Generate PDF</button>
+            <button onclick="closeRecipientModal()" class="bg-gray-500 text-white px-4 py-2 rounded">Batal</button>
         </div>
     </div>
 </div>
@@ -111,6 +111,26 @@
     function closeModal() {
         document.getElementById('modal-detail').classList.add('hidden');
     }
+
+    function openRecipientModal() {
+        document.getElementById('recipientModal').classList.remove('hidden');
+    }
+
+    function closeRecipientModal() {
+        document.getElementById('recipientModal').classList.add('hidden');
+    }
+
+    function generatePdf() {
+    const recipientName = document.getElementById('recipientName').value;
+    if (recipientName) {
+        // Trigger direct download with recipient name
+        window.location.href = `{{ route('penempatan.generate-pdf') }}?recipient_name=${encodeURIComponent(recipientName)}`;
+        closeRecipientModal();
+    } else {
+        alert('Silakan masukkan nama penerima.');
+    }
+}
+
 </script>
 
 @endsection
