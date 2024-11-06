@@ -10,14 +10,8 @@
         <section class="container mx-auto max-w-4xl px-6 py-8">
             <!-- Search form -->
             <form action="{{ route('faq.index') }}" method="GET" class="mb-8" onsubmit="scrollToFaq(); return false;">
-                <input
-                    type="text"
-                    name="search"
-                    id="searchInput"
-                    value="{{ request('search') }}"
-                    placeholder="Cari pertanyaan..."
-                    class="w-full p-3 border border-gray-300 rounded"
-                />
+                <input type="text" name="search" id="searchInput" value="{{ request('search') }}"
+                    placeholder="Cari pertanyaan..." class="w-full p-3 border border-gray-300 rounded" />
             </form>
 
             <div id="faqContainer">
@@ -35,8 +29,9 @@
                             @php
                                 $uniqueId = Str::slug($namaLayanan) . '-' . $faq->id;
                             @endphp
-                            <div class="py-4" id="faq-{{ $faq->id }}">
-                                <button class="flex justify-between w-full text-left text-gray-800 font-medium text-lg py-4"
+                            <div class="py-4" id="faq-{{ $uniqueId }}">
+                                <button type="button"
+                                    class="flex justify-between w-full text-left text-gray-800 font-medium text-lg py-4"
                                     onclick="toggleFaq('{{ $uniqueId }}')">
                                     <span>{{ $faq->pertanyaan }}</span>
                                     <svg class="w-6 h-6 transform transition-transform duration-300"
@@ -48,7 +43,7 @@
                                 </button>
 
                                 <div class="text-gray-600 hidden transition-opacity duration-300 break-words"
-                                    id="{{ $uniqueId }}">
+                                    id="answer-{{ $uniqueId }}">
                                     @foreach (explode("\n", $faq->penyelesaian) as $point)
                                         <div>{{ $point }}</div>
                                     @endforeach
@@ -66,42 +61,69 @@
             </div>
         </section>
 
-        <!-- JavaScript for smooth scrolling and FAQ toggling -->
         <script>
             function toggleFaq(faqId) {
-                var answer = document.getElementById(faqId);
-                var icon = document.getElementById(faqId + '-icon');
+                // Ambil elemen jawaban dan ikon sesuai faqId
+                const answer = document.getElementById("answer-" + faqId);
+                const icon = document.getElementById(faqId + '-icon');
 
-                if (answer.classList.contains('hidden')) {
-                    answer.classList.remove('hidden');
-                    answer.style.opacity = 0;
-                    setTimeout(() => {
-                        answer.style.opacity = 1;
-                    }, 10);
-                    icon.classList.add('rotate-180');
-                } else {
-                    answer.style.opacity = 0;
-                    setTimeout(() => {
-                        answer.classList.add('hidden');
-                    }, 300);
-                    icon.classList.remove('rotate-180');
-                }
+                // Tutup semua elemen jawaban dan reset ikon
+                document.querySelectorAll("[id^='answer-']").forEach(ans => {
+                    if (ans !== answer) {
+                        ans.classList.add('hidden');
+                    }
+                });
+
+                document.querySelectorAll("svg[id$='-icon']").forEach(icn => {
+                    if (icn !== icon) {
+                        icn.classList.remove('rotate-180');
+                    }
+                });
+
+                // Toggle jawaban yang dipilih dan rotasi ikon
+                answer.classList.toggle('hidden');
+                icon.classList.toggle('rotate-180');
             }
 
             function scrollToFaq() {
                 const searchQuery = document.getElementById("searchInput").value.toLowerCase();
                 const faqItems = document.querySelectorAll("#faqContainer div[id^='faq-']");
+                let firstMatch = null;
 
-                for (let faq of faqItems) {
-                    if (faq.querySelector("span").textContent.toLowerCase().includes(searchQuery)) {
-                        faq.scrollIntoView({ behavior: "smooth", block: "center" });
-                        const button = faq.querySelector("button");
-                        const faqId = button.getAttribute("onclick").match(/toggleFaq\('(.+?)'\)/)[1];
-                        toggleFaq(faqId);
-                        break;
+                // Tutup semua FAQ terlebih dahulu
+                faqItems.forEach(faq => {
+                    const answer = faq.querySelector("[id^='answer-']");
+                    const icon = faq.querySelector("svg[id$='-icon']");
+                    answer.classList.add('hidden');
+                    icon.classList.remove('rotate-180');
+                });
+
+                // Buka semua FAQ yang cocok dengan pencarian
+                faqItems.forEach(faq => {
+                    const questionText = faq.querySelector("span").textContent.toLowerCase();
+
+                    if (questionText.includes(searchQuery)) {
+                        const answer = faq.querySelector("[id^='answer-']");
+                        const icon = faq.querySelector("svg[id$='-icon']");
+
+                        answer.classList.remove('hidden'); // Buka FAQ
+                        icon.classList.add('rotate-180'); // Putar ikon
+
+                        if (!firstMatch) {
+                            firstMatch = faq; // Simpan elemen pertama yang cocok untuk scroll
+                        }
                     }
+                });
+
+                // Scroll ke FAQ pertama yang cocok
+                if (firstMatch) {
+                    firstMatch.scrollIntoView({
+                        behavior: "smooth",
+                        block: "center"
+                    });
                 }
             }
         </script>
+
     </div>
 @endsection

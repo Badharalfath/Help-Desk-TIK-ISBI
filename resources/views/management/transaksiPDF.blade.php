@@ -14,19 +14,25 @@
         .kop-surat {
             display: flex;
             align-items: center;
+            /* Menjaga elemen tetap sejajar secara vertikal */
             margin-bottom: 10px;
-            text-align: left;
         }
 
         .kop-surat img {
-            width: 100px;
+            width: 70px;
+            /* Mengatur ukuran gambar sedikit lebih kecil */
             height: auto;
             margin-right: 15px;
+            /* Jarak antara logo dan teks */
         }
 
         .kop-teks {
-            text-align: center;
             flex: 1;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            /* Menjaga teks tetap rata di tengah secara vertikal */
         }
 
         .kop-teks h1,
@@ -34,6 +40,8 @@
         .kop-teks p {
             margin: 0;
             padding: 0;
+            line-height: 1.2;
+            /* Mengurangi line-height agar lebih kompak */
         }
 
         .kop-teks h1 {
@@ -48,6 +56,7 @@
 
         .kop-teks p {
             font-size: 12px;
+            margin-top: 4px;
         }
 
         .kop-teks hr {
@@ -94,13 +103,13 @@
             text-transform: uppercase;
         }
     </style>
+
 </head>
 
 <body>
 
     <div class="kop-surat">
-        <img src="https://upload.wikimedia.org/wikipedia/id/9/9d/Logo_Institut_Seni_Budaya_Indonesia_Bandung.png"
-            alt="Logo ISBI Bandung">
+        <img src="{{ $logoBase64 }}" alt="Logo ISBI Bandung" style="width: 100px; height: auto;">
         <div class="kop-teks">
             <h1>KEMENTERIAN PENDIDIKAN, KEBUDAYAAN, RISET, DAN TEKNOLOGI</h1>
             <h2>INSTITUT SENI BUDAYA INDONESIA BANDUNG</h2>
@@ -119,19 +128,17 @@
     <table>
         <thead>
             <tr>
-                <th>Kode Transaksi</th>
-                <th>Tanggal Transaksi</th>
-                <th>Keterangan</th>
                 <th>Nama Barang</th>
+                <th>Keterangan</th>
+                <th>Jumlah</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($transaksi as $item)
                 <tr>
-                    <td>{{ $item->kd_transaksi }}</td>
-                    <td>{{ $item->tgl_transaksi }}</td>
-                    <td>{{ $item->keterangan }}</td>
                     <td>{{ $item->nama_barang }}</td>
+                    <td>{{ $item->keterangan }}</td>
+                    <td>{{ $item->jumlah }}</td> <!-- Mengambil kolom jumlah -->
                 </tr>
             @endforeach
         </tbody>

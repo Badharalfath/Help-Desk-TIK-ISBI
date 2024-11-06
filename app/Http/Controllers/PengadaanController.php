@@ -46,17 +46,25 @@ class PengadaanController extends Controller
         // Redirect dengan pesan sukses
         return redirect()->route('pengadaan')->with('Sukses', 'Data Transaksi berhasil dihapus.');
     }
-    
+
 
     public function generatePDF()
     {
         $transaksi = Transaksi::join('barang', 'transaksi.kd_barang', '=', 'barang.kd_barang')
-            ->select('transaksi.*', 'barang.nama_barang')
+            ->select('barang.nama_barang', 'transaksi.keterangan', 'barang.jumlah')
             ->get();
 
-        $kopSuratPath = storage_path('app/public/KOP_SURAT_TIK_BARU[1].pdf');
+        // Ambil path gambar di storage dan konversi ke base64
+        $logoPath = public_path('storage/images/logoISBI.png');
+        if (file_exists($logoPath)) {
+            $logoData = base64_encode(file_get_contents($logoPath));
+            $logoBase64 = 'data:image/png;base64,' . $logoData;
+        } else {
+            $logoBase64 = null; // Jika gambar tidak ditemukan, beri nilai null
+        }
 
-        $pdf = Pdf::loadView('management.transaksiPDF', compact('transaksi', 'kopSuratPath'));
+        $pdf = Pdf::loadView('management.transaksiPDF', compact('transaksi', 'logoBase64'))
+            ->setPaper('a4', 'portrait');
 
         return $pdf->download('Bukti_Serah_Terima_Aset.pdf');
     }
