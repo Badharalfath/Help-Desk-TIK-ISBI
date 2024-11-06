@@ -5,14 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Transaksi;
 use App\Models\Barang;
-use App\Models\Kategori;
+use App\Models\Kategori; // Updated to use KategoriAset model
 
 class TambahPengadaanController extends Controller
 {
     // Menampilkan form transaksi
     public function index()
     {
-        // Ambil data kategori untuk dropdown
+        // Ambil data kategori untuk dropdown dari kategori_aset
         $kategori = Kategori::all();
 
         // Buat nomor transaksi (contoh implementasi)
@@ -45,7 +45,7 @@ class TambahPengadaanController extends Controller
             'keterangan' => 'nullable|string|max:255',
             'nota' => 'nullable|image|mimes:jpg,jpeg,png|max:5012', // Validasi untuk file gambar
             'nama_barang.*' => 'required|string',
-            'kategori.*' => 'required|exists:kategori,kd_kategori',
+            'kategori.*' => 'required|exists:kategori_aset,kd_kategori', // Updated to kategori_aset
             'jumlah.*' => 'required|integer|min:1',
             'foto.*' => 'nullable|image|mimes:jpg,jpeg,png|max:5012', // Validasi file foto
         ]);
@@ -53,21 +53,13 @@ class TambahPengadaanController extends Controller
         // Simpan file nota jika ada dengan format nama "nama asli lalu random number"
         $notaPath = null;
         if ($request->hasFile('nota')) {
-            // Dapatkan nama file asli
             $originalFilename = $request->file('nota')->getClientOriginalName();
-        
-            // Buat nama file baru dengan angka acak
             $newFilename = rand(1000000000, 9999999999) . '_' . $originalFilename;
-        
-            // Simpan file dengan nama baru di folder 'fotos'
             $notaPath = $request->file('nota')->storeAs('public/fotos', $newFilename);
-        
-            // Simpan hanya nama file ke database
             $notaPath = $newFilename;
         } else {
             $notaPath = null;
         }
-        
 
         // Generate kode transaksi otomatis
         $lastTransaksi = Transaksi::orderBy('kd_transaksi', 'desc')->first();
@@ -80,26 +72,15 @@ class TambahPengadaanController extends Controller
         // Simpan data barang ke tabel barang
         foreach ($request->nama_barang as $index => $nama_barang) {
             $fotoPath = null;
-
-            // Cek apakah ada foto yang diupload
             if (isset($request->file('foto')[$index])) {
                 $foto = $request->file('foto')[$index];
-            
-                // Dapatkan nama file asli
                 $originalFilename = $foto->getClientOriginalName();
-            
-                // Buat nama file baru dengan angka acak
                 $newFilename = rand(1000000000, 9999999999) . '_' . $originalFilename;
-            
-                // Simpan file dengan nama baru di folder 'fotos'
                 $foto->storeAs('public/fotos', $newFilename);
-            
-                // Simpan hanya nama file ke database
                 $fotoPath = $newFilename;
             } else {
                 $fotoPath = null;
             }
-            
 
             // Simpan barang
             $barang = Barang::create([
@@ -111,7 +92,6 @@ class TambahPengadaanController extends Controller
                 'foto' => $fotoPath,
             ]);
 
-            // Jika ini adalah barang pertama, gunakan kd_barang untuk transaksi
             if ($index == 0) {
                 $firstKdBarang = $nextKodeBarang;
             }
@@ -125,11 +105,10 @@ class TambahPengadaanController extends Controller
             'kd_transaksi' => $nextKodeTransaksi,
             'tgl_transaksi' => $request->tgl_transaksi,
             'keterangan' => $request->keterangan,
-            'nota' => $notaPath, // Simpan file nota dengan nama yang baru
-            'kd_barang' => $firstKdBarang,  // Simpan kode barang pertama di transaksi
+            'nota' => $notaPath,
+            'kd_barang' => $firstKdBarang,
         ]);
 
         return redirect()->route('pengadaan')->with('success', 'Transaksi berhasil ditambahkan.');
     }
-
 }
