@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>BERITA ACARA SERAH TERIMA</title>
+    <title>Bukti Serah Terima Aset</title>
     <style>
         body {
             font-family: "Times New Roman", Times, serif;
@@ -70,11 +70,6 @@
             text-transform: uppercase;
         }
 
-        .section-content {
-            font-size: 12px;
-            margin-top: 10px;
-        }
-
         .alamat {
             font-size: 12px;
             margin-top: 4px;
@@ -106,64 +101,29 @@
         }
 
         .signature-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            /* Memastikan bagian atas sejajar */
-            margin-top: 50px;
-            font-size: 12px;
-            width: 100%;
-        }
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-top: 50px;
+        font-size: 12px;
+        width: 100%;
+    }
 
-        .signature-item-left,
-        .signature-item-right {
-            width: 45%;
-        }
+    .signature-item {
+        width: 40%;
+        text-align: center;
+    }
 
-        .signature-item-left {
-            text-align: left;
-        }
+    .signature-spacer {
+        flex-grow: 1;
+    }
 
-        .signature-item-right {
-            text-align: right;
-        }
-
-        .signature-item-left p,
-        .signature-item-right p {
-            margin: 0;
-        }
-
-        .signature-item p {
-            margin: 0;
-            /* Menghilangkan margin pada paragraf */
-        }
-
-        .signature-line {
-            margin-top: 20px;
-            /* Jarak antara nama dan garis tanda tangan */
-            border-top: 1px solid #000;
-            /* Menambahkan garis horizontal untuk tanda tangan */
-            width: 100%;
-            /* Memastikan garis tanda tangan memenuhi lebar kontainer */
-        }
-
-        .signature-left {
-            width: 45%;
-            text-align: left;
-        }
-
-        .signature-right {
-            width: 45%;
-            text-align: right;
-        }
+    .signature-item p {
+        margin: 0;
 
         .signature-line {
             margin-top: 60px;
             font-size: 12px;
-        }
-
-        .signature-line p {
-            margin: 0;
         }
     </style>
 </head>
@@ -186,7 +146,6 @@
     </div>
 
     <div class="header-title">BUKTI ACARA SERAH TERIMA</div>
-
     <div class="section-content">
         <p>Pada hari ini, {{ \Carbon\Carbon::parse($tanggal)->isoFormat('dddd') }}, tanggal
             {{ \Carbon\Carbon::parse($tanggal)->isoFormat('D') }} bulan
@@ -229,24 +188,30 @@
         </tbody>
     </table>
 
+    <!-- Kalimat Penutup -->
+    <p style="text-align: center; margin-top: 30px;">
+        Demikian Berita Acara Serah Terima ini kami buat untuk dapat digunakan sebagaimana mestinya.
+    </p>
+
     <!-- Signature Section -->
     <div class="signature-section">
         <!-- Pihak Kedua di sisi kiri -->
-        <div class="signature-item-left">
+        <div class="signature-item">
             <p>Pihak Kedua,</p>
             <p style="margin-top: 60px;">Muchamad Iqbal, S.T., M.Kom</p>
             <p>NIP 198112102005011002</p>
         </div>
 
+        <!-- Spacer untuk memastikan kedua pihak dalam satu baris -->
+        <div class="signature-spacer"></div>
+
         <!-- Pihak Pertama di sisi kanan -->
-        <div class="signature-item-right">
+        <div class="signature-item">
             <p>Pihak Pertama,</p>
             <p style="margin-top: 60px;">..............................................</p>
             <p>NIP ..............................................</p>
         </div>
     </div>
-
-
 
 </body>
 

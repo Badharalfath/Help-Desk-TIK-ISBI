@@ -15,8 +15,6 @@
             </a>
         </div>
 
-
-
         <hr class="mb-6">
 
         <!-- Tabel Transaksi -->
@@ -70,6 +68,10 @@
                 <tbody>
                     @foreach ($transaksi as $item)
                         <tr>
+                            <td class="px-6 py-4 border-b border-gray-300 text-sm">
+                                <input type="checkbox" name="transaksi[]" value="{{ $item->kd_transaksi }}"
+                                    class="transaksi-checkbox">
+                            </td>
                             <td class="px-6 py-4 border-b border-gray-300 text-sm">{{ $item->kd_transaksi }}</td>
                             <td class="px-6 py-4 border-b border-gray-300 text-sm">{{ $item->tgl_transaksi }}</td>
                             <td class="px-6 py-4 border-b border-gray-300 text-sm">{{ $item->keterangan }}</td>
@@ -102,12 +104,18 @@
             <div id="recipientModal"
                 class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center hidden">
                 <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
-                    <h3 class="text-xl font-semibold mb-4">Masukkan Nama Penerima</h3>
+                    <h3 class="text-xl font-semibold mb-4">Masukkan Nama Penerima dan NIP</h3>
+
+                    <!-- Input Nama Penerima -->
                     <input type="text" id="recipientName" placeholder="Nama Penerima"
                         class="w-full p-3 border border-gray-300 rounded mb-4">
+
+                    <!-- Input NIP -->
+                    <input type="text" id="recipientNip" placeholder="NIP Penerima"
+                        class="w-full p-3 border border-gray-300 rounded mb-4">
+
                     <div class="flex justify-end">
-                        <!-- Move Generate PDF button inside modal -->
-                        <button onclick="generatePdf()" class="bg-blue-500 text-white px-4 py-2 rounded mr-2">Generate
+                        <button onclick="submitPdfForm()" class="bg-blue-500 text-white px-4 py-2 rounded mr-2">Generate
                             PDF</button>
                         <button onclick="closeRecipientModal()"
                             class="bg-gray-500 text-white px-4 py-2 rounded">Batal</button>
@@ -116,43 +124,7 @@
             </div>
         </div>
 
-        <!-- Modal Pop-up Box for Detail -->
-        <div id="detailModal" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center hidden">
-            <div class="bg-white p-6 rounded-lg shadow-lg max-w-xl w-full">
-                <h3 class="text-xl font-semibold mb-4">Detail Transaksi</h3>
-                <p><strong>Kode Transaksi:</strong> <span id="detailKodeTransaksi"></span></p>
-                <p><strong>Tanggal Transaksi:</strong> <span id="detailTanggalTransaksi"></span></p>
-                <p><strong>Keterangan:</strong> <span id="detailKeterangan"></span></p>
-                <p><strong>Nama Barang:</strong> <span id="detailNamaBarang"></span></p>
-                <p><strong>Nota:</strong> <span id="detailNota"></span></p>
-                <img id="detailNotaImage" src="" alt="Nota" class="w-full h-auto mb-4"
-                    style="max-width: 90vw; max-height: 80vh;">
-                <button onclick="closeDetail()" class="bg-blue-500 text-white px-4 py-2 rounded">Tutup</button>
-            </div>
-        </div>
-
         <script>
-            function showDetail(item) {
-                document.getElementById('detailKodeTransaksi').innerText = item.kd_transaksi;
-                document.getElementById('detailTanggalTransaksi').innerText = item.tgl_transaksi;
-                document.getElementById('detailKeterangan').innerText = item.keterangan;
-                document.getElementById('detailNamaBarang').innerText = item.nama_barang;
-
-                if (item.nota) {
-                    document.getElementById('detailNotaImage').src = `/storage/fotos/${item.nota}`;
-                    document.getElementById('detailNotaImage').classList.remove('hidden');
-                } else {
-                    document.getElementById('detailNotaImage').classList.add('hidden');
-                }
-
-                document.getElementById('detailModal').classList.remove('hidden');
-            }
-
-            function closeDetail() {
-                document.getElementById('detailModal').classList.add('hidden');
-            }
-
-
             function openRecipientModal() {
                 document.getElementById('recipientModal').classList.remove('hidden');
             }
@@ -161,15 +133,51 @@
                 document.getElementById('recipientModal').classList.add('hidden');
             }
 
-            function generatePdf() {
+            function submitPdfForm() {
                 const recipientName = document.getElementById('recipientName').value;
-                if (recipientName) {
-                    // Trigger direct download with recipient name
-                    window.location.href = `{{ route('generate-pdf') }}?recipient_name=${encodeURIComponent(recipientName)}`;
-                    closeRecipientModal();
-                } else {
-                    alert('Silakan masukkan nama penerima.');
+                const recipientNip = document.getElementById('recipientNip').value;
+                const selectedTransaksi = Array.from(document.querySelectorAll('.transaksi-checkbox:checked'))
+                    .map(checkbox => checkbox.value);
+
+                if (selectedTransaksi.length === 0) {
+                    alert('Silakan pilih transaksi yang ingin dimasukkan ke dalam PDF.');
+                    return;
                 }
+
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = `{{ route('generate-pdf') }}`;
+
+                const csrfToken = document.createElement('input');
+                csrfToken.type = 'hidden';
+                csrfToken.name = '_token';
+                csrfToken.value = `{{ csrf_token() }}`;
+                form.appendChild(csrfToken);
+
+                const recipientInput = document.createElement('input');
+                recipientInput.type = 'hidden';
+                recipientInput.name = 'recipient_name';
+                recipientInput.value = recipientName;
+                form.appendChild(recipientInput);
+
+                const nipInput = document.createElement('input');
+                nipInput.type = 'hidden';
+                nipInput.name = 'recipient_nip';
+                nipInput.value = recipientNip;
+                form.appendChild(nipInput);
+
+                selectedTransaksi.forEach(transaksiId => {
+                    const transaksiInput = document.createElement('input');
+                    transaksiInput.type = 'hidden';
+                    transaksiInput.name = 'transaksi[]';
+                    transaksiInput.value = transaksiId;
+                    form.appendChild(transaksiInput);
+                });
+
+                document.body.appendChild(form);
+                form.submit();
+
+                closeRecipientModal();
             }
         </script>
     </div>

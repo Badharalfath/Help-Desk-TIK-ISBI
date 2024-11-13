@@ -51,17 +51,34 @@ class PengadaanController extends Controller
     public function generatePDF(Request $request)
     {
         $recipientName = $request->input('recipient_name');
-        $transaksi = Transaksi::join('barang', 'transaksi.kd_barang', '=', 'barang.kd_barang')
-            ->select('barang.nama_barang', 'transaksi.keterangan', 'barang.jumlah')
+        $recipientNIP = $request->input('recipient_nip');
+        $selectedTransaksi = $request->input('transaksi', []); // Get selected transactions
+
+        // Validate that there are selected transactions
+        if (empty($selectedTransaksi)) {
+            return redirect()->route('pengadaan')->withErrors(['error' => 'Silakan pilih transaksi yang ingin dimasukkan ke dalam PDF.']);
+        }
+
+        // Fetch the selected transaction data
+        $transaksiData = Transaksi::join('barang', 'transaksi.kd_barang', '=', 'barang.kd_barang')
+            ->whereIn('transaksi.kd_transaksi', $selectedTransaksi)
+            ->select('transaksi.kd_transaksi', 'barang.nama_barang', 'barang.jumlah', 'transaksi.keterangan')
             ->get();
 
-        // Get the logo image as base64
+        // Retrieve the logo in base64 format if it exists
         $logoPath = public_path('storage/images/logoISBI.png');
         $logoBase64 = file_exists($logoPath) ? 'data:image/png;base64,' . base64_encode(file_get_contents($logoPath)) : null;
 
-        $pdf = Pdf::loadView('management.transaksiPDF', compact('transaksi', 'logoBase64', 'recipientName'))
+        // Determine the Blade template to use based on recipient input
+        $template = ($recipientName && $recipientNIP) ? 'management.transaksiPDF' : 'management.transaksiPDF2';
+
+        // Define the current date for the PDF
+        $tanggal = now();
+
+        // Generate PDF with the selected template
+        $pdf = Pdf::loadView($template, compact('transaksiData', 'logoBase64', 'recipientName', 'recipientNIP', 'tanggal'))
             ->setPaper('a4', 'portrait');
 
-        return $pdf->stream('Bukti_Serah_Terima_Aset.pdf');
+        return $pdf->stream("Bukti_Serah_Terima_Aset_{$recipientName}.pdf");
     }
 }
