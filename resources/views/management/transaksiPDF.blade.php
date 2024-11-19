@@ -5,18 +5,18 @@
     <meta charset="UTF-8">
     <title>BERITA ACARA SERAH TERIMA</title>
     <style>
+        /* General styling */
         body {
             font-family: "Times New Roman", Times, serif;
-            font-size: 12px;
-            margin-top: 20px;
-            position: relative;
-            min-height: 100vh;
+            font-size: 16px;
+            margin: 20px 40px 20px 40px; /* Page margins disamakan */
+            line-height: 1.1; /* Line-height disamakan */
         }
 
         .kop-surat {
             position: relative;
-            margin-bottom: 10px;
             text-align: center;
+            margin-bottom: 10px;
         }
 
         .kop-surat img {
@@ -24,7 +24,6 @@
             top: -15px;
             left: 10px;
             width: 110px;
-            height: auto;
         }
 
         .kop-teks {
@@ -42,130 +41,96 @@
         }
 
         .kop-teks h1 {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: bold;
         }
 
         .kop-teks h2 {
-            font-size: 14px;
+            font-size: 16px;
             font-weight: bold;
         }
 
         .kop-teks p {
-            font-size: 12px;
-            margin-top: 4px;
+            font-size: 14px;
         }
 
         .kop-surat hr {
             border: 1px solid black;
-            margin: 30px 0 0 0;
+            margin: 5px 0;
         }
 
         .header-title {
-            font-size: 14px;
+            font-size: 16px;
             font-weight: bold;
             text-align: center;
-            margin-top: 10px;
-            margin-bottom: 20px;
+            margin: 10px 0 -10px 0;
             text-transform: uppercase;
         }
 
-        .section-content {
-            font-size: 12px;
-            margin-top: 10px;
+        .content-section {
+            margin: 8px 0 -3px;
+            text-align: justify;
         }
 
-        .alamat {
-            font-size: 12px;
-            margin-top: 4px;
+        .info-field {
+            display: flex;
+            justify-content: space-between;
+            margin-left: 36px;
+            margin-top: 0px;
         }
 
+        /* Table styling */
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
+            font-size: 16px;
         }
 
-        table,
-        th,
-        td {
+        table, th, td {
             border: 1px solid black;
         }
 
-        th,
-        td {
-            padding: 8px;
-            text-align: left;
-            font-size: 12px;
-        }
-
         th {
-            background-color: #f2f2f2;
+            text-align: center;
             font-weight: bold;
-            text-transform: uppercase;
+            padding: 5px;
         }
 
+        td {
+            padding: 5px;
+            text-align: left;
+        }
+
+        /* Signature styling */
         .signature-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            /* Memastikan bagian atas sejajar */
-            margin-top: 50px;
-            font-size: 12px;
-            width: 100%;
+            margin-top: 40px;
         }
 
-        .signature-item-left,
-        .signature-item-right {
+        .signature-field {
+            display: inline-block;
             width: 45%;
-        }
-
-        .signature-item-left {
             text-align: left;
+            font-size: 16px; /* Ukuran teks disamakan */
+            line-height: 1.1; /* Line-height disamakan */
         }
 
-        .signature-item-right {
-            text-align: right;
-        }
-
-        .signature-item-left p,
-        .signature-item-right p {
-            margin: 0;
-        }
-
-        .signature-item p {
-            margin: 0;
-            /* Menghilangkan margin pada paragraf */
+        .signature-field.kepala-text {
+            margin-right: 110px;
         }
 
         .signature-line {
-            margin-top: 20px;
-            /* Jarak antara nama dan garis tanda tangan */
-            border-top: 1px solid #000;
-            /* Menambahkan garis horizontal untuk tanda tangan */
-            width: 100%;
-            /* Memastikan garis tanda tangan memenuhi lebar kontainer */
-        }
-
-        .signature-left {
-            width: 45%;
+            margin-top: 80px;
             text-align: left;
         }
 
-        .signature-right {
-            width: 45%;
-            text-align: right;
-        }
-
-        .signature-line {
-            margin-top: 60px;
-            font-size: 12px;
-        }
-
-        .signature-line p {
-            margin: 0;
+        .signature-line2 {
+            margin-top: 80px;
+            text-align: left;
+            margin-left: 60px;
         }
     </style>
+
 </head>
 
 <body>
@@ -188,63 +153,102 @@
     <div class="header-title">BUKTI ACARA SERAH TERIMA</div>
 
     <div class="section-content">
+        <style>
+            .tab {
+                display: inline-block;
+                width: 40px; /* Lebar tab untuk efek tabulasi */
+            }
+
+            .text-center {
+                text-align: center;
+            }
+
+            .bold-text {
+                font-weight: bold; /* Membuat teks menjadi tebal */
+            }
+
+            .align-label {
+                display: inline-block;
+                width: 100px; /* Lebar label untuk menyelaraskan ":" */
+            }
+
+            .roman-label {
+                display: inline-block;
+                width: 40px; /* Jarak terbaik setelah angka Romawi */
+            }
+        </style>
+
         <p>Pada hari ini, {{ \Carbon\Carbon::parse($tanggal)->isoFormat('dddd') }}, tanggal
             {{ \Carbon\Carbon::parse($tanggal)->isoFormat('D') }} bulan
             {{ \Carbon\Carbon::parse($tanggal)->isoFormat('MMMM') }} tahun
             {{ \Carbon\Carbon::parse($tanggal)->isoFormat('Y') }} bertempat di Institut Seni Budaya Indonesia (ISBI)
             Bandung, kami yang bertanda tangan di bawah ini:</p>
+
         <p>
-            Nama : ...................................................<br>
-            NIP : ...................................................<br>
-            Jabatan : ...................................................
+            <span class="tab"></span><span class="roman-label">I.</span>
+            <span class="align-label">Nama</span>: ...................................................<br>
+            <span class="tab"></span><span class="tab"></span>
+            <span class="align-label">NIP</span>: ...................................................<br>
+            <span class="tab"></span><span class="tab"></span>
+            <span class="align-label">Jabatan</span>: ...................................................
         </p>
-        <p>Yang Menerima, selanjutnya disebut <strong>Pihak Pertama</strong></p>
+
+        <p class="text-center">Yang Menerima, selanjutnya disebut <span class="bold-text">Pihak Pertama</span></p>
+
         <p>
-            Nama : Muchamad Iqbal, S.T., M.Kom<br>
-            NIP : 198112102005011002<br>
-            Jabatan : Kepala UPA TIK ISBI Bandung
+            <span class="tab"></span><span class="roman-label">II.</span>
+            <span class="align-label">Nama</span>: Muchamad Iqbal, S.T., M.Kom<br>
+            <span class="tab"></span><span class="tab"></span>
+            <span class="align-label">NIP</span>: 198112102005011002<br>
+            <span class="tab"></span><span class="tab"></span>
+            <span class="align-label">Jabatan</span>: Kepala UPA TIK ISBI Bandung
         </p>
-        <p>Yang Menyerahkan, selanjutnya disebut <strong>Pihak Kedua</strong></p>
+
+        <p class="text-center">Yang Menyerahkan, selanjutnya disebut <span class="bold-text">Pihak Kedua</span></p>
+
         <p>Pihak Kedua menyerahkan barang, dan Pihak Pertama menerima hak atas barang berupa:</p>
     </div>
+
+
 
     <table border="1" cellspacing="0" cellpadding="5">
         <thead>
             <tr>
-                <th>Kode Transaksi</th>
+                <th>No.</th>
                 <th>Nama Barang</th>
+                <th>Merk</th>
                 <th>Jumlah</th>
-                <th>Keterangan</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($transaksiData as $item)
+            @foreach ($transaksiData as $index => $item)
                 <tr>
-                    <td>{{ $item->kd_transaksi }}</td>
+                    <td>{{ $index + 1 }}</td>
                     <td>{{ $item->nama_barang }}</td>
+                    <td>{{ $item->merek }}</td>
                     <td>{{ $item->jumlah }}</td>
-                    <td>{{ $item->keterangan }}</td>
                 </tr>
             @endforeach
         </tbody>
     </table>
 
-    <!-- Signature Section -->
+
     <div class="signature-section">
-        <!-- Pihak Kedua di sisi kiri -->
-        <div class="signature-item-left">
-            <p>Pihak Kedua,</p>
-            <p style="margin-top: 60px;">Muchamad Iqbal, S.T., M.Kom</p>
-            <p>NIP 198112102005011002</p>
+        <!-- Signature field untuk Pihak Kedua -->
+        <div class="signature-field" style="text-align: left;">
+            <p class="signature-line">Pihak Kedua</p>
+            <p class="signature-line">Muchamad Iqbal, S.T., M.Kom</p>
+            <p>NIP: 198112102005011002</p>
         </div>
 
-        <!-- Pihak Pertama di sisi kanan -->
-        <div class="signature-item-right">
-            <p>Pihak Pertama,</p>
-            <p style="margin-top: 60px;">..............................................</p>
-            <p>NIP ..............................................</p>
+        <!-- Signature field untuk Pihak Pertama -->
+        <div class="signature-field" style="text-align: right;">
+            <p class="signature-line2">Pihak Pertama</p>
+            <p class="signature-line2">..............................................</p>
+            <p>NIP: ..............................................</p>
         </div>
     </div>
+
 
 
 

@@ -59,10 +59,10 @@ class PengadaanController extends Controller
             return redirect()->route('pengadaan')->withErrors(['error' => 'Silakan pilih transaksi yang ingin dimasukkan ke dalam PDF.']);
         }
 
-        // Fetch the selected transaction data
+        // Fetch the selected transaction data with Merk
         $transaksiData = Transaksi::join('barang', 'transaksi.kd_barang', '=', 'barang.kd_barang')
             ->whereIn('transaksi.kd_transaksi', $selectedTransaksi)
-            ->select('transaksi.kd_transaksi', 'barang.nama_barang', 'barang.jumlah', 'transaksi.keterangan')
+            ->select('transaksi.kd_transaksi', 'barang.nama_barang', 'barang.merek', 'barang.jumlah', 'transaksi.keterangan') // Tambahkan 'barang.merk'
             ->get();
 
         // Retrieve the logo in base64 format if it exists
