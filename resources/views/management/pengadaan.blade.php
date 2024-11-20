@@ -136,15 +136,67 @@
             </div>
         </div>
 
+        <!-- Detail Modal -->
+        <div id="detailModal" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center hidden">
+            <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full overflow-auto">
+                <h3 class="text-xl font-semibold mb-4">Detail Transaksi</h3>
+                <div id="detailContent" class="space-y-4">
+                    <!-- Detail isi akan diisi oleh JavaScript -->
+                </div>
+                <div class="flex justify-end mt-4">
+                    <button onclick="closeDetailModal()" class="bg-gray-500 text-white px-4 py-2 rounded">Tutup</button>
+                </div>
+            </div>
+        </div>
+
+        <style>
+            #detailModal img {
+                max-width: 100%;
+                /* Batas lebar sesuai modal */
+                max-height: 30rem;
+                /* Tinggi maksimum gambar */
+                object-fit: contain;
+                /* Menjaga proporsi gambar */
+            }
+        </style>
+
         <script>
-            // Membuka Modal
             function openRecipientModal() {
                 document.getElementById('recipientModal').classList.remove('hidden');
             }
 
-            // Menutup Modal
             function closeRecipientModal() {
                 document.getElementById('recipientModal').classList.add('hidden');
+            }
+
+            function showDetail(item) {
+                const detailContent = document.getElementById('detailContent');
+
+                // Isi detail modal
+                detailContent.innerHTML = `
+        <p><strong>Kode Transaksi:</strong> ${item.kd_transaksi || 'Tidak tersedia'}</p>
+        <p><strong>Tanggal Transaksi:</strong> ${item.tgl_transaksi || 'Tidak tersedia'}</p>
+        <p><strong>Keterangan:</strong> ${item.keterangan || 'Tidak tersedia'}</p>
+        <p><strong>Nama Barang:</strong> ${item.nama_barang || 'Tidak tersedia'}</p>
+        ${
+            item.nota 
+            ? `
+                                                        <p><strong>Nota:</strong></p>
+                                                        <div class="flex justify-center">
+                                                            <img src="/storage/fotos/${item.nota}" alt="Nota Transaksi" class="max-w-full max-h-64 object-contain">
+                                                        </div>
+                                                    ` 
+            : '<p><strong>Nota:</strong> Tidak ada nota</p>'
+        }
+    `;
+
+                // Tampilkan modal
+                document.getElementById('detailModal').classList.remove('hidden');
+            }
+
+
+            function closeDetailModal() {
+                document.getElementById('detailModal').classList.add('hidden');
             }
 
             // Submit Form untuk Generate PDF
