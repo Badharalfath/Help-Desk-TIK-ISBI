@@ -69,7 +69,7 @@ class PengadaanController extends Controller
         $logoPath = public_path('storage/images/logoISBI.png');
         $logoBase64 = file_exists($logoPath) ? 'data:image/png;base64,' . base64_encode(file_get_contents($logoPath)) : null;
 
-        // Determine the Blade template to use based on recipient input
+        // Pilih template berdasarkan input Nama dan NIP
         $template = ($recipientName && $recipientNIP) ? 'management.transaksiPDF' : 'management.transaksiPDF2';
 
         // Define the current date for the PDF

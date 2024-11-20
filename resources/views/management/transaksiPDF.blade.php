@@ -9,8 +9,10 @@
         body {
             font-family: "Times New Roman", Times, serif;
             font-size: 16px;
-            margin: 20px 40px 20px 40px; /* Page margins disamakan */
-            line-height: 1.1; /* Line-height disamakan */
+            margin: 20px 40px 20px 40px;
+            /* Page margins disamakan */
+            line-height: 1.1;
+            /* Line-height disamakan */
         }
 
         .kop-surat {
@@ -87,7 +89,9 @@
             font-size: 16px;
         }
 
-        table, th, td {
+        table,
+        th,
+        td {
             border: 1px solid black;
         }
 
@@ -111,8 +115,10 @@
             display: inline-block;
             width: 45%;
             text-align: left;
-            font-size: 16px; /* Ukuran teks disamakan */
-            line-height: 1.1; /* Line-height disamakan */
+            font-size: 16px;
+            /* Ukuran teks disamakan */
+            line-height: 1.1;
+            /* Line-height disamakan */
         }
 
         .signature-field.kepala-text {
@@ -122,6 +128,11 @@
         .signature-line {
             margin-top: 80px;
             text-align: left;
+        }
+
+        .signature-line-left {
+            text-align: left;
+            margin-left: 60px;
         }
 
         .signature-line2 {
@@ -156,7 +167,8 @@
         <style>
             .tab {
                 display: inline-block;
-                width: 40px; /* Lebar tab untuk efek tabulasi */
+                width: 40px;
+                /* Lebar tab untuk efek tabulasi */
             }
 
             .text-center {
@@ -164,24 +176,28 @@
             }
 
             .bold-text {
-                font-weight: bold; /* Membuat teks menjadi tebal */
+                font-weight: bold;
+                /* Membuat teks menjadi tebal */
             }
 
             .align-label {
                 display: inline-block;
-                width: 100px; /* Lebar label untuk menyelaraskan ":" */
+                width: 100px;
+                /* Lebar label untuk menyelaraskan ":" */
             }
 
             .roman-label {
                 display: inline-block;
-                width: 40px; /* Jarak terbaik setelah angka Romawi */
+                width: 40px;
+                /* Jarak terbaik setelah angka Romawi */
             }
         </style>
 
-        <p>Pada hari ini, {{ \Carbon\Carbon::parse($tanggal)->isoFormat('dddd') }}, tanggal
-            {{ \Carbon\Carbon::parse($tanggal)->isoFormat('D') }} bulan
-            {{ \Carbon\Carbon::parse($tanggal)->isoFormat('MMMM') }} tahun
-            {{ \Carbon\Carbon::parse($tanggal)->isoFormat('Y') }} bertempat di Institut Seni Budaya Indonesia (ISBI)
+        <p>Pada hari ini, {{ \Carbon\Carbon::parse($tanggal)->locale('id')->isoFormat('dddd') }} tanggal
+            {{ \Carbon\Carbon::parse($tanggal)->locale('id')->isoFormat('D') }} bulan
+            {{ \Carbon\Carbon::parse($tanggal)->locale('id')->isoFormat('MMMM') }} tahun
+            {{ \Carbon\Carbon::parse($tanggal)->locale('id')->isoFormat('Y') }} bertempat di Institut Seni Budaya
+            Indonesia (ISBI)
             Bandung, kami yang bertanda tangan di bawah ini:</p>
 
         <p>
@@ -244,8 +260,8 @@
         <!-- Signature field untuk Pihak Pertama -->
         <div class="signature-field" style="text-align: right;">
             <p class="signature-line2">Pihak Pertama</p>
-            <p class="signature-line2">..............................................</p>
-            <p>NIP: ..............................................</p>
+            <p class="signature-line2">{{ $recipientName ?? '............................................' }}</p>
+            <p class="signature-line-left">NIP: {{ $recipientNIP ?? '............................................' }}</p>
         </div>
     </div>
 
