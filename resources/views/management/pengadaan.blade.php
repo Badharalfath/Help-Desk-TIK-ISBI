@@ -181,11 +181,11 @@
         ${
             item.nota 
             ? `
-                                                        <p><strong>Nota:</strong></p>
-                                                        <div class="flex justify-center">
-                                                            <img src="/storage/fotos/${item.nota}" alt="Nota Transaksi" class="max-w-full max-h-64 object-contain">
-                                                        </div>
-                                                    ` 
+                                                                <p><strong>Nota:</strong></p>
+                                                                <div class="flex justify-center">
+                                                                    <img src="/storage/fotos/${item.nota}" alt="Nota Transaksi" class="max-w-full max-h-64 object-contain">
+                                                                </div>
+                                                            ` 
             : '<p><strong>Nota:</strong> Tidak ada nota</p>'
         }
     `;
@@ -201,85 +201,52 @@
 
             // Submit Form untuk Generate PDF
             function submitPdfForm() {
-                const recipientName = document.getElementById('recipientName').value.trim();
-                const recipientNip = document.getElementById('recipientNip').value.trim();
-                const firstPartyName = document.getElementById('firstPartyName').value.trim();
-                const firstPartyNip = document.getElementById('firstPartyNip').value.trim();
-                const firstPartyPosition = document.getElementById('firstPartyPosition').value.trim();
+                const recipientName = document.getElementById('recipientName').value;
+                const recipientNip = document.getElementById('recipientNip').value;
+                const firstPartyName = document.getElementById('firstPartyName').value;
+                const firstPartyNip = document.getElementById('firstPartyNip').value;
+                const firstPartyPosition = document.getElementById('firstPartyPosition').value;
 
-                const selectedTransaksi = Array.from(document.querySelectorAll('.transaksi-checkbox:checked'))
-                    .map(checkbox => checkbox.value);
-
-                // Validasi input
-                if (!recipientName || !recipientNip) {
-                    alert('Harap isi Nama dan NIP Penerima.');
-                    return;
-                }
-
-                if (selectedTransaksi.length === 0) {
-                    alert('Silakan pilih transaksi yang ingin dimasukkan ke dalam PDF.');
-                    return;
-                }
-
-                // Buat form dinamis untuk submit data
+                // Create a form dynamically
                 const form = document.createElement('form');
                 form.method = 'POST';
-                form.action = `{{ route('generate-pdf') }}`;
+                form.action = "{{ route('generate-pdf') }}";
+                form.style.display = 'none';
 
-                // Tambahkan CSRF token
+                // Add CSRF token
                 const csrfToken = document.createElement('input');
-                csrfToken.type = 'hidden';
                 csrfToken.name = '_token';
-                csrfToken.value = `{{ csrf_token() }}`;
+                csrfToken.value = "{{ csrf_token() }}";
                 form.appendChild(csrfToken);
 
-                // Tambahkan input untuk Nama Penerima dan NIP
-                const recipientNameInput = document.createElement('input');
-                recipientNameInput.type = 'hidden';
-                recipientNameInput.name = 'recipient_name';
-                recipientNameInput.value = recipientName;
-                form.appendChild(recipientNameInput);
+                // Add input values
+                form.appendChild(createInput('recipient_name', recipientName));
+                form.appendChild(createInput('recipient_nip', recipientNip));
+                form.appendChild(createInput('first_party_name', firstPartyName));
+                form.appendChild(createInput('first_party_nip', firstPartyNip));
+                form.appendChild(createInput('first_party_position', firstPartyPosition));
 
-                const recipientNipInput = document.createElement('input');
-                recipientNipInput.type = 'hidden';
-                recipientNipInput.name = 'recipient_nip';
-                recipientNipInput.value = recipientNip;
-                form.appendChild(recipientNipInput);
-
-                // Tambahkan input untuk Penerima Pihak Pertama
-                const firstPartyNameInput = document.createElement('input');
-                firstPartyNameInput.type = 'hidden';
-                firstPartyNameInput.name = 'first_party_name';
-                firstPartyNameInput.value = firstPartyName;
-                form.appendChild(firstPartyNameInput);
-
-                const firstPartyNipInput = document.createElement('input');
-                firstPartyNipInput.type = 'hidden';
-                firstPartyNipInput.name = 'first_party_nip';
-                firstPartyNipInput.value = firstPartyNip;
-                form.appendChild(firstPartyNipInput);
-
-                const firstPartyPositionInput = document.createElement('input');
-                firstPartyPositionInput.type = 'hidden';
-                firstPartyPositionInput.name = 'first_party_position';
-                firstPartyPositionInput.value = firstPartyPosition;
-                form.appendChild(firstPartyPositionInput);
-
-                // Tambahkan transaksi terpilih
-                selectedTransaksi.forEach(transaksiId => {
-                    const transaksiInput = document.createElement('input');
-                    transaksiInput.type = 'hidden';
-                    transaksiInput.name = 'transaksi[]';
-                    transaksiInput.value = transaksiId;
-                    form.appendChild(transaksiInput);
+                // Append selected transactions
+                document.querySelectorAll('.transaksi-checkbox:checked').forEach(checkbox => {
+                    form.appendChild(createInput('transaksi[]', checkbox.value));
                 });
 
-                // Submit form
+                // Submit the form
                 document.body.appendChild(form);
                 form.submit();
+            }
 
-                // Tutup modal
-                closeRecipientModal();
+            // Utility function to create input
+            function createInput(name, value) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = name;
+                input.value = value;
+                return input;
+            
+
+            // Tutup modal
+            closeRecipientModal();
             }
         </script>
 

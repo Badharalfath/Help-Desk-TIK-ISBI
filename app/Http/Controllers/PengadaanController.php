@@ -50,51 +50,48 @@ class PengadaanController extends Controller
 
     public function generatePDF(Request $request)
     {
+        // Retrieve inputs
         $recipientName = $request->input('recipient_name');
         $recipientNIP = $request->input('recipient_nip');
-        
-        // Get the first party data
         $firstPartyName = $request->input('first_party_name');
         $firstPartyNip = $request->input('first_party_nip');
         $firstPartyPosition = $request->input('first_party_position');
-        
-        $selectedTransaksi = $request->input('transaksi', []); // Get selected transactions
+        $selectedTransaksi = $request->input('transaksi', []);
 
-        // Validate that there are selected transactions
+        // Validate selected transactions
         if (empty($selectedTransaksi)) {
             return redirect()->route('pengadaan')->withErrors(['error' => 'Silakan pilih transaksi yang ingin dimasukkan ke dalam PDF.']);
         }
 
-        // Fetch the selected transaction data with Merk
+        // Fetch selected transaction data
         $transaksiData = Transaksi::join('barang', 'transaksi.kd_barang', '=', 'barang.kd_barang')
             ->whereIn('transaksi.kd_transaksi', $selectedTransaksi)
             ->select('transaksi.kd_transaksi', 'barang.nama_barang', 'barang.merek', 'barang.jumlah', 'transaksi.keterangan')
             ->get();
 
-        // Retrieve the logo in base64 format if it exists
+        // Fetch logo
         $logoPath = public_path('storage/images/logoISBI.png');
         $logoBase64 = file_exists($logoPath) ? 'data:image/png;base64,' . base64_encode(file_get_contents($logoPath)) : null;
 
-        // Choose template based on input
-        $template = ($recipientName && $recipientNIP) ? 'management.transaksiPDF' : 'management.transaksiPDF2';
+        // Determine template based on input
+        $isInputEmpty = empty($recipientName) && empty($recipientNIP) && empty($firstPartyName) && empty($firstPartyNip) && empty($firstPartyPosition);
+        $template = $isInputEmpty ? 'management.transaksiPDF2' : 'management.transaksiPDF';
 
-        // Define the current date for the PDF
+        // Define current date
         $tanggal = now();
 
-        // Generate PDF with the selected template
+        // Generate PDF
         $pdf = Pdf::loadView($template, compact(
-            'transaksiData', 
-            'logoBase64', 
-            'recipientName', 
-            'recipientNIP', 
-            'firstPartyName', 
-            'firstPartyNip', 
-            'firstPartyPosition', 
+            'transaksiData',
+            'logoBase64',
+            'recipientName',
+            'recipientNIP',
+            'firstPartyName',
+            'firstPartyNip',
+            'firstPartyPosition',
             'tanggal'
         ))->setPaper('a4', 'portrait');
 
-        return $pdf->stream("Bukti_Serah_Terima_Aset_{$recipientName}.pdf");
+        return $pdf->stream("Bukti_Serah_Terima_Aset.pdf");
     }
-
-
 }
