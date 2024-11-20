@@ -52,6 +52,12 @@ class PengadaanController extends Controller
     {
         $recipientName = $request->input('recipient_name');
         $recipientNIP = $request->input('recipient_nip');
+        
+        // Get the first party data
+        $firstPartyName = $request->input('first_party_name');
+        $firstPartyNip = $request->input('first_party_nip');
+        $firstPartyPosition = $request->input('first_party_position');
+        
         $selectedTransaksi = $request->input('transaksi', []); // Get selected transactions
 
         // Validate that there are selected transactions
@@ -62,23 +68,33 @@ class PengadaanController extends Controller
         // Fetch the selected transaction data with Merk
         $transaksiData = Transaksi::join('barang', 'transaksi.kd_barang', '=', 'barang.kd_barang')
             ->whereIn('transaksi.kd_transaksi', $selectedTransaksi)
-            ->select('transaksi.kd_transaksi', 'barang.nama_barang', 'barang.merek', 'barang.jumlah', 'transaksi.keterangan') // Tambahkan 'barang.merk'
+            ->select('transaksi.kd_transaksi', 'barang.nama_barang', 'barang.merek', 'barang.jumlah', 'transaksi.keterangan')
             ->get();
 
         // Retrieve the logo in base64 format if it exists
         $logoPath = public_path('storage/images/logoISBI.png');
         $logoBase64 = file_exists($logoPath) ? 'data:image/png;base64,' . base64_encode(file_get_contents($logoPath)) : null;
 
-        // Pilih template berdasarkan input Nama dan NIP
+        // Choose template based on input
         $template = ($recipientName && $recipientNIP) ? 'management.transaksiPDF' : 'management.transaksiPDF2';
 
         // Define the current date for the PDF
         $tanggal = now();
 
         // Generate PDF with the selected template
-        $pdf = Pdf::loadView($template, compact('transaksiData', 'logoBase64', 'recipientName', 'recipientNIP', 'tanggal'))
-            ->setPaper('a4', 'portrait');
+        $pdf = Pdf::loadView($template, compact(
+            'transaksiData', 
+            'logoBase64', 
+            'recipientName', 
+            'recipientNIP', 
+            'firstPartyName', 
+            'firstPartyNip', 
+            'firstPartyPosition', 
+            'tanggal'
+        ))->setPaper('a4', 'portrait');
 
         return $pdf->stream("Bukti_Serah_Terima_Aset_{$recipientName}.pdf");
     }
+
+
 }

@@ -200,14 +200,15 @@
             Indonesia (ISBI)
             Bandung, kami yang bertanda tangan di bawah ini:</p>
 
-        <p>
-            <span class="tab"></span><span class="roman-label">I.</span>
-            <span class="align-label">Nama</span>: ...................................................<br>
-            <span class="tab"></span><span class="tab"></span>
-            <span class="align-label">NIP</span>: ...................................................<br>
-            <span class="tab"></span><span class="tab"></span>
-            <span class="align-label">Jabatan</span>: ...................................................
-        </p>
+            <p>
+                <span class="tab"></span><span class="roman-label">I.</span>
+                <span class="align-label">Nama</span>: {{ $firstPartyName ?? '...................................................' }}<br>
+                <span class="tab"></span><span class="tab"></span>
+                <span class="align-label">NIP</span>: {{ $firstPartyNip ?? '...................................................' }}<br>
+                <span class="tab"></span><span class="tab"></span>
+                <span class="align-label">Jabatan</span>: {{ $firstPartyPosition ?? '...................................................' }}
+            </p>
+
 
         <p class="text-center">Yang Menerima, selanjutnya disebut <span class="bold-text">Pihak Pertama</span></p>
 
@@ -261,7 +262,8 @@
         <div class="signature-field" style="text-align: right;">
             <p class="signature-line2">Pihak Pertama</p>
             <p class="signature-line2">{{ $recipientName ?? '............................................' }}</p>
-            <p class="signature-line-left">NIP: {{ $recipientNIP ?? '............................................' }}</p>
+            <p class="signature-line-left">NIP: {{ $recipientNIP ?? '............................................' }}
+            </p>
         </div>
     </div>
 

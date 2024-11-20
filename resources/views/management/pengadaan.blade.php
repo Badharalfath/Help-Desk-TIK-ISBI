@@ -105,13 +105,25 @@
                 class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center hidden">
                 <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
                     <h3 class="text-xl font-semibold mb-4">Masukkan Nama Penerima dan NIP</h3>
-
                     <!-- Input Nama Penerima -->
                     <input type="text" id="recipientName" placeholder="Nama Penerima"
                         class="w-full p-3 border border-gray-300 rounded mb-4">
 
                     <!-- Input NIP -->
                     <input type="text" id="recipientNip" placeholder="NIP Penerima"
+                        class="w-full p-3 border border-gray-300 rounded mb-4">
+
+                    <h3 class="text-lg font-semibold mb-2">Penerima Pihak Pertama</h3>
+                    <!-- Input Nama -->
+                    <input type="text" id="firstPartyName" placeholder="Nama Penerima Pihak Pertama"
+                        class="w-full p-3 border border-gray-300 rounded mb-4">
+
+                    <!-- Input NIP -->
+                    <input type="text" id="firstPartyNip" placeholder="NIP Penerima Pihak Pertama"
+                        class="w-full p-3 border border-gray-300 rounded mb-4">
+
+                    <!-- Input Jabatan -->
+                    <input type="text" id="firstPartyPosition" placeholder="Jabatan Penerima Pihak Pertama"
                         class="w-full p-3 border border-gray-300 rounded mb-4">
 
                     <div class="flex justify-end">
@@ -125,47 +137,83 @@
         </div>
 
         <script>
+            // Membuka Modal
             function openRecipientModal() {
                 document.getElementById('recipientModal').classList.remove('hidden');
             }
 
+            // Menutup Modal
             function closeRecipientModal() {
                 document.getElementById('recipientModal').classList.add('hidden');
             }
 
+            // Submit Form untuk Generate PDF
             function submitPdfForm() {
-                const recipientName = document.getElementById('recipientName').value;
-                const recipientNip = document.getElementById('recipientNip').value;
+                const recipientName = document.getElementById('recipientName').value.trim();
+                const recipientNip = document.getElementById('recipientNip').value.trim();
+                const firstPartyName = document.getElementById('firstPartyName').value.trim();
+                const firstPartyNip = document.getElementById('firstPartyNip').value.trim();
+                const firstPartyPosition = document.getElementById('firstPartyPosition').value.trim();
+
                 const selectedTransaksi = Array.from(document.querySelectorAll('.transaksi-checkbox:checked'))
                     .map(checkbox => checkbox.value);
+
+                // Validasi input
+                if (!recipientName || !recipientNip) {
+                    alert('Harap isi Nama dan NIP Penerima.');
+                    return;
+                }
 
                 if (selectedTransaksi.length === 0) {
                     alert('Silakan pilih transaksi yang ingin dimasukkan ke dalam PDF.');
                     return;
                 }
 
+                // Buat form dinamis untuk submit data
                 const form = document.createElement('form');
                 form.method = 'POST';
                 form.action = `{{ route('generate-pdf') }}`;
 
+                // Tambahkan CSRF token
                 const csrfToken = document.createElement('input');
                 csrfToken.type = 'hidden';
                 csrfToken.name = '_token';
                 csrfToken.value = `{{ csrf_token() }}`;
                 form.appendChild(csrfToken);
 
-                const recipientInput = document.createElement('input');
-                recipientInput.type = 'hidden';
-                recipientInput.name = 'recipient_name';
-                recipientInput.value = recipientName;
-                form.appendChild(recipientInput);
+                // Tambahkan input untuk Nama Penerima dan NIP
+                const recipientNameInput = document.createElement('input');
+                recipientNameInput.type = 'hidden';
+                recipientNameInput.name = 'recipient_name';
+                recipientNameInput.value = recipientName;
+                form.appendChild(recipientNameInput);
 
-                const nipInput = document.createElement('input');
-                nipInput.type = 'hidden';
-                nipInput.name = 'recipient_nip';
-                nipInput.value = recipientNip;
-                form.appendChild(nipInput);
+                const recipientNipInput = document.createElement('input');
+                recipientNipInput.type = 'hidden';
+                recipientNipInput.name = 'recipient_nip';
+                recipientNipInput.value = recipientNip;
+                form.appendChild(recipientNipInput);
 
+                // Tambahkan input untuk Penerima Pihak Pertama
+                const firstPartyNameInput = document.createElement('input');
+                firstPartyNameInput.type = 'hidden';
+                firstPartyNameInput.name = 'first_party_name';
+                firstPartyNameInput.value = firstPartyName;
+                form.appendChild(firstPartyNameInput);
+
+                const firstPartyNipInput = document.createElement('input');
+                firstPartyNipInput.type = 'hidden';
+                firstPartyNipInput.name = 'first_party_nip';
+                firstPartyNipInput.value = firstPartyNip;
+                form.appendChild(firstPartyNipInput);
+
+                const firstPartyPositionInput = document.createElement('input');
+                firstPartyPositionInput.type = 'hidden';
+                firstPartyPositionInput.name = 'first_party_position';
+                firstPartyPositionInput.value = firstPartyPosition;
+                form.appendChild(firstPartyPositionInput);
+
+                // Tambahkan transaksi terpilih
                 selectedTransaksi.forEach(transaksiId => {
                     const transaksiInput = document.createElement('input');
                     transaksiInput.type = 'hidden';
@@ -174,12 +222,15 @@
                     form.appendChild(transaksiInput);
                 });
 
+                // Submit form
                 document.body.appendChild(form);
                 form.submit();
 
+                // Tutup modal
                 closeRecipientModal();
             }
         </script>
+
     </div>
 
 @endsection
