@@ -9,8 +9,8 @@ class BarangController extends Controller
 {
     public function index()
     {
-        // Mengambil semua data barang dari database
-        $barang = Barang::all();
+        // Mengambil semua data barang beserta kategori terkait
+        $barang = Barang::with('kategori')->get();
 
         // Mengirim data barang ke view 'management.barang'
         return view('management.barang', compact('barang'));

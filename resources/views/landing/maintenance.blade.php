@@ -1,6 +1,26 @@
 @extends('layouts.homelayout')
 
 @section('content')
+    <style>
+        #detailDeskripsi {
+            max-height: 150px;
+            /* Sesuaikan tinggi maksimal */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: normal;
+            /* Membiarkan teks memanjang ke bawah */
+            word-break: break-word;
+            /* Memastikan kata terpotong jika terlalu panjang */
+        }
+
+        #detailKegiatan {
+        word-wrap: break-word;   /* Pastikan kata yang panjang akan dipotong dan pindah ke baris baru */
+        white-space: normal;     /* Izinkan teks membungkus */
+        overflow: auto;          /* Tambahkan scrollbar jika teks terlalu panjang */
+    }
+    </style>
+
+
 
     <body class="bg-[url('https://dummyimage.com/1920x1080/000/fff')] text-black font-sans">
         <main class="container mx-auto py-10">
@@ -30,7 +50,10 @@
                         <p class="mb-2"><strong>Waktu:</strong><br> <span id="detailWaktu"></span></p>
                         <p class="mb-2"><strong>Deskripsi:</strong><br> <span id="detailDeskripsi"></span></p>
                         <p class="mb-2"><strong>Kategori:</strong><br> <span id="detailKategori"></span></p>
-                        <p class="mb-2"><strong>Kegiatan:</strong><br> <span id="detailKegiatan"></span></p>
+                        <p class="mb-2"><strong>Kegiatan:</strong><br>
+                            <span id="detailKegiatan"
+                                class="overflow-hidden text-ellipsis whitespace-normal max-h-24 block"></span>
+                        </p>
                         <p class="mb-2"><strong>Jam Selesai:</strong><br> <span id="detailJamSelesai"></span></p>
                     </div>
 

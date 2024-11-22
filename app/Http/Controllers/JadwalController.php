@@ -39,12 +39,14 @@ class JadwalController extends Controller
             'jam_mulai' => 'required|date_format:H:i',
             'jam_berakhir' => 'required|date_format:H:i|after:jam_mulai',
             'kd_layanan' => 'required|exists:kategori_layanan,kd_layanan',
-            'wallmount_id' => 'nullable|exists:wallmount,id', // validasi jika kategori wallmount
-            'deskripsi' => 'required|string',
+            'wallmount_id' => 'nullable|exists:wallmount,id',
+            'deskripsi' => 'required|string|max:500', // Batas maksimal 500 karakter
             'pic' => 'required|string|max:255',
-            'foto.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5012', // Mengubah validasi menjadi array
+            'foto.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5012',
+        ], [
+            'deskripsi.max' => 'Deskripsi tidak boleh lebih dari 500 karakter.',
         ]);
-
+        
         $fotoNames = [];
         if ($request->hasFile('foto')) {
             foreach ($request->file('foto') as $foto) {
