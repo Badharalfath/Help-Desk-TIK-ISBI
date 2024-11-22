@@ -49,8 +49,9 @@
 
         <!-- Detail Modal -->
         <div id="detailModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center hidden">
-            <div class="bg-white p-5 rounded shadow-lg w-4/5 h-4/5 overflow-y-auto relative">
-                <h3 class="text-lg font-bold mb-4 mt-10">Detail Pertanyaan</h3>
+            <div class="bg-white p-10 rounded shadow-lg w-4/5 h-4/5 overflow-y-auto relative">
+                <h3 class="text-xl font-bold mb-4 mt-10">Detail Pertanyaan</h3>
+                <hr class="mb-4">
                 <div id="modalContent"></div>
                 <button class="absolute top-2 right-2 bg-red-500 hover:bg-red-700 text-white py-1 px-3 rounded"
                     onclick="closeModal()">Tutup</button>
@@ -147,17 +148,33 @@
         }
 
         function showDetails(kd_faq) {
-            fetch(`/faq/${kd_faq}`)
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('modalContent').innerHTML = `
-                        <p><strong>ID:</strong> ${data.kd_faq}</p>
-                        <p><strong>Pertanyaan:</strong> ${data.pertanyaan}</p>
-                        <p><strong>Kategori Layanan:</strong> ${data.nama_layanan}</p>
-                        <p><strong>Penyelesaian:</strong> ${data.penyelesaian}</p>`;
-                    document.getElementById('detailModal').classList.remove('hidden');
-                });
-        }
+    fetch(`/faq/${kd_faq}`)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('modalContent').innerHTML = `
+                <div class="grid grid-cols-1 gap-6">
+                    <div>
+                        <label class="block font-semibold text-gray-700 mb-1">ID:</label>
+                        <p class="bg-gray-100 p-2 rounded">${data.kd_faq}</p>
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-gray-700 mb-1">Pertanyaan:</label>
+                        <p class="bg-gray-100 p-2 rounded">${data.pertanyaan}</p>
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-gray-700 mb-1">Kategori Layanan:</label>
+                        <p class="bg-gray-100 p-2 rounded">${data.nama_layanan}</p>
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-gray-700 mb-1">Penyelesaian:</label>
+                        <p class="bg-gray-100 p-2 rounded">${data.penyelesaian}</p>
+                    </div>
+                </div>
+            `;
+            document.getElementById('detailModal').classList.remove('hidden');
+        });
+}
+
 
         function closeModal() {
             document.getElementById('detailModal').classList.add('hidden');

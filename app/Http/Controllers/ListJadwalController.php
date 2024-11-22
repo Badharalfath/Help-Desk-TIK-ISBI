@@ -17,22 +17,25 @@ class ListJadwalController extends Controller
     $status = $request->input('status');
     $search = $request->input('search');
 
-    // Start with a base query that includes the kategoriLayanan and kategoriProgres relationships
-    $jadwals = Jadwal::with('kategoriLayanan', 'kategoriProgres'); // Ensure related kategoriLayanan and kategoriProgres are loaded
+    // Update all records with null kd_progres to 'pg001'
+    Jadwal::whereNull('kd_progres')->update(['kd_progres' => 'PG001']);
 
-    // Apply filter by kategori using kd_layanan in the related kategoriLayanan model
+    // Start with a base query that includes the kategoriLayanan and kategoriProgres relationships
+    $jadwals = Jadwal::with('kategoriLayanan', 'kategoriProgres');
+
+    // Apply filter by kategori
     if ($kategori) {
         $jadwals->whereHas('kategoriLayanan', function ($query) use ($kategori) {
             $query->where('kd_layanan', $kategori);
         });
     }
 
-    // Apply filter by status using kd_progres in the related kategoriProgres model
+    // Apply filter by status
     if ($status) {
         $jadwals->where('kd_progres', $status);
     }
 
-    // Apply search filter if available
+    // Apply search filter
     if ($search) {
         $jadwals->where(function ($query) use ($search) {
             $query->where('id', 'like', '%' . $search . '%')
@@ -57,6 +60,7 @@ class ListJadwalController extends Controller
     // Pass variables to view
     return view('dash.listjadwal', compact('jadwals', 'kategoriProgres', 'kategoriLayanan'));
 }
+
     public function generateReport(Request $request)
     {
         $jadwalId = $request->input('jadwal_id');
