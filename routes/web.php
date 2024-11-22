@@ -91,17 +91,17 @@ Route::middleware(['auth.admin'])->group(function () {
     Route::get('/departemen', [DepartemenController::class, 'index'])->name('departemen');
     Route::get('/departemen/tambah', [DepartemenController::class, 'create'])->name('departemen.create');
     Route::post('/departemen/tambah', [DepartemenController::class, 'store'])->name('departemen.store');
-    Route::get('/departemen/{kode}/edit', [DepartemenController::class, 'edit'])->name('departemen.edit');
-    Route::put('/departemen/{kode}', [DepartemenController::class, 'update'])->name('departemen.update');
-    Route::delete('/departemen/{kode}', [DepartemenController::class, 'destroy'])->name('departemen.destroy');
+    Route::get('/departemen/{kd_departemen}/edit', [DepartemenController::class, 'edit'])->name('departemen.edit');
+    Route::put('/departemen/{kd_departemen}', [DepartemenController::class, 'update'])->name('departemen.update');
+    Route::delete('/departemen/{kd_departemen}', [DepartemenController::class, 'destroy'])->name('departemen.destroy');
     Route::get('/get-lokasi/{departemenId}', [PenempatanController::class, 'getLokasi']);
     Route::get('/penempatan/{kd_penempatan}', [PenempatanController::class, 'show'])->name('penempatan.show');
     Route::get('/lokasi', [LokasiController::class, 'index'])->name('lokasi');
     Route::get('/lokasi/create', [LokasiController::class, 'create'])->name('lokasi.create');
     Route::post('/lokasi', [LokasiController::class, 'store'])->name('lokasi.store');
-    Route::get('/lokasi/{kode}/edit', [LokasiController::class, 'edit'])->name('lokasi.edit');
-    Route::put('/lokasi/{kode}', [LokasiController::class, 'update'])->name('lokasi.update');
-    Route::delete('/lokasi/{kode}', [LokasiController::class, 'destroy'])->name('lokasi.destroy');
+    Route::get('/lokasi/{kd_lokasi}/edit', [LokasiController::class, 'edit'])->name('lokasi.edit');
+    Route::put('/lokasi/{kd_lokasi}', [LokasiController::class, 'update'])->name('lokasi.update');
+    Route::delete('/lokasi/{kd_lokasi}', [LokasiController::class, 'destroy'])->name('lokasi.destroy');
 
 
     // Route FAQ

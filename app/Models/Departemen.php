@@ -11,11 +11,11 @@ class Departemen extends Model
 
     protected $table = 'departemen';
 
-    protected $primaryKey = 'kode';
+    protected $primaryKey = 'kd_departemen';
 
     public $incrementing = false;
 
     protected $keyType = 'string';
 
-    protected $fillable = ['kode', 'nama_departemen', 'keterangan'];
+    protected $fillable = ['kd_departemen', 'nama_departemen', 'keterangan'];
 }

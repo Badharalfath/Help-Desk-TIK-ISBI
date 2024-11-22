@@ -2,10 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-namespace App\Http\Controllers;
-
 use App\Models\Lokasi;
 use App\Models\Departemen;
 use Illuminate\Http\Request;
@@ -32,8 +28,8 @@ class LokasiController extends Controller
     public function create()
     {
         $departemen = Departemen::all();
-        $lastLokasi = Lokasi::orderBy('kode', 'desc')->first();
-        $kodeOtomatis = $lastLokasi ? 'L' . str_pad((int) substr($lastLokasi->kode, 1) + 1, 3, '0', STR_PAD_LEFT) : 'L001';
+        $lastLokasi = Lokasi::orderBy('kd_lokasi', 'desc')->first();
+        $kodeOtomatis = $lastLokasi ? 'L' . str_pad((int) substr($lastLokasi->kd_lokasi, 1) + 1, 3, '0', STR_PAD_LEFT) : 'L001';
 
         return view('management.lokasi-tambah', compact('departemen', 'kodeOtomatis'));
     }
@@ -41,9 +37,9 @@ class LokasiController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'kode' => 'required|unique:lokasi,kode',
+            'kd_lokasi' => 'required|unique:lokasi,kd_lokasi',
             'nama_lokasi' => 'required',
-            'kode_departemen' => 'required|exists:departemen,kode',
+            'kd_departemen' => 'required|exists:departemen,kd_departemen',
         ]);
 
         Lokasi::create($request->all());
@@ -51,24 +47,30 @@ class LokasiController extends Controller
         return redirect()->route('lokasi')->with('success', 'Lokasi berhasil ditambahkan!');
     }
 
-    public function edit($kode)
+    public function edit($kd_lokasi)
     {
-        $lokasi = Lokasi::where('kode', $kode)->firstOrFail();
+        $lokasi = Lokasi::where('kd_lokasi', $kd_lokasi)->firstOrFail();
         $departemen = Departemen::all();
         return view('management.lokasi-edit', compact('lokasi', 'departemen'));
     }
 
-    public function update(Request $request, $kode)
+    public function update(Request $request, $kd_lokasi)
     {
-        $lokasi = Lokasi::where('kode', $kode)->firstOrFail();
-        $lokasi->update($request->only(['nama_lokasi', 'kode_departemen']));
+        $request->validate([
+            'nama_lokasi' => 'required',
+            'kd_departemen' => 'required|exists:departemen,kd_departemen',
+        ]);
+
+        $lokasi = Lokasi::where('kd_lokasi', $kd_lokasi)->firstOrFail();
+        $lokasi->update($request->only(['nama_lokasi', 'kd_departemen']));
 
         return redirect()->route('lokasi')->with('success', 'Lokasi berhasil diperbarui!');
     }
 
-    public function destroy($kode)
+
+    public function destroy($kd_lokasi)
     {
-        $lokasi = Lokasi::where('kode', $kode)->firstOrFail();
+        $lokasi = Lokasi::where('kd_lokasi', $kd_lokasi)->firstOrFail();
         $lokasi->delete();
         return redirect()->route('lokasi')->with('success', 'Lokasi berhasil dihapus!');
     }

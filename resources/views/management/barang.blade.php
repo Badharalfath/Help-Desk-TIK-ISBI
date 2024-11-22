@@ -1,7 +1,7 @@
 @extends('layouts.homedash')
 
 @section('content')
-    <div class="bg-gray-100 p-6 rounded-lg shadow-md max-w-[1475px] mx-auto px-8 mt-10">
+    <div class="bg-gray-100 p-6 rounded-lg shadow-md max-w-[1475px] mx-10 px-8 mt-10">
         <div class="flex justify-between items-center mb-4 ">
             <h2 class="text-left text-xl font-semibold">Daftar Barang</h2>
             <div class=" flex justify-end mb-4">

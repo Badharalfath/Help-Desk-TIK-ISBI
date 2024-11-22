@@ -10,13 +10,14 @@ class Lokasi extends Model
     use HasFactory;
 
     protected $table = 'lokasi';
-    protected $primaryKey = 'kode';
+    protected $primaryKey = 'kd_lokasi';
     public $incrementing = false; // Kode bukan integer
 
-    protected $fillable = ['kode', 'nama_lokasi', 'kode_departemen'];
+    protected $fillable = ['kd_lokasi', 'nama_lokasi', 'kd_departemen'];
 
     public function departemen()
-    {
-        return $this->belongsTo(Departemen::class, 'kode_departemen', 'kode');
-    }
+{
+    return $this->belongsTo(Departemen::class, 'kd_departemen', 'kd_departemen');
+}
+
 }

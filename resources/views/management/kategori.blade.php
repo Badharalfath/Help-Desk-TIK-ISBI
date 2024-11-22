@@ -1,11 +1,11 @@
 @extends('layouts.homedash')
 
 @section('content')
-<div class="bg-gray-100 p-6 rounded-lg shadow-md max-w-[1475px] mx-auto px-8 mt-10">
+<div class="bg-gray-100 p-6 rounded-lg shadow-md max-w-[1475px] mx-10 px-8 mt-10">
     <div class="flex justify-between items-center mb-4">
         <h2 class="text-left text-xl font-semibold">Daftar Kategori</h2>
         <!-- Search Form -->
-        <form method="GET" action="{{ route('kategori') }}" class="mb-4">
+        <form method="GET" action="{{ route('kategori') }}" class="">
             <div class="flex items-center space-x-4">
                 <input type="text" name="search" value="{{ request('search') }}"
                     placeholder="Cari berdasarkan nama kategori" class="px-4 py-2 border rounded w-full" />
@@ -16,7 +16,7 @@
             </div>
         </form>
 
-        <div class=" flex justify-end mb-4">
+        <div class=" flex justify-end">
             <a href="{{ route('kategori.create') }}"
                 class="text-gray-900 hover:text-white border border-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-900 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
                 Tambah Kategori

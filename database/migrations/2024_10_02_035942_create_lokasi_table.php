@@ -11,8 +11,8 @@ class CreateLokasiTable extends Migration
         Schema::create('lokasi', function (Blueprint $table) {
             $table->string('kode')->primary(); // Kode diawali dengan L (contoh: L001)
             $table->string('nama_lokasi');
-            $table->string('kode_departemen');
-            $table->foreign('kode_departemen')->references('kode')->on('departemen')->onDelete('cascade');
+            $table->string('kd_departemen');
+            $table->foreign('kd_departemen')->references('kode')->on('departemen')->onDelete('cascade');
             $table->timestamps();
         });
     }

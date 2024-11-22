@@ -1,24 +1,24 @@
 @extends('layouts.homedash')
 
 @section('content')
-    <div class="container mx-auto p-8">
+<div class="bg-gray-100 py-6 px-10 rounded-lg shadow-md mt-10 mx-10">
         <h2 class="text-2xl font-bold mb-4">Edit Lokasi</h2>
-        <form action="{{ route('lokasi.update', $lokasi->kode) }}" method="POST">
+        <form action="{{ route('lokasi.update', $lokasi->kd_lokasi) }}" method="POST">
             @csrf
             @method('PUT')
             <div class="mb-4">
-                <label for="kode" class="block text-gray-700">Kode</label>
-                <input type="text" id="kode" name="kode" value="{{ $lokasi->kode }}" class="border p-2 w-full" readonly>
+                <label for="kd_lokasi" class="block text-gray-700">Kode Lokasi</label>
+                <input type="text" id="kd_lokasi" name="kd_lokasi" value="{{ $lokasi->kd_lokasi }}" class="border p-2 w-full" readonly>
             </div>
             <div class="mb-4">
                 <label for="nama_lokasi" class="block text-gray-700">Nama Lokasi</label>
                 <input type="text" id="nama_lokasi" name="nama_lokasi" value="{{ $lokasi->nama_lokasi }}" class="border p-2 w-full" required>
             </div>
             <div class="mb-4">
-                <label for="kode_departemen" class="block text-gray-700">Departemen</label>
-                <select id="kode_departemen" name="kode_departemen" class="border p-2 w-full" required>
+                <label for="kd_departemen" class="block text-gray-700">Departemen</label>
+                <select id="kd_departemen" name="kd_departemen" class="border p-2 w-full" required>
                     @foreach ($departemen as $d)
-                        <option value="{{ $d->kode }}" {{ $lokasi->kode_departemen == $d->kode ? 'selected' : '' }}>
+                        <option value="{{ $d->kd_departemen }}" {{ $lokasi->kd_departemen == $d->kd_departemen ? 'selected' : '' }}>
                             {{ $d->nama_departemen }}
                         </option>
                     @endforeach

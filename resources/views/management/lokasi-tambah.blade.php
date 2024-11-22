@@ -10,8 +10,8 @@
 
             <!-- Kode Lokasi (Otomatis) -->
             <div class="mb-4">
-                <label for="kode" class="block text-sm font-medium text-gray-700">Kode Lokasi</label>
-                <input type="text" id="kode" name="kode" value="{{ $kodeOtomatis }}"
+                <label for="kd_lokasi" class="block text-sm font-medium text-gray-700">Kode Lokasi</label>
+                <input type="text" id="kd_lokasi" name="kd_lokasi" value="{{ $kodeOtomatis }}"
                     class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" readonly>
             </div>
 
@@ -29,7 +29,7 @@
                     class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
                     <option value="">-- Pilih Departemen --</option>
                     @foreach ($departemen as $dept)
-                        <option value="{{ $dept->kode }}">{{ $dept->nama_departemen }}</option>
+                        <option value="{{ $dept->kd_departemen }}">{{ $dept->nama_departemen }}</option>
                     @endforeach
                 </select>
             </div>

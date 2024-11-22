@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="bg-gray-100 p-6 rounded-lg shadow-md max-w-[1475px] mx-auto px-8 mt-10">
+    <div class="bg-gray-100 p-6 rounded-lg shadow-md max-w-[1475px] mx-10 px-8 mt-10">
         <div class="flex justify-between items-center mb-4 ">
             <h2 class="text-left text-xl font-semibold">Data Transaksi</h2>
             <!-- Trigger the modal -->
@@ -179,13 +179,13 @@
         <p><strong>Keterangan:</strong> ${item.keterangan || 'Tidak tersedia'}</p>
         <p><strong>Nama Barang:</strong> ${item.nama_barang || 'Tidak tersedia'}</p>
         ${
-            item.nota 
+            item.nota
             ? `
                                                                 <p><strong>Nota:</strong></p>
                                                                 <div class="flex justify-center">
                                                                     <img src="/storage/fotos/${item.nota}" alt="Nota Transaksi" class="max-w-full max-h-64 object-contain">
                                                                 </div>
-                                                            ` 
+                                                            `
             : '<p><strong>Nota:</strong> Tidak ada nota</p>'
         }
     `;
@@ -243,7 +243,7 @@
                 input.name = name;
                 input.value = value;
                 return input;
-            
+
 
             // Tutup modal
             closeRecipientModal();

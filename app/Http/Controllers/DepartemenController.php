@@ -11,7 +11,7 @@ class DepartemenController extends Controller
     {
         $search = $request->input('search');
 
-        // Jika ada pencarian
+        // Filter berdasarkan pencarian jika ada
         if ($search) {
             $departemen = Departemen::where('nama_departemen', 'LIKE', "%$search%")->get();
         } else {
@@ -23,11 +23,11 @@ class DepartemenController extends Controller
 
     public function create()
     {
-        $lastDepartemen = Departemen::orderBy('kode', 'desc')->first();
+        $lastDepartemen = Departemen::orderBy('kd_departemen', 'desc')->first();
         if (!$lastDepartemen) {
             $kodeOtomatis = 'D001';
         } else {
-            $lastKode = (int) substr($lastDepartemen->kode, 1);
+            $lastKode = (int) substr($lastDepartemen->kd_departemen, 1);
             $kodeOtomatis = 'D' . str_pad($lastKode + 1, 3, '0', STR_PAD_LEFT);
         }
 
@@ -37,12 +37,13 @@ class DepartemenController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'kd_departemen' => 'required|unique:departemen,kd_departemen',
             'nama_departemen' => 'required',
             'keterangan' => 'nullable',
         ]);
 
         $departemen = new Departemen();
-        $departemen->kode = $request->input('kode');
+        $departemen->kd_departemen = $request->input('kd_departemen');
         $departemen->nama_departemen = $request->input('nama_departemen');
         $departemen->keterangan = $request->input('keterangan');
         $departemen->save();
@@ -50,24 +51,30 @@ class DepartemenController extends Controller
         return redirect()->route('departemen')->with('success', 'Departemen berhasil ditambahkan!');
     }
 
-    public function edit($kode)
+    public function edit($kd_departemen)
     {
-        $departemen = Departemen::where('kode', $kode)->firstOrFail();
+        $departemen = Departemen::where('kd_departemen', $kd_departemen)->firstOrFail();
         return view('management.departemen-edit', compact('departemen'));
     }
 
-    public function update(Request $request, $kode)
+    public function update(Request $request, $kd_departemen)
     {
-        $departemen = Departemen::where('kode', $kode)->firstOrFail();
+        $request->validate([
+            'nama_departemen' => 'required',
+            'keterangan' => 'nullable',
+        ]);
+
+        $departemen = Departemen::where('kd_departemen', $kd_departemen)->firstOrFail();
         $departemen->update($request->only(['nama_departemen', 'keterangan']));
+
         return redirect()->route('departemen')->with('success', 'Departemen berhasil diperbarui!');
     }
 
-    public function destroy($kode)
+    public function destroy($kd_departemen)
     {
-        $departemen = Departemen::where('kode', $kode)->firstOrFail();
+        $departemen = Departemen::where('kd_departemen', $kd_departemen)->firstOrFail();
         $departemen->delete();
+
         return redirect()->route('departemen')->with('success', 'Departemen berhasil dihapus!');
     }
-
 }
