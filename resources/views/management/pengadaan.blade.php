@@ -45,6 +45,10 @@
             <table class="min-w-full bg-white border border-gray-300">
                 <thead>
                     <tr>
+                        <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 font-medium text-gray-600 uppercase">
+                            <input type="checkbox" id="select-all" onclick="toggleSelectAll(this)" />
+                        </th>
+
                         <th
                             class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 font-medium text-gray-600 uppercase">
                             Kode Transaksi</th>
@@ -69,9 +73,9 @@
                     @foreach ($transaksi as $item)
                         <tr>
                             <td class="px-6 py-4 border-b border-gray-300 text-sm">
-                                <input type="checkbox" name="transaksi[]" value="{{ $item->kd_transaksi }}"
-                                    class="transaksi-checkbox">
+                                <input type="checkbox" name="transaksi[]" value="{{ $item->kd_transaksi }}" class="transaksi-checkbox" />
                             </td>
+
                             <td class="px-6 py-4 border-b border-gray-300 text-sm">{{ $item->kd_transaksi }}</td>
                             <td class="px-6 py-4 border-b border-gray-300 text-sm">{{ $item->tgl_transaksi }}</td>
                             <td class="px-6 py-4 border-b border-gray-300 text-sm">{{ $item->keterangan }}</td>
@@ -161,6 +165,13 @@
         </style>
 
         <script>
+            function toggleSelectAll(selectAllCheckbox) {
+    const checkboxes = document.querySelectorAll('.transaksi-checkbox');
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = selectAllCheckbox.checked;
+    });
+}
+
             function openRecipientModal() {
                 document.getElementById('recipientModal').classList.remove('hidden');
             }
