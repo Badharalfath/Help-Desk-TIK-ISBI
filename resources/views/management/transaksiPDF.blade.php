@@ -202,9 +202,9 @@
 
             <p>
                 <span class="tab"></span><span class="roman-label">I.</span>
-                <span class="align-label">Nama</span>: {{ $firstPartyName ?? '...................................................' }}<br>
+                <span class="align-label">Nama</span>: {{ $recipientName ?? '...................................................' }}<br>
                 <span class="tab"></span><span class="tab"></span>
-                <span class="align-label">NIP</span>: {{ $firstPartyNip ?? '...................................................' }}<br>
+                <span class="align-label">NIP</span>: {{ $recipientNIP ?? '...................................................' }}<br>
                 <span class="tab"></span><span class="tab"></span>
                 <span class="align-label">Jabatan</span>: {{ $firstPartyPosition ?? '...................................................' }}
             </p>

@@ -11,7 +11,7 @@ class FAQController extends Controller
     {
         $search = $request->input('search');
 
-        // Ambil data FAQ dengan kategori layanan yang bukan 'Wallmount', dan filter berdasarkan search query jika ada
+        // Ambil FAQ sesuai pencarian (jika ada) dan exclude kategori 'Wallmount'
         $faqsByCategory = Faq::with('kategoriLayanan')
             ->whereHas('kategoriLayanan', function ($query) {
                 $query->where('nama_layanan', '!=', 'Wallmount');
@@ -21,11 +21,10 @@ class FAQController extends Controller
             })
             ->get()
             ->groupBy('kd_layanan');
-    
+
         return view('landing.faq', [
             'faqsByCategory' => $faqsByCategory,
+            'search' => $search,
         ]);
     }
-    
-    
 }

@@ -53,8 +53,6 @@ class PengadaanController extends Controller
         // Retrieve inputs
         $recipientName = $request->input('recipient_name');
         $recipientNIP = $request->input('recipient_nip');
-        $firstPartyName = $request->input('first_party_name');
-        $firstPartyNip = $request->input('first_party_nip');
         $firstPartyPosition = $request->input('first_party_position');
         $selectedTransaksi = $request->input('transaksi', []);
 
@@ -74,7 +72,7 @@ class PengadaanController extends Controller
         $logoBase64 = file_exists($logoPath) ? 'data:image/png;base64,' . base64_encode(file_get_contents($logoPath)) : null;
 
         // Determine template based on input
-        $isInputEmpty = empty($recipientName) && empty($recipientNIP) && empty($firstPartyName) && empty($firstPartyNip) && empty($firstPartyPosition);
+        $isInputEmpty = empty($recipientName) && empty($recipientNIP) && empty($firstPartyPosition);
         $template = $isInputEmpty ? 'management.transaksiPDF2' : 'management.transaksiPDF';
 
         // Define current date
@@ -86,8 +84,6 @@ class PengadaanController extends Controller
             'logoBase64',
             'recipientName',
             'recipientNIP',
-            'firstPartyName',
-            'firstPartyNip',
             'firstPartyPosition',
             'tanggal'
         ))->setPaper('a4', 'portrait');

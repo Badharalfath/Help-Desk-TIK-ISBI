@@ -9,9 +9,19 @@
 
         <section class="container mx-auto max-w-4xl px-6 py-8">
             <!-- Search form -->
-            <form action="{{ route('faq.index') }}" method="GET" class="mb-8" onsubmit="scrollToFaq(); return false;">
+            <form action="#" method="GET" class="mb-4" onsubmit="scrollToFaq(); return false;">
                 <input type="text" name="search" id="searchInput" value="{{ request('search') }}"
-                    placeholder="Cari pertanyaan..." class="w-full p-3 border border-gray-300 rounded" />
+                    placeholder="Cari pertanyaan..." class="w-full p-3 border border-gray-300 rounded mb-2" />
+                <div class="flex justify-end">
+                    <button type="submit"
+                        class="mr-2 px-4 py-2 bg-blue-500 text-white font-medium rounded hover:bg-blue-600">
+                        Search
+                    </button>
+                    <button type="button" onclick="clearSearch()"
+                        class="px-4 py-2 bg-gray-300 text-gray-700 font-medium rounded hover:bg-gray-400">
+                        Clear
+                    </button>
+                </div>
             </form>
 
             <div id="faqContainer">
@@ -20,17 +30,17 @@
                         $namaLayanan = $faqs->first()->kategoriLayanan->nama_layanan;
                     @endphp
 
-                    <div class="divide-y divide-gray-200 mt-[80px]">
-                        <h1 id="{{ Str::slug($namaLayanan) }}" class="text-center font-bold text-3xl mb-[30px]">
+                    <div class="faq-category" id="category-{{ Str::slug($namaLayanan) }}">
+                        <h1 class="text-center font-bold text-3xl mb-[30px]">
                             {{ $namaLayanan }}
                         </h1>
 
                         @foreach ($faqs as $faq)
                             @php
-                                // Create a unique ID for each FAQ item based on the loop index, category, and faq ID
-                                $uniqueId = Str::slug($namaLayanan) . '-' . $category . '-' . $faq->id . '-' . $loop->index;
+                                $uniqueId =
+                                    Str::slug($namaLayanan) . '-' . $category . '-' . $faq->id . '-' . $loop->index;
                             @endphp
-                            <div class="py-4" id="faq-{{ $uniqueId }}">
+                            <div class="faq-item py-4" id="faq-{{ $uniqueId }}">
                                 <button type="button"
                                     class="flex justify-between w-full text-left text-gray-800 font-medium text-lg py-4"
                                     onclick="toggleFaq('{{ $uniqueId }}')">
@@ -64,59 +74,48 @@
 
         <script>
             function toggleFaq(faqId) {
-                // Select answer and icon elements for the clicked FAQ
                 const answer = document.getElementById("answer-" + faqId);
                 const icon = document.getElementById(faqId + '-icon');
 
-                // Close other FAQ answers
-                document.querySelectorAll("[id^='answer-']").forEach(ans => {
-                    if (ans !== answer) {
-                        ans.classList.add('hidden');
-                    }
-                });
-
-                document.querySelectorAll("svg[id$='-icon']").forEach(icn => {
-                    if (icn !== icon) {
-                        icn.classList.remove('rotate-180');
-                    }
-                });
-
-                // Toggle the selected FAQ's answer and rotate the icon
                 answer.classList.toggle('hidden');
                 icon.classList.toggle('rotate-180');
             }
 
             function scrollToFaq() {
                 const searchQuery = document.getElementById("searchInput").value.toLowerCase();
-                const faqItems = document.querySelectorAll("#faqContainer div[id^='faq-']");
+                const categories = document.querySelectorAll(".faq-category");
                 let firstMatch = null;
 
-                // Close all FAQ items
-                faqItems.forEach(faq => {
-                    const answer = faq.querySelector("[id^='answer-']");
-                    const icon = faq.querySelector("svg[id$='-icon']");
-                    answer.classList.add('hidden');
-                    icon.classList.remove('rotate-180');
-                });
+                categories.forEach(category => {
+                    const faqs = category.querySelectorAll(".faq-item");
+                    let hasVisibleFaq = false;
 
-                // Open and highlight matching FAQ items
-                faqItems.forEach(faq => {
-                    const questionText = faq.querySelector("span").textContent.toLowerCase();
-
-                    if (questionText.includes(searchQuery)) {
+                    faqs.forEach(faq => {
+                        const questionText = faq.querySelector("span").textContent.toLowerCase();
                         const answer = faq.querySelector("[id^='answer-']");
                         const icon = faq.querySelector("svg[id$='-icon']");
 
-                        answer.classList.remove('hidden'); // Open FAQ
-                        icon.classList.add('rotate-180'); // Rotate icon
+                        if (questionText.includes(searchQuery)) {
+                            faq.classList.remove('hidden');
+                            answer.classList.add('hidden'); // Ensure answer remains hidden
+                            icon.classList.remove('rotate-180'); // Ensure dropdown is closed
+                            hasVisibleFaq = true;
 
-                        if (!firstMatch) {
-                            firstMatch = faq; // Save first matching FAQ for scrolling
+                            if (!firstMatch) {
+                                firstMatch = faq;
+                            }
+                        } else {
+                            faq.classList.add('hidden');
                         }
+                    });
+
+                    if (hasVisibleFaq) {
+                        category.style.display = "block";
+                    } else {
+                        category.style.display = "none";
                     }
                 });
 
-                // Scroll to the first matching FAQ
                 if (firstMatch) {
                     firstMatch.scrollIntoView({
                         behavior: "smooth",
@@ -124,7 +123,23 @@
                     });
                 }
             }
-        </script>
 
+            function clearSearch() {
+                document.getElementById("searchInput").value = "";
+
+                const categories = document.querySelectorAll(".faq-category");
+                categories.forEach(category => {
+                    category.style.display = "block";
+                    const faqs = category.querySelectorAll(".faq-item");
+                    faqs.forEach(faq => {
+                        faq.classList.remove("hidden");
+                        const answer = faq.querySelector("[id^='answer-']");
+                        const icon = faq.querySelector("svg[id$='-icon']");
+                        answer.classList.add("hidden");
+                        icon.classList.remove("rotate-180");
+                    });
+                });
+            }
+        </script>
     </div>
 @endsection

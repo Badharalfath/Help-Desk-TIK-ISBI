@@ -117,15 +117,6 @@
                     <input type="text" id="recipientNip" placeholder="NIP Penerima"
                         class="w-full p-3 border border-gray-300 rounded mb-4">
 
-                    <h3 class="text-lg font-semibold mb-2">Penerima Pihak Pertama</h3>
-                    <!-- Input Nama -->
-                    <input type="text" id="firstPartyName" placeholder="Nama Penerima Pihak Pertama"
-                        class="w-full p-3 border border-gray-300 rounded mb-4">
-
-                    <!-- Input NIP -->
-                    <input type="text" id="firstPartyNip" placeholder="NIP Penerima Pihak Pertama"
-                        class="w-full p-3 border border-gray-300 rounded mb-4">
-
                     <!-- Input Jabatan -->
                     <input type="text" id="firstPartyPosition" placeholder="Jabatan Penerima Pihak Pertama"
                         class="w-full p-3 border border-gray-300 rounded mb-4">
@@ -214,8 +205,6 @@
             function submitPdfForm() {
                 const recipientName = document.getElementById('recipientName').value;
                 const recipientNip = document.getElementById('recipientNip').value;
-                const firstPartyName = document.getElementById('firstPartyName').value;
-                const firstPartyNip = document.getElementById('firstPartyNip').value;
                 const firstPartyPosition = document.getElementById('firstPartyPosition').value;
 
                 // Create a form dynamically
@@ -233,8 +222,6 @@
                 // Add input values
                 form.appendChild(createInput('recipient_name', recipientName));
                 form.appendChild(createInput('recipient_nip', recipientNip));
-                form.appendChild(createInput('first_party_name', firstPartyName));
-                form.appendChild(createInput('first_party_nip', firstPartyNip));
                 form.appendChild(createInput('first_party_position', firstPartyPosition));
 
                 // Append selected transactions
