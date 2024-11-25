@@ -17,66 +17,60 @@
         @endif
 
         <!-- penempatan-tambah.blade.php -->
-        <form method="POST" action="{{ route('penempatan.store') }}" enctype="multipart/form-data"class="max-w-lg mx-auto p-4">
+        <form method="POST" action="{{ route('penempatan.store') }}"
+            enctype="multipart/form-data"class="max-w-lg mx-auto p-4">
             @csrf
 
             <!-- No. Penempatan (Otomatis) -->
-            <div class="mb-4">
-                <label for="kd_penempatan" class="block text-sm font-medium text-gray-700">No. Penggunaan</label>
-                <input type="text" id="kd_penempatan" name="kd_penempatan" value="{{ $newKdPenempatan }}"
-                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" readonly>
-            </div>
+            <input type="hidden" id="kd_penempatan" name="kd_penempatan" value="{{ $newKdPenempatan }}">
 
-            <div class="mb-4">
-                <label for="kd_barang" class="block text-sm font-medium text-gray-700">Kode Barang</label>
-                <select id="kd_barang" name="kd_barang"
-                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
-                    <option value="">-- Pilih Kode Barang --</option>
-                    @foreach ($barang as $brg)
-                        <option value="{{ $brg->kd_barang }}">{{ $brg->kd_barang }}</option>
-                    @endforeach
-                </select>
-            </div>
-
+            <!-- Nama Barang -->
             <div class="mb-4">
                 <label for="nama_barang" class="block text-sm font-medium text-gray-700">Nama Barang</label>
-                <select id="nama_barang" name="nama_barang"
+                <input type="text" id="nama_barang" name="nama_barang" list="nama_barang_list"
                     class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
-                    <option value="">-- Pilih Nama Barang --</option>
+                <datalist id="nama_barang_list">
                     @foreach ($barang as $brg)
-                        <option value="{{ $brg->nama_barang }}">{{ $brg->nama_barang }}</option>
+                        <option value="{{ $brg->nama_barang }}" data-kd-barang="{{ $brg->kd_barang }}">
+                            {{ $brg->nama_barang }}
+                        </option>
                     @endforeach
-                </select>
+                </datalist>
             </div>
+
+            <!-- Kode Barang (Hidden) -->
+            <input type="hidden" id="kd_barang" name="kd_barang">
 
             <!-- Jumlah Barang -->
             <div class="mb-4">
                 <label for="jumlah" class="block text-sm font-medium text-gray-700">Jumlah Barang</label>
-                <input type="number" id="jumlah" name="jumlah" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" min="1" required>
+                <input type="number" id="jumlah" name="jumlah"
+                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" min="1" required>
                 <small id="stock-info" class="text-red-500"></small>
             </div>
 
+            <!-- Departemen -->
             <div class="mb-4">
                 <label for="departemen" class="block text-sm font-medium text-gray-700">Departemen</label>
-                <select id="departemen" name="departemen"
+                <select id="departemen" name="kd_departemen" {{-- Pastikan name sesuai --}}
                     class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
                     <option value="">-- Pilih Departemen --</option>
                     @foreach ($departemen as $dept)
-                        <option value="{{ $dept->kode }}">{{ $dept->nama_departemen }}</option>
+                        <option value="{{ $dept->kd_departemen }}">{{ $dept->nama_departemen }}</option>
                     @endforeach
                 </select>
             </div>
 
+            <!-- Lokasi -->
             <div class="mb-4">
                 <label for="lokasi" class="block text-sm font-medium text-gray-700">Lokasi</label>
-                <select id="lokasi" name="lokasi"
+                <select id="lokasi" name="kd_lokasi" {{-- Pastikan name sesuai --}}
                     class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
                     <option value="">-- Pilih Lokasi --</option>
-                    @foreach ($lokasi as $loc)
-                        <option value="{{ $loc->kode }}">{{ $loc->nama_lokasi }}</option>
-                    @endforeach
+                    {{-- Lokasi akan dimuat berdasarkan departemen yang dipilih --}}
                 </select>
             </div>
+
 
             <!-- Tanggal Penempatan -->
             <div class="mb-4">
@@ -105,86 +99,65 @@
             </div>
         </form>
 
-        <!-- AJAX untuk Memuat Lokasi Berdasarkan Departemen -->
         <script>
-            document.getElementById('departemen').addEventListener('change', function() {
-                let departemenId = this.value;
-                let lokasiDropdown = document.getElementById('lokasi');
-
-                // Kosongkan dropdown lokasi sebelum mengisi
-                lokasiDropdown.innerHTML = '<option value="">Pilih Lokasi</option>';
-
-                // Jika ada departemen yang dipilih
-                if (departemenId) {
-                    fetch(`/get-lokasi/${departemenId}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            data.forEach(function(lokasi) {
-                                lokasiDropdown.innerHTML +=
-                                    `<option value="${lokasi.kode}">${lokasi.nama_lokasi}</option>`;
-                            });
-                        });
-                }
+            $(document).ready(function() {
+                // Inisialisasi Select2 untuk dropdown
+                $('.searchable-dropdown').select2({
+                    placeholder: "Pilih atau cari",
+                    allowClear: true
+                });
             });
 
-            document.addEventListener('DOMContentLoaded', function () {
-        const barangData = @json($barang); // Load barang data from the server
+            document.addEventListener('DOMContentLoaded', function() {
+                const departemenDropdown = document.getElementById('departemen');
+                const lokasiDropdown = document.getElementById('lokasi');
+                const namaBarangInput = document.getElementById('nama_barang');
+                const kodeBarangInput = document.getElementById('kd_barang');
+                const namaBarangList = document.querySelectorAll('#nama_barang_list option');
 
-        const kodeBarangDropdown = document.getElementById('kd_barang');
-        const namaBarangDropdown = document.getElementById('nama_barang');
-        const jumlahInput = document.getElementById('jumlah');
-        const stockInfo = document.getElementById('stock-info');
+                namaBarangInput.addEventListener('input', function() {
+                    const inputValue = this.value;
+                    let matchedKodeBarang = '';
 
-        // Function to update the stock info and set max quantity
-        function updateStockInfo() {
-            const selectedOption = kodeBarangDropdown.options[kodeBarangDropdown.selectedIndex];
-            const stock = selectedOption.getAttribute('data-stock');
-            if (stock) {
-                stockInfo.textContent = `Stok Tersedia: ${stock}`;
-                jumlahInput.max = stock;
-            } else {
-                stockInfo.textContent = '';
-                jumlahInput.max = '';
-            }
-        }
+                    // Cari kode barang yang sesuai dengan nama barang
+                    namaBarangList.forEach(option => {
+                        if (option.value === inputValue) {
+                            matchedKodeBarang = option.getAttribute('data-kd-barang');
+                        }
+                    });
 
-        // Event listener for when "Kode Barang" is selected
-        kodeBarangDropdown.addEventListener('change', function () {
-            const selectedKode = kodeBarangDropdown.value;
+                    // Isi field hidden kd_barang
+                    kodeBarangInput.value = matchedKodeBarang;
 
-            if (selectedKode) {
-                const barang = barangData.find(item => item.kd_barang === selectedKode);
-                if (barang) {
-                    // Automatically select the corresponding "Nama Barang"
-                    namaBarangDropdown.value = barang.nama_barang;
-                    updateStockInfo(); // Update stock info based on the selected kode barang
-                }
-            } else {
-                namaBarangDropdown.value = ''; // Clear the "Nama Barang" field if no kode selected
-                stockInfo.textContent = '';
-            }
-        });
+                    // Debugging
+                    console.log('Nama Barang:', inputValue, 'Kode Barang:', matchedKodeBarang);
+                });
 
-        // Event listener for when "Nama Barang" is selected
-        namaBarangDropdown.addEventListener('change', function () {
-            const selectedNama = namaBarangDropdown.value;
+                departemenDropdown.addEventListener('change', function() {
+                    const departemenId = this.value;
 
-            if (selectedNama) {
-                const barang = barangData.find(item => item.nama_barang === selectedNama);
-                if (barang) {
-                    // Automatically select the corresponding "Kode Barang"
-                    kodeBarangDropdown.value = barang.kd_barang;
-                    updateStockInfo(); // Update stock info based on the selected nama barang
-                }
-            } else {
-                kodeBarangDropdown.value = ''; // Clear the "Kode Barang" field if no nama selected
-                stockInfo.textContent = '';
-            }
-        });
+                    lokasiDropdown.innerHTML = '<option value="">-- Pilih Lokasi --</option>'; // Reset dropdown
 
-        // Initialize stock info if a "Kode Barang" is pre-selected (e.g., on form reload)
-        updateStockInfo();
-    });
+                    if (departemenId) {
+                        fetch(`/get-lokasi/${departemenId}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.error) {
+                                    alert(data.error);
+                                    return;
+                                }
+                                data.forEach(function(lokasi) {
+                                    lokasiDropdown.innerHTML +=
+                                        `<option value="${lokasi.kd_lokasi}">${lokasi.nama_lokasi}</option>`;
+                                });
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                alert('Gagal memuat lokasi.');
+                            });
+                    }
+                });
+            });
         </script>
 
 
