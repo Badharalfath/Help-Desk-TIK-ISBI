@@ -22,9 +22,13 @@ class FAQController extends Controller
             ->get()
             ->groupBy('kd_layanan');
 
+        // Tambahkan logika untuk mengecek apakah hasil pencarian kosong
+        $isEmpty = $faqsByCategory->isEmpty();
+
         return view('landing.faq', [
             'faqsByCategory' => $faqsByCategory,
             'search' => $search,
+            'isEmpty' => $isEmpty, // Kirim data ke view
         ]);
     }
 }
