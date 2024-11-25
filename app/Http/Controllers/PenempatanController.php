@@ -11,17 +11,20 @@ use Barryvdh\DomPDF\Facade\Pdf;
 class PenempatanController extends Controller
 {
     public function index(Request $request)
-    {
-        $search = $request->input('search');
+{
+    $search = $request->input('search');
 
-        // Menggunakan query builder dengan paginate(10)
-        $penempatan = Penempatan::when($search, function ($query, $search) {
+    // Menggunakan query builder dengan paginate(10) dan mengurutkan data dari yang terbaru
+    $penempatan = Penempatan::when($search, function ($query, $search) {
             return $query->where('kd_barang', 'like', '%' . $search . '%')
                 ->orWhere('nama_barang', 'like', '%' . $search . '%');
-        })->paginate(10); // Pagination dengan 10 item per halaman
+        })
+        ->orderBy('tgl_penempatan', 'desc') // Urutkan berdasarkan tanggal penggunaan (atau kolom lain jika diperlukan)
+        ->paginate(10); // Pagination dengan 10 item per halaman
 
-        return view('management.penempatan', compact('penempatan'));
-    }
+    return view('management.penempatan', compact('penempatan'));
+}
+
 
     public function create()
     {
@@ -43,79 +46,108 @@ class PenempatanController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'kd_penempatan' => 'required',
-            'tgl_penempatan' => 'required|date',
-            'kd_barang' => 'required',
-            'jumlah' => 'required|integer|min:1',
-            'keterangan' => 'required',
-            'foto.*' => 'nullable|image|max:5012', // Validasi multiple foto
-        ]);
+{
+    // Validasi input
+    $request->validate([
+        'kd_penempatan' => 'required',
+        'tgl_penempatan' => 'required|date',
+        'kd_barang' => 'required',
+        'nama_barang' => 'required|string|max:255',
+        'jumlah' => 'required|integer|min:1',
+        'keterangan' => 'required',
+        'kd_departemen' => 'required', // Tambahkan validasi untuk departemen
+        'kd_lokasi' => 'required', // Tambahkan validasi untuk lokasi
+        'foto.*' => 'nullable|image|max:5012',
+    ]);
 
-        $barang = Barang::where('kd_barang', $request->kd_barang)->first();
+    // Ambil data barang berdasarkan kode barang
+    $barang = Barang::where('kd_barang', $request->kd_barang)->first();
 
-        if ($barang->jumlah < $request->jumlah) {
-            return redirect()->back()->withErrors(['error' => 'Jumlah barang tidak mencukupi.']);
-        }
-
-        // Kurangi stok barang
-        $barang->jumlah -= $request->jumlah;
-        $barang->save();
-
-        // Handle multiple foto upload
-        $fotoNames = [];
-        if ($request->hasFile('foto')) {
-            foreach ($request->file('foto') as $foto) {
-                $originalFilename = $foto->getClientOriginalName();
-                $newFilename = rand(1000000000, 9999999999) . '_' . $originalFilename;
-
-                // Simpan file dengan nama baru di folder 'storage/app/public/penempatan'
-                $foto->storeAs('public/fotos', $newFilename);
-
-                // Tambahkan nama file ke array
-                $fotoNames[] = $newFilename;
-            }
-        }
-
-        // Gabungkan nama-nama file yang di-upload menjadi satu string dipisahkan dengan koma
-        $fotoNamesString = count($fotoNames) > 0 ? implode(',', $fotoNames) : null; // Tetapkan null jika tidak ada foto
-
-        // Simpan data penempatan
-        Penempatan::create([
-            'kd_penempatan' => $request->kd_penempatan,
-            'tgl_penempatan' => $request->tgl_penempatan,
-            'kd_barang' => $request->kd_barang,
-            'nama_barang' => $barang->nama_barang,
-            'jumlah' => $request->jumlah,
-            'keterangan' => $request->keterangan,
-            'foto_penempatan' => $fotoNamesString, // Simpan string nama file atau null
-        ]);
-
-        return redirect()->route('penempatan')->with('success', 'Penempatan berhasil ditambahkan.');
+    if (!$barang) {
+        return redirect()->back()->withErrors(['error' => 'Barang tidak ditemukan.']);
     }
+
+    if ($barang->jumlah < $request->jumlah) {
+        return redirect()->back()->withErrors(['error' => 'Jumlah barang tidak mencukupi.']);
+    }
+
+    // Kurangi stok barang
+    $barang->jumlah -= $request->jumlah;
+    $barang->save();
+
+    // Handle multiple foto upload
+    $fotoNames = [];
+    if ($request->hasFile('foto')) {
+        foreach ($request->file('foto') as $foto) {
+            $originalFilename = $foto->getClientOriginalName();
+            $newFilename = rand(1000000000, 9999999999) . '_' . $originalFilename;
+
+            // Simpan file dengan nama baru di folder 'storage/app/public/penempatan'
+            $foto->storeAs('public/fotos', $newFilename);
+
+            // Tambahkan nama file ke array
+            $fotoNames[] = $newFilename;
+        }
+    }
+
+    // Gabungkan nama-nama file yang di-upload menjadi satu string dipisahkan dengan koma
+    $fotoNamesString = count($fotoNames) > 0 ? implode(',', $fotoNames) : null;
+
+    // Simpan data penempatan ke database
+    Penempatan::create([
+        'kd_penempatan' => $request->kd_penempatan,
+        'tgl_penempatan' => $request->tgl_penempatan,
+        'kd_barang' => $request->kd_barang,
+        'nama_barang' => $request->nama_barang,
+        'jumlah' => $request->jumlah,
+        'keterangan' => $request->keterangan,
+        'kd_departemen' => $request->kd_departemen, // Simpan kode departemen
+        'kd_lokasi' => $request->kd_lokasi, // Simpan kode lokasi
+        'foto_penempatan' => $fotoNamesString,
+    ]);
+
+    return redirect()->route('penempatan')->with('success', 'Penempatan berhasil ditambahkan.');
+}
 
 
 
 
     public function getLokasi($departemenId)
-    {
-        $lokasi = Lokasi::where('kode_departemen', $departemenId)->get();
-        return response()->json($lokasi);
+{
+    // Check if the department exists
+    if (!Departemen::where('kd_departemen', $departemenId)->exists()) {
+        return response()->json(['error' => 'Departemen tidak valid atau tidak ditemukan.'], 400);
     }
 
-    public function edit($kd_penempatan)
-    {
-        $penempatan = Penempatan::where('kd_penempatan', $kd_penempatan)->first();
+    // Fetch locations associated with the department
+    $lokasi = Lokasi::where('kd_departemen', $departemenId)->get(['kd_lokasi', 'nama_lokasi']);
 
-        if (!$penempatan) {
-            return redirect()->route('penempatan')->with('error', 'Penempatan tidak ditemukan.');
-        }
-
-        $barang = Barang::all();
-
-        return view('management.penempatan-edit', compact('penempatan', 'barang'));
+    if ($lokasi->isEmpty()) {
+        return response()->json(['error' => 'Lokasi tidak ditemukan untuk departemen ini.'], 404);
     }
+
+    return response()->json($lokasi);
+}
+
+
+public function edit($kd_penempatan)
+{
+    // Mengambil data penempatan dengan relasi departemen dan lokasi
+    $penempatan = Penempatan::with(['departemen', 'lokasi'])
+        ->where('kd_penempatan', $kd_penempatan)
+        ->first();
+
+    if (!$penempatan) {
+        return redirect()->route('penempatan')->with('error', 'Penempatan tidak ditemukan.');
+    }
+
+    $barang = Barang::all(); // Ambil data barang
+    $departemen = Departemen::all(); // Ambil semua departemen
+    $lokasi = Lokasi::where('kd_departemen', $penempatan->kd_departemen)->get(); // Ambil lokasi berdasarkan departemen
+
+    return view('management.penempatan-edit', compact('penempatan', 'barang', 'departemen', 'lokasi'));
+}
+
 
     public function update(Request $request, $kd_penempatan)
     {

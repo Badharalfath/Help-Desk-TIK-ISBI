@@ -1,5 +1,5 @@
-<div class="container mx-auto p-8">
-    <form action="{{ route('penempatan.update', $penempatan->kd_penempatan) }}" method="POST" class="max-w-lg mx-auto p-4">
+<div class="container mx-auto">
+    <form action="{{ route('penempatan.update', $penempatan->kd_penempatan) }}" method="POST" class="max-w-lg mx-auto">
         @csrf
         @method('PUT')
 
@@ -19,6 +19,18 @@
         <div class="mb-4">
             <label for="nama_barang" class="block text-sm font-medium text-gray-700">Nama Barang</label>
             <input type="text" id="nama_barang" name="nama_barang" value="{{ $penempatan->nama_barang }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" readonly>
+        </div>
+
+        <!-- Nama Departemen -->
+        <div class="mb-4">
+            <label for="departemen" class="block text-sm font-medium text-gray-700">Departemen</label>
+            <input type="text" id="departemen" name="departemen" value="{{ $penempatan->departemen->nama_departemen ?? 'Tidak Ditemukan' }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" readonly>
+        </div>
+
+        <!-- Lokasi -->
+        <div class="mb-4">
+            <label for="lokasi" class="block text-sm font-medium text-gray-700">Lokasi</label>
+            <input type="text" id="lokasi" name="lokasi" value="{{ $penempatan->lokasi->nama_lokasi ?? 'Tidak Ditemukan' }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" readonly>
         </div>
 
         <!-- Tanggal Penempatan -->

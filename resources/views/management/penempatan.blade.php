@@ -5,7 +5,6 @@
     <div class="flex justify-between items-center mb-4">
         <h2 class="text-left text-xl font-semibold">Daftar Penggunaan</h2>
 
-
         <!-- Tombol Tambah Penggunaan -->
         <a href="{{ route('penempatan-tambah') }}"
             class="text-gray-900 hover:text-white border border-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-900 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
@@ -32,22 +31,23 @@
         <table class="min-w-full bg-white shadow-md rounded-lg">
             <thead>
                 <tr>
-                    <th class="py-2 px-4 border-b text-left">No. Penggunaan</th>
-                    <th class="py-2 px-4 border-b text-left">Kode Barang</th>
-                    <th class="py-2 px-4 border-b text-left">Nama Barang</th>
+                    <th class="py-2 px-4 border-b text-left">No</th> <!-- Ganti "No. Penggunaan" menjadi "No." -->
                     <th class="py-2 px-4 border-b text-left">Tanggal Penggunaan</th>
-                    <th class="py-2 px-4 border-b text-left">Keterangan</th>
+                    <th class="py-2 px-4 border-b text-left">Nama Barang</th>
+                    <th class="py-2 px-4 border-b text-left">Lokasi</th>
+                    <th class="py-2 px-4 border-b text-left">Jumlah</th>
                     <th class="py-2 px-4 border-b text-right">Aksi</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($penempatan as $p)
                     <tr>
-                        <td class="py-2 px-4 border-b">{{ $p->kd_penempatan }}</td>
-                        <td class="py-2 px-4 border-b">{{ $p->kd_barang }}</td>
-                        <td class="py-2 px-4 border-b">{{ $p->nama_barang }}</td>
+                        <!-- Nomor urut dinamis -->
+                        <td class="py-2 px-4 border-b">{{ $loop->iteration + ($penempatan->currentPage() - 1) * $penempatan->perPage() }}</td>
                         <td class="py-2 px-4 border-b">{{ $p->tgl_penempatan }}</td>
-                        <td class="py-2 px-4 border-b">{{ $p->keterangan }}</td>
+                        <td class="py-2 px-4 border-b">{{ $p->nama_barang }}</td>
+                        <td class="py-2 px-4 border-b">{{ $p->lokasi->nama_lokasi ?? 'Tidak Tersedia' }}</td>
+                        <td class="py-2 px-4 border-b">{{ $p->jumlah }}</td>
                         <td class="py-2 px-4 border-b text-right">
                             <button onclick="openModal('{{ $p->kd_penempatan }}')" class="bg-blue-500 text-white py-2 px-4 rounded">Detail</button>
                             <a href="{{ route('penempatan.edit', $p->kd_penempatan) }}" class="bg-yellow-500 text-white py-2 px-4 rounded">Edit</a>
@@ -60,6 +60,7 @@
                     </tr>
                 @endforeach
             </tbody>
+
         </table>
 
         <!-- Pagination Links -->
@@ -96,16 +97,6 @@
     function closeModal() {
         document.getElementById('modal-detail').classList.add('hidden');
     }
-
-    function openRecipientModal() {
-        document.getElementById('recipientModal').classList.remove('hidden');
-    }
-
-    function closeRecipientModal() {
-        document.getElementById('recipientModal').classList.add('hidden');
-    }
-
-    
 </script>
 
 @endsection
