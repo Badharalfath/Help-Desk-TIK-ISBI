@@ -90,6 +90,26 @@
 
                 </div>
             </div>
+
+        </div>
+        <div class="flex justify-center items-center ">
+            <div class="flex space-x-6 mb-4 bg-gray-50 p-2 max-w-[310px] rounded-lg shadow-2xl">
+                <!-- Legend Item: Pending -->
+                <div class="flex items-center space-x-2">
+                    <div class="w-4 h-4 rounded-full bg-gray-500"></div>
+                    <span class="text-gray-700 text-sm">Pending</span>
+                </div>
+                <!-- Legend Item: On going -->
+                <div class="flex items-center space-x-2">
+                    <div class="w-4 h-4 rounded-full bg-orange-500"></div>
+                    <span class="text-gray-700 text-sm">On going</span>
+                </div>
+                <!-- Legend Item: Complete -->
+                <div class="flex items-center space-x-2">
+                    <div class="w-4 h-4 rounded-full bg-green-500"></div>
+                    <span class="text-gray-700 text-sm">Complete</span>
+                </div>
+            </div>
         </div>
 
         <!-- FullCalendar JavaScript -->
@@ -121,8 +141,8 @@
 
                 // Mapping for progress to colors
                 const progressColors = {
-                    "PG001": "#909190", // Pending - Gray
-                    "PG002": "#b07e53", // On going - Orange
+                    "PG001": "#6B7280", // Pending - Gray
+                    "PG002": "#ed965c", // On going - Orange
                     "PG003": "#67bf79" // Complete - Green
                 };
 
@@ -130,7 +150,7 @@
                     initialView: 'dayGridMonth',
                     events: jadwals.map(jadwal => {
                         const category = layananDetails[jadwal.kd_layanan] || {};
-                        const backgroundColor = progressColors[jadwal.kd_progres] || "#909190";
+                        const backgroundColor = progressColors[jadwal.kd_progres] || "#6B7280";
 
                         return {
                             title: category.name || "Unknown",

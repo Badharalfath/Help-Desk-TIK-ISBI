@@ -17,10 +17,10 @@
                         class="mr-2 px-4 py-2 bg-blue-500 text-white font-medium rounded hover:bg-blue-600">
                         Search
                     </button>
-                    <button type="button" onclick="clearSearch()"
-                        class="px-4 py-2 bg-gray-300 text-gray-700 font-medium rounded hover:bg-gray-400">
-                        Clear
-                    </button>
+
+                    <a href="{{ route('faq') }}"
+                        class="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded text-sm px-5 py-2.5 dark:bg-gray-600 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">Clear</a>
+
                 </div>
             </form>
 

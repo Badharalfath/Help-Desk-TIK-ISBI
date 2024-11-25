@@ -2,6 +2,7 @@
 
 @section('content')
 <main class="container mx-auto py-10">
+
     <div class="flex justify-between items-center">
         <h2 class="text-2xl font-bold pl-2">Daftar Pengguna</h2>
 
@@ -16,6 +17,23 @@
                 class="text-gray-900 hover:text-white border border-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-900 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
                 Tambah Jadwal
             </a>
+        </div>
+    </div>
+    <div class="flex space-x-6 mb-4 bg-gray-50 p-2 max-w-[310px] rounded-lg">
+        <!-- Legend Item: Pending -->
+        <div class="flex items-center space-x-2">
+            <div class="w-4 h-4 rounded-full bg-gray-500"></div>
+            <span class="text-gray-700 text-sm">Pending</span>
+        </div>
+        <!-- Legend Item: On going -->
+        <div class="flex items-center space-x-2">
+            <div class="w-4 h-4 rounded-full bg-orange-500"></div>
+            <span class="text-gray-700 text-sm">On going</span>
+        </div>
+        <!-- Legend Item: Complete -->
+        <div class="flex items-center space-x-2">
+            <div class="w-4 h-4 rounded-full bg-green-500"></div>
+            <span class="text-gray-700 text-sm">Complete</span>
         </div>
     </div>
 
@@ -158,8 +176,8 @@
 
         // Mapping for kd_progres to background colors
         const progresColors = {
-            "PG001": "#909190", // Pending - Gray
-            "PG002": "#b07e53", // On going - Orange
+            "PG001": "#6B7280", // Pending - Gray
+            "PG002": "#ed965c", // On going - Orange
             "PG003": "#67bf79"  // Complete - Green
         };
 
@@ -170,7 +188,7 @@
             if (kd_progres === "PG001" || kd_progres === null) {
                 return progresColors["PG001"]; // Use Pending color for both null and PG001
             }
-            return progresColors[kd_progres] || "#909190"; // Default to gray if not found
+            return progresColors[kd_progres] || "#6B7280"; // Default to gray if not found
         }
 
         // Initialize FullCalendar with events
