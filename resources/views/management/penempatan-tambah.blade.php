@@ -25,21 +25,21 @@
             <input type="hidden" id="kd_penempatan" name="kd_penempatan" value="{{ $newKdPenempatan }}">
 
             <!-- Nama Barang -->
-            <div class="mb-4">
+            <div class="mb-4 relative">
                 <label for="nama_barang" class="block text-sm font-medium text-gray-700">Nama Barang</label>
-                <input type="text" id="nama_barang" name="nama_barang" list="nama_barang_list"
-                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
-                <datalist id="nama_barang_list">
+                <select id="nama_barang"
+                    class="searchable-dropdown mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
+                    <option value="#" disabled selected>-- Pilih Nama Barang --</option>
                     @foreach ($barang as $brg)
-                        <option value="{{ $brg->nama_barang }}" data-kd-barang="{{ $brg->kd_barang }}">
-                            {{ $brg->nama_barang }}
-                        </option>
+                        <option value="{{ $brg->kd_barang }}">{{ $brg->nama_barang }}</option>
                     @endforeach
-                </datalist>
+                </select>
             </div>
 
-            <!-- Kode Barang (Hidden) -->
+            <!-- Input Hidden untuk Kode Barang -->
             <input type="hidden" id="kd_barang" name="kd_barang">
+            <!-- Input Hidden untuk Nama Barang -->
+            <input type="hidden" id="nama_barang_hidden" name="nama_barang">
 
             <!-- Jumlah Barang -->
             <div class="mb-4">
@@ -99,67 +99,60 @@
             </div>
         </form>
 
-        <script>
-            $(document).ready(function() {
-                // Inisialisasi Select2 untuk dropdown
-                $('.searchable-dropdown').select2({
-                    placeholder: "Pilih atau cari",
-                    allowClear: true
-                });
-            });
+        <!-- Script -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Inisialisasi Select2 untuk dropdown searchable
+        $('#nama_barang').select2({
+            placeholder: "Pilih Nama Barang",
+            allowClear: true,
+            width: '100%'
+        });
 
-            document.addEventListener('DOMContentLoaded', function() {
-                const departemenDropdown = document.getElementById('departemen');
-                const lokasiDropdown = document.getElementById('lokasi');
-                const namaBarangInput = document.getElementById('nama_barang');
-                const kodeBarangInput = document.getElementById('kd_barang');
-                const namaBarangList = document.querySelectorAll('#nama_barang_list option');
+        // Auto-fill kd_barang dan nama_barang_hidden when selecting nama_barang
+        $('#nama_barang').on('select2:select', function (e) {
+            const selectedOption = e.params.data;
+            const namaBarang = selectedOption.text; // Teks nama barang
+            const kdBarang = selectedOption.id; // Value kode barang
 
-                namaBarangInput.addEventListener('input', function() {
-                    const inputValue = this.value;
-                    let matchedKodeBarang = '';
+            document.getElementById('kd_barang').value = kdBarang; // Set hidden field kd_barang
+            document.getElementById('nama_barang_hidden').value = namaBarang; // Set hidden field nama_barang
+        });
 
-                    // Cari kode barang yang sesuai dengan nama barang
-                    namaBarangList.forEach(option => {
-                        if (option.value === inputValue) {
-                            matchedKodeBarang = option.getAttribute('data-kd-barang');
+        // Clear selection functionality
+        $('#nama_barang').on('select2:clear', function () {
+            document.getElementById('kd_barang').value = ''; // Clear kd_barang hidden field
+            document.getElementById('nama_barang_hidden').value = ''; // Clear nama_barang hidden field
+        });
+
+        // Departemen dan lokasi handling
+        const departemenDropdown = document.getElementById('departemen');
+        const lokasiDropdown = document.getElementById('lokasi');
+
+        departemenDropdown.addEventListener('change', function () {
+            const departemenId = this.value;
+
+            lokasiDropdown.innerHTML = '<option value="">-- Pilih Lokasi --</option>'; // Reset dropdown
+
+            if (departemenId) {
+                fetch(`/get-lokasi/${departemenId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            alert(data.error);
+                            return;
                         }
+                        data.forEach(function (lokasi) {
+                            lokasiDropdown.innerHTML += `<option value="${lokasi.kd_lokasi}">${lokasi.nama_lokasi}</option>`;
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Gagal memuat lokasi.');
                     });
-
-                    // Isi field hidden kd_barang
-                    kodeBarangInput.value = matchedKodeBarang;
-
-                    // Debugging
-                    console.log('Nama Barang:', inputValue, 'Kode Barang:', matchedKodeBarang);
-                });
-
-                departemenDropdown.addEventListener('change', function() {
-                    const departemenId = this.value;
-
-                    lokasiDropdown.innerHTML = '<option value="">-- Pilih Lokasi --</option>'; // Reset dropdown
-
-                    if (departemenId) {
-                        fetch(`/get-lokasi/${departemenId}`)
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.error) {
-                                    alert(data.error);
-                                    return;
-                                }
-                                data.forEach(function(lokasi) {
-                                    lokasiDropdown.innerHTML +=
-                                        `<option value="${lokasi.kd_lokasi}">${lokasi.nama_lokasi}</option>`;
-                                });
-                            })
-                            .catch(error => {
-                                console.error('Error:', error);
-                                alert('Gagal memuat lokasi.');
-                            });
-                    }
-                });
-            });
-        </script>
-
-
+            }
+        });
+    });
+</script>
     </div>
 @endsection
